@@ -359,7 +359,7 @@ class PathTask extends React.Component {
   _handleInstructKey = (event) => {
     var key_pressed;
 
-    console.log("InstructKey enabled.");
+    // console.log("InstructKey enabled.");
 
     switch (event.keyCode) {
       case 37:
@@ -731,7 +731,9 @@ class PathTask extends React.Component {
   }
 
   setTrialVar() {
-    document.removeEventListener("keyup", this._handleInstructKey);
+    // document.removeEventListener("keyup", this._handleInstructKey);
+
+    console.log("Set Trial Var.");
     var whichPath = this.state.trialtestPath[this.state.trialTestNum - 1];
     // I save these to state.props so that I dont re-run the functions in the later parts
     var whichQn = this.state.whichQn;
@@ -1029,6 +1031,8 @@ class PathTask extends React.Component {
 
     if (this.state.trialPart === 1 && (testChoice === 1 || testChoice === 2)) {
       // only choice 1 or 2
+      // console.log("Trial Part 3");
+
       var testAns1 = this.state.testAns1[this.state.trialTestNum - 1];
       if (testChoice === testAns1) {
         trialCor1 = 1;
@@ -1058,6 +1062,8 @@ class PathTask extends React.Component {
       this.state.trialPart === 2 &&
       (testChoice === 1 || testChoice === 2 || testChoice === 3)
     ) {
+      // console.log("Trial Part 2");
+
       var testAns2 = this.state.testAns2[this.state.trialTestNum - 1];
       if (testChoice === testAns2) {
         trialCor2 = 1;
@@ -1084,6 +1090,7 @@ class PathTask extends React.Component {
         10
       );
     } else if (this.state.trialPart === 3 && testChoice === 10) {
+      // console.log("Trial Save and go to next trial.");
       trialTestNum = trialTestNum + 1;
 
       this.setState({
@@ -1101,7 +1108,7 @@ class PathTask extends React.Component {
         0
       );
     } else {
-      console.log("THERE SHOULD NOT BE ANY CHANGE HERE----");
+      // console.log("THERE SHOULD NOT BE ANY CHANGE HERE----");
     }
   }
 
@@ -1530,7 +1537,7 @@ class PathTask extends React.Component {
           //instruct screen is false, taskscreen is FALSE
 
           if (this.state.testScreen === true) {
-            // document.removeEventListener("keyup", this._handleInstructKey);
+            document.removeEventListener("keyup", this._handleInstructKey);
             if (this.state.trialTestNum <= this.state.trialTestTotal) {
               document.addEventListener("keyup", this._handleTestKey);
               text = (
