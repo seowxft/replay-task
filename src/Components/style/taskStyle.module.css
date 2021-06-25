@@ -1,0 +1,285 @@
+.main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: auto;
+  margin: 0px;
+  color: white;
+  font-size: 20px;
+  font-family: "Calibri", "Calibri", cursive;
+}
+
+.astro1 {
+  position: absolute;
+  width: 250;
+  height: auto;
+  margin: 20px 100px 100px 100px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.astro2 {
+  position: absolute;
+  width: 250;
+  height: auto;
+  right: 50px;
+  padding-top: 50px;
+  padding-bottom: 20px;
+}
+
+.astro3 {
+  position: absolute;
+  width: 250;
+  height: auto;
+  bottom: 50px;
+  left: 50px;
+  padding-bottom: 20px;
+}
+
+.spacebg {
+  /* The image used */
+  background-image: url(../img/space_bg2.jpg);
+
+  min-height: 100%;
+  min-width: 1024px;
+
+  /* Full height */
+  height: auto;
+  width: 100%;
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: absolute;
+}
+
+.textblock {
+  position: relative;
+  background-color: rgba(0, 0, 0, 0.8);
+  /* opacity: 0.8; */
+  border-radius: 50px;
+  border: 2px solid white;
+  margin: 50px 100px 100px 100px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12),
+    0 2px 4px -1px rgba(0, 0, 0, 0.3);
+}
+
+span.cueScreen {
+  position: relative;
+  display: inline-block;
+  background-color: rgba(0, 0, 0, 0.8);
+  width: 300px;
+  border-radius: 25px;
+  border: 2px solid orange;
+  padding: 20px;
+  box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12),
+    0 2px 4px -1px rgba(0, 0, 0, 0.3);
+  font-size: 20px;
+  font-family: "Courier New", monospace;
+  font-weight: bold;
+  text-align: center;
+  margin: auto;
+}
+
+span.shuttleChoice {
+  position: relative;
+  display: inline-block;
+  background-color: rgba(0, 0, 0, 0.8);
+  width: 250px;
+  border-radius: 25px;
+  border: 2px solid cyan;
+  padding: 20px;
+  box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12),
+    0 2px 4px -1px rgba(0, 0, 0, 0.3);
+  font-size: 20px;
+  font-family: "Courier New", monospace;
+  font-weight: bold;
+  text-align: center;
+  margin: auto;
+}
+
+span.shuttleChoiceFade {
+  position: relative;
+  opacity: 0.4;
+  display: inline-block;
+  background-color: rgba(0, 0, 0, 0.8);
+  width: 250px;
+  border-radius: 25px;
+  border: 2px solid cyan;
+  padding: 20px;
+  box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12),
+    0 2px 4px -1px rgba(0, 0, 0, 0.3);
+  font-size: 20px;
+  font-family: "Courier New", monospace;
+  font-weight: bold;
+  text-align: center;
+  margin: auto;
+}
+
+span.outcomeValue {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  /* background-color: rgba(0, 0, 0, 0.8); */
+  /* width: 250px; */
+  top: -110px;
+  left: -15px;
+  font-size: 50px;
+  font-family: "Courier New", monospace;
+  font-weight: bold;
+  text-align: center;
+  /* border: 1px solid aqua; */
+}
+
+span.outcomeValue:empty {
+  display: none;
+  padding: 0;
+}
+
+.timer {
+  /* font-family: "Montserrat"; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 17px;
+}
+
+span.timerValue {
+  font-size: 30px;
+}
+
+span.timerText {
+  color: white;
+  font-size: 15px;
+}
+
+.counter {
+  position: absolute;
+  right: 30px;
+  padding-top: 30px;
+  top: 0px;
+  font-size: 20px;
+}
+
+.coins {
+  position: absolute;
+  right: 30px;
+  padding-top: 30px;
+  top: 50px;
+}
+
+span.center {
+  display: table;
+  margin: 0 auto;
+  font-weight: bold;
+  font-size: 25px;
+  padding-bottom: 20px;
+}
+
+span.centerTwo {
+  display: table;
+  margin: 0 auto;
+  padding-top: 20px;
+}
+
+span.centerThree {
+  display: table;
+  margin: 0 auto;
+}
+
+img.shuttle {
+  position: relative;
+  width: 100px;
+  padding: 20px;
+  height: auto;
+}
+
+img.state {
+  width: 150px;
+  height: auto;
+}
+
+img.stateFade {
+  width: 150px;
+  height: auto;
+  opacity: 0.3;
+}
+
+img.stateBorder {
+  width: 150px;
+  height: auto;
+  border: 10px solid green;
+}
+
+img.stateFadeBorder {
+  width: 150px;
+  height: auto;
+  opacity: 0.3;
+  border: 10px solid red;
+}
+
+img.stateLarge {
+  width: 250px;
+  height: auto;
+}
+
+img.counter {
+  width: 23px;
+  height: auto;
+  padding-right: 50px;
+}
+
+span.spaceship {
+  position: relative;
+  background-color: rgba(0, 0, 0, 0.8);
+  border-radius: 50px;
+  border: 4px solid orange;
+  padding: 20px;
+  box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12),
+    0 2px 4px -1px rgba(0, 0, 0, 0.3);
+}
+
+span.spaceshipDis {
+  position: relative;
+  opacity: 0.4;
+  background-color: rgba(0, 0, 0, 0.8);
+  border-radius: 50px;
+  border: 4px solid orange;
+  padding: 20px;
+  box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12),
+    0 2px 4px -1px rgba(0, 0, 0, 0.3);
+}
+
+span.likeP {
+  padding: 20px;
+}
+
+textarea {
+  background-color: rgba(0, 0, 0, 0.5);
+  font-size: 18px;
+  padding: 10px;
+  color: white;
+  box-sizing: border-box;
+}
+
+input[type="submit"] {
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
+  border: 2px solid orange;
+  color: white;
+  font-size: 15px;
+  padding: 10px 20px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+}

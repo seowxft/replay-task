@@ -1,0 +1,65 @@
+.placeMiddle {
+  max-width: 1400px;
+  margin: auto;
+  margin-bottom: 0px;
+  /* justify-content: center; */
+  height: 100vh;
+  color: black;
+  /* font-size: 20px; */
+  font-family: "Calibri", "Calibri", cursive;
+}
+
+/* .sv_main .sv_default_css .sv_bootstrap_css .sv_container .sv_body {
+  font-family: "Calibri", "Calibri", cursive;
+  font-size: 18px;
+  padding: 10px;
+} */
+
+/* .sv_row .sv_p_root {
+  font-size: 18px;
+  margin-top: 10px;
+} */
+
+/* the button */
+/* .sv_nav {
+  font-family: "Calibri", "Calibri", cursive;
+  font-size: 18px;
+  padding: 10px;
+} */
+
+/* .sv_q_matrix td {
+  border-spacing: 10px;
+  padding: 15px;
+} */
+
+/* td.sv_q_m_cell {
+  border-spacing: 10px;
+  padding: 15px;
+} */
+
+td:nth-child(even) {
+  background-color: #f2f2f2;
+  border-spacing: 10px;
+  /* padding: 15px; */
+  height: 50px;
+}
+
+/* td,
+th {
+  border-spacing: 10px;
+  padding-top: 15px;
+} */
+
+/*
+.matrixtable td:nth-child(2) {
+  width: 150px;
+} */
+
+.sv_q_description {
+  padding-top: 20px;
+}
+
+html,
+body {
+  height: 100vh;
+}
