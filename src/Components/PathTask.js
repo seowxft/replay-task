@@ -332,9 +332,14 @@ class PathTask extends React.Component {
         //startmissionOne  after restart
         // this doesn't work?
 
+        this.setState({
+          trialPart: 1,
+          trialTestNum: 1,
+        });
+
         setTimeout(
           function () {
-            this.missionTwoTestAgain();
+            this.setTrialVar();
           }.bind(this),
           0
         );
@@ -718,33 +723,15 @@ class PathTask extends React.Component {
       trialPart: 1,
       trialRT: 0,
       trialKeypress: 0,
-    });
-  }
-
-  missionTwoTestAgain() {
-    this.setState({
-      taskSection: "test",
-
-      trialPart: 1,
-      trialTestNum: 1,
-      trialTime: 0,
-      trialRT: 0,
-      trialKeypress: 0,
       trialCor1Log: [],
       trialScore1: 0,
       trialCor2Log: [],
       trialScore2: 0,
     });
-
-    setTimeout(
-      function () {
-        this.setTrialVar();
-      }.bind(this),
-      0
-    );
   }
 
   setTrialVar() {
+    document.removeEventListener("keyup", this._handleInstructKey);
     var whichPath = this.state.trialtestPath[this.state.trialTestNum - 1];
     // I save these to state.props so that I dont re-run the functions in the later parts
     var whichQn = this.state.whichQn;
