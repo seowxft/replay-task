@@ -1385,6 +1385,13 @@ class ExptTask extends React.Component {
       trialBlock: trialBlock,
       forcedPaths: forcedPaths,
     });
+
+    setTimeout(
+      function () {
+        this.setTrialVar();
+      }.bind(this),
+      5
+    );
   }
 
   passMission() {
