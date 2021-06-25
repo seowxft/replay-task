@@ -331,21 +331,10 @@ class PathTask extends React.Component {
       } else if (curText === 3) {
         //startmissionOne  after restart
         // this doesn't work?
-        this.setState({
-          trialPart: 1,
-          trialTestNum: 1,
-          trialTime: 0,
-          trialRT: 0,
-          trialKeypress: 0,
-          trialCor1Log: [],
-          trialScore1: 0,
-          trialCor2Log: [],
-          trialScore2: 0,
-        });
 
         setTimeout(
           function () {
-            this.setTrialVar();
+            this.missionTwoTestAgain();
           }.bind(this),
           0
         );
@@ -730,6 +719,29 @@ class PathTask extends React.Component {
       trialRT: 0,
       trialKeypress: 0,
     });
+  }
+
+  missionTwoTestAgain() {
+    this.setState({
+      taskSection: "test",
+
+      trialPart: 1,
+      trialTestNum: 1,
+      trialTime: 0,
+      trialRT: 0,
+      trialKeypress: 0,
+      trialCor1Log: [],
+      trialScore1: 0,
+      trialCor2Log: [],
+      trialScore2: 0,
+    });
+
+    setTimeout(
+      function () {
+        this.setTrialVar();
+      }.bind(this),
+      0
+    );
   }
 
   setTrialVar() {
