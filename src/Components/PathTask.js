@@ -305,57 +305,55 @@ class PathTask extends React.Component {
     var curText = this.state.instructScreenText;
     var whichButton = key_pressed;
 
-    if (whichButton === 4 && curText > 1 && curText <= 2) {
-      this.setState({ instructScreenText: curText - 1 });
+    if (whichButton === 4) {
+      if (curText > 1 && curText <= 2) {
+        this.setState({ instructScreenText: curText - 1 });
+      } else if (curText === 3) {
+        //restart path exploration
+        setTimeout(
+          function () {
+            this.missionTwo();
+          }.bind(this),
+          0
+        );
+      }
     } else if (whichButton === 5 && curText < 2) {
       this.setState({ instructScreenText: curText + 1 });
-    } else if (whichButton === 10 && curText === 2) {
-      //startmissiontwo
-      setTimeout(
-        function () {
-          this.missionTwo();
-        }.bind(this),
-        0
-      );
-    } else if (whichButton === 10 && curText === 3) {
-      //startmissionOne  after restart
-      // this doesn't work?
-      setTimeout(
-        function () {
-          this.setTrialVar();
-        }.bind(this),
-        0
-      );
-    } else if (whichButton === 4 && curText === 3) {
-      //restart path exploration
-      setTimeout(
-        function () {
-          this.missionTwo();
-        }.bind(this),
-        0
-      );
-    } else if (whichButton === 10 && curText === 4) {
-      //restart path exploration if fail the quiz
-      setTimeout(
-        function () {
-          this.missionTwo();
-        }.bind(this),
-        0
-      );
-    } else if (whichButton === 10 && curText === 5) {
-      //go next mission
-      setTimeout(
-        function () {
-          this.nextMission();
-        }.bind(this),
-        0
-      );
+    } else if (whichButton === 10) {
+      if (curText === 2 || curText === 4) {
+        //startmissiontwo or //restart path exploration if fail the quiz
+        setTimeout(
+          function () {
+            this.missionTwo();
+          }.bind(this),
+          0
+        );
+      } else if (curText === 3) {
+        //startmissionOne  after restart
+        // this doesn't work?
+        setTimeout(
+          function () {
+            this.setTrialVar();
+          }.bind(this),
+          0
+        );
+      } else if (curText === 5) {
+        //go next mission
+        setTimeout(
+          function () {
+            this.nextMission();
+          }.bind(this),
+          0
+        );
+      }
     }
   }
 
   // handle key key_pressed
   _handleInstructKey = (event) => {
     var key_pressed;
+
+    console.log("InstructKey enabled.");
 
     switch (event.keyCode) {
       case 37:
