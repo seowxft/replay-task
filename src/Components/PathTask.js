@@ -331,6 +331,18 @@ class PathTask extends React.Component {
       } else if (curText === 3) {
         //startmissionOne  after restart
         // this doesn't work?
+        this.setState({
+          trialPart: 1,
+          trialTestNum: 1,
+          trialTime: 0,
+          trialRT: 0,
+          trialKeypress: 0,
+          trialCor1Log: [],
+          trialScore1: 0,
+          trialCor2Log: [],
+          trialScore2: 0,
+        });
+
         setTimeout(
           function () {
             this.setTrialVar();
@@ -411,13 +423,11 @@ class PathTask extends React.Component {
         pressed = 1;
         time_pressed = Math.round(performance.now());
         this.testCheck(pressed, time_pressed);
-
         break;
       case 50:
         pressed = 2;
         time_pressed = Math.round(performance.now());
         this.testCheck(pressed, time_pressed);
-
         break;
       case 51:
         pressed = 3;
@@ -1018,7 +1028,7 @@ class PathTask extends React.Component {
     var trialCor2Log = this.state.trialCor2Log; //[1,1,1,0...]
     var trialScore2 = this.state.trialScore2; //sum of the correct answers
 
-    if (this.state.trialPart === 1 && testChoice !== 3 && testChoice !== 10) {
+    if (this.state.trialPart === 1 && (testChoice === 1 || testChoice === 2)) {
       // only choice 1 or 2
       var testAns1 = this.state.testAns1[this.state.trialTestNum - 1];
       if (testChoice === testAns1) {
@@ -1045,7 +1055,10 @@ class PathTask extends React.Component {
         }.bind(this),
         10
       );
-    } else if (this.state.trialPart === 2 && testChoice !== 10) {
+    } else if (
+      this.state.trialPart === 2 &&
+      (testChoice === 1 || testChoice === 2 || testChoice === 3)
+    ) {
       var testAns2 = this.state.testAns2[this.state.trialTestNum - 1];
       if (testChoice === testAns2) {
         trialCor2 = 1;
