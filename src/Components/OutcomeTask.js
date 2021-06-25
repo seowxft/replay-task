@@ -340,7 +340,7 @@ class OutcomeTask extends React.Component {
       instructScreen: true,
       testScreen: false,
 
-      debug: true, //if true, skip this section
+      debug: false, //if true, skip this section
     };
 
     this.handleInstructLocal = this.handleInstructLocal.bind(this);
