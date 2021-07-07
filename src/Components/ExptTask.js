@@ -594,7 +594,7 @@ class ExptTask extends React.Component {
     var taskForcedChoiceText1 = this.state.taskForcedChoiceText1;
     var taskForcedChoiceText2 = this.state.taskForcedChoiceText2;
 
-    var taskOptChoice = this.state.taskOptChoice[trialNum - 1]; //[1 -safe or 2 - risky]
+    var taskOptChoice = this.state.taskOptChoice[trialNum - 1]; //[1 -safe or 2 - risky / is 0 if not forced choice in this script]
 
     var SafePath;
     var RiskyPath1;
@@ -729,12 +729,17 @@ class ExptTask extends React.Component {
         "/" +
         this.state.stateWord[RiskyPath2ShuttlePic];
 
-      if (trialNum <= this.state.trialForced && taskOptChoice === 1) {
+      console.log("taskOptChoice: " + taskOptChoice);
+
+      if (trialNumInBlock <= this.state.trialForced && taskOptChoice === 1) {
         taskForcedChoiceText1 = "Let us take the reliable shuttle.";
         taskForcedChoiceText2 = "[Press the ← key]";
         choice1Fade = styles.shuttleChoice;
         choice2Fade = styles.shuttleChoiceFade;
-      } else if (trialNum <= this.state.trialForced && taskOptChoice === 2) {
+      } else if (
+        trialNumInBlock <= this.state.trialForced &&
+        taskOptChoice === 2
+      ) {
         taskForcedChoiceText1 = "Let us take the unreliable shuttle.";
         taskForcedChoiceText2 = "[Press the → key]";
         choice1Fade = styles.shuttleChoiceFade;
@@ -758,12 +763,15 @@ class ExptTask extends React.Component {
         this.state.stateWord[RiskyPath2ShuttlePic];
       Shuttle2Word = this.state.stateWord[SafePathShuttlePic];
       //safe one is right choice
-      if (trialNum <= this.state.trialForced && taskOptChoice === 1) {
+      if (trialNumInBlock <= this.state.trialForced && taskOptChoice === 1) {
         taskForcedChoiceText1 = "Let us take the reliable shuttle.";
         taskForcedChoiceText2 = "[Press the → key]";
         choice1Fade = styles.shuttleChoiceFade;
         choice2Fade = styles.shuttleChoice;
-      } else if (trialNum <= this.state.trialForced && taskOptChoice === 2) {
+      } else if (
+        trialNumInBlock <= this.state.trialForced &&
+        taskOptChoice === 2
+      ) {
         taskForcedChoiceText1 = "Let us take the unreliable shuttle.";
         taskForcedChoiceText2 = "[Press the ← key]";
         choice1Fade = styles.shuttleChoice;
@@ -1398,7 +1406,7 @@ class ExptTask extends React.Component {
     this.setState({
       instructScreen: true,
       taskScreen: false,
-      instructScreenText: 10,
+      instructScreenText: 4,
     });
 
     setTimeout(
