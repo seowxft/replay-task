@@ -277,6 +277,7 @@ class TutorTask extends React.Component {
     var tutRiskyPathProb2 = StructToRender[5];
 
     var tutOptChoice = StructToRender[11];
+    var tutForceChoice = StructToRender[12];
 
     this.setState({
       structNum: randNum,
@@ -289,6 +290,7 @@ class TutorTask extends React.Component {
       tutRiskyPathProb1: tutRiskyPathProb1,
       tutRiskyPathProb2: tutRiskyPathProb2,
       tutOptChoice: tutOptChoice,
+      tutForceChoice: tutForceChoice,
     });
   };
 
@@ -481,7 +483,7 @@ class TutorTask extends React.Component {
     // console.log("tutOptChoice " + this.state.tutOptChoice[trialNum - 1]);
     if (
       trialNum <= this.state.trialForced &&
-      pathIndx !== this.state.tutOptChoice[trialNum - 1]
+      pathIndx !== this.state.tutForceChoice[trialNum - 1]
     ) {
       //if the trial the forced, keyChoice has to be the same as the dictated asnwer, else it wil not move on
     } else {
@@ -573,7 +575,7 @@ class TutorTask extends React.Component {
     var tutForcedChoiceText1 = this.state.tutForcedChoiceText1;
     var tutForcedChoiceText2 = this.state.tutForcedChoiceText2;
 
-    var tutOptChoice = this.state.tutOptChoice[trialNum - 1]; //[1 -safe or 2 - risky]
+    var tutForceChoice = this.state.tutForceChoice[trialNum - 1]; //[1 -safe or 2 - risky]
 
     var SafePath;
     var RiskyPath1;
@@ -689,12 +691,12 @@ class TutorTask extends React.Component {
         "/" +
         this.state.stateWord[RiskyPath2ShuttlePic];
 
-      if (trialNum <= this.state.trialForced && tutOptChoice === 1) {
+      if (trialNum <= this.state.trialForced && tutForceChoice === 1) {
         tutForcedChoiceText1 = "Let us take the reliable shuttle.";
         tutForcedChoiceText2 = "[Press the ← key]";
         choice1Fade = styles.shuttleChoice;
         choice2Fade = styles.shuttleChoiceFade;
-      } else if (trialNum <= this.state.trialForced && tutOptChoice === 2) {
+      } else if (trialNum <= this.state.trialForced && tutForceChoice === 2) {
         tutForcedChoiceText1 = "Let us take the unreliable shuttle.";
         tutForcedChoiceText2 = "[Press the → key]";
         choice1Fade = styles.shuttleChoiceFade;
@@ -720,12 +722,12 @@ class TutorTask extends React.Component {
         this.state.stateWord[RiskyPath2ShuttlePic];
       Shuttle2Word = this.state.stateWord[SafePathShuttlePic];
       //safe one is right choice
-      if (trialNum <= this.state.trialForced && tutOptChoice === 1) {
+      if (trialNum <= this.state.trialForced && tutForceChoice === 1) {
         tutForcedChoiceText1 = "Let us take the reliable shuttle.";
         tutForcedChoiceText2 = "[Press the → key]";
         choice1Fade = styles.shuttleChoiceFade;
         choice2Fade = styles.shuttleChoice;
-      } else if (trialNum <= this.state.trialForced && tutOptChoice === 2) {
+      } else if (trialNum <= this.state.trialForced && tutForceChoice === 2) {
         tutForcedChoiceText1 = "Let us take the unreliable shuttle.";
         tutForcedChoiceText2 = "[Press the ← key]";
         choice1Fade = styles.shuttleChoice;
@@ -1211,6 +1213,7 @@ class TutorTask extends React.Component {
       trialOutcomeValence: trialOutcomeValence, //1, -1 or 0
       trialOutcomeMag: this.state.outcomeValue, //i can see what number 0 is
       trialOutcomeValue: this.state.outcome, //actual value
+      trialOptimalChoice: this.state.tutOptChoice[this.state.trialNum - 1],
       trialCoins: this.state.coins,
     };
 
@@ -1324,6 +1327,7 @@ class TutorTask extends React.Component {
       tutRiskyPathProb1: this.state.tutRiskyPathProb1,
       tutRiskyPathProb2: this.state.tutRiskyPathProb2,
       tutOptChoice: this.state.tutOptChoice,
+      tutForceChoice: this.state.tutForceChoice,
 
       taskSafePathOutcome: null,
       taskRiskyPathOutcome1: null,
@@ -1332,6 +1336,7 @@ class TutorTask extends React.Component {
       taskRiskyPathProb1: null,
       taskRiskyPathProb2: null,
       taskOptChoice: null,
+      taskForceChoice: null,
     };
 
     try {

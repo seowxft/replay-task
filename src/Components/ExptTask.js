@@ -300,6 +300,7 @@ class ExptTask extends React.Component {
     var taskRiskyPathProb2 = StructToRender[5];
 
     var taskOptChoice = StructToRender[11];
+    var taskForceChoice = StructToRender[12];
 
     this.setState({
       structNum: randNum,
@@ -313,6 +314,7 @@ class ExptTask extends React.Component {
       taskRiskyPathProb2: taskRiskyPathProb2,
 
       taskOptChoice: taskOptChoice,
+      taskForceChoice: taskForceChoice,
     });
   };
 
@@ -502,7 +504,7 @@ class ExptTask extends React.Component {
     // console.log("taskOptChoice " + this.state.taskOptChoice[trialNum - 1]);
     if (
       trialNum <= this.state.trialForced &&
-      pathIndx !== this.state.taskOptChoice[trialNum - 1]
+      pathIndx !== this.state.taskForceChoice[trialNum - 1]
     ) {
       //if the trial the forced, keyChoice has to be the same as the dictated asnwer, else it wil not move on
     } else {
@@ -594,7 +596,7 @@ class ExptTask extends React.Component {
     var taskForcedChoiceText1 = this.state.taskForcedChoiceText1;
     var taskForcedChoiceText2 = this.state.taskForcedChoiceText2;
 
-    var taskOptChoice = this.state.taskOptChoice[trialNum - 1]; //[1 -safe or 2 - risky / is 0 if not forced choice in this script]
+    var taskOptChoice = this.state.taskForceChoice[trialNum - 1];
 
     var SafePath;
     var RiskyPath1;
@@ -729,16 +731,16 @@ class ExptTask extends React.Component {
         "/" +
         this.state.stateWord[RiskyPath2ShuttlePic];
 
-      console.log("taskOptChoice: " + taskOptChoice);
+      console.log("taskForceChoice: " + taskForceChoice);
 
-      if (trialNumInBlock <= this.state.trialForced && taskOptChoice === 1) {
+      if (trialNumInBlock <= this.state.trialForced && taskForceChoice === 1) {
         taskForcedChoiceText1 = "Let us take the reliable shuttle.";
         taskForcedChoiceText2 = "[Press the ← key]";
         choice1Fade = styles.shuttleChoice;
         choice2Fade = styles.shuttleChoiceFade;
       } else if (
         trialNumInBlock <= this.state.trialForced &&
-        taskOptChoice === 2
+        taskForceChoice === 2
       ) {
         taskForcedChoiceText1 = "Let us take the unreliable shuttle.";
         taskForcedChoiceText2 = "[Press the → key]";
@@ -763,14 +765,14 @@ class ExptTask extends React.Component {
         this.state.stateWord[RiskyPath2ShuttlePic];
       Shuttle2Word = this.state.stateWord[SafePathShuttlePic];
       //safe one is right choice
-      if (trialNumInBlock <= this.state.trialForced && taskOptChoice === 1) {
+      if (trialNumInBlock <= this.state.trialForced && taskForceChoice === 1) {
         taskForcedChoiceText1 = "Let us take the reliable shuttle.";
         taskForcedChoiceText2 = "[Press the → key]";
         choice1Fade = styles.shuttleChoiceFade;
         choice2Fade = styles.shuttleChoice;
       } else if (
         trialNumInBlock <= this.state.trialForced &&
-        taskOptChoice === 2
+        taskForceChoice === 2
       ) {
         taskForcedChoiceText1 = "Let us take the unreliable shuttle.";
         taskForcedChoiceText2 = "[Press the ← key]";
@@ -1333,6 +1335,7 @@ class ExptTask extends React.Component {
       trialOutcomeValence: trialOutcomeValence, //1, -1 or 0
       trialOutcomeMag: this.state.outcomeValue, //i can see what number 0 is
       trialOutcomeValue: this.state.taskOutcomeValue, //actual value
+      trialOptimalChoice: this.state.taskOptChoice[this.state.trialNum - 1],
       trialCoins: this.state.coins,
     };
 
@@ -1511,6 +1514,7 @@ class ExptTask extends React.Component {
       tutRiskyPathProb1: null,
       tutRiskyPathProb2: null,
       tutOptChoice: null,
+      tutForceChoice: null,
 
       taskSafePathOutcome: this.state.taskSafePathOutcome,
       taskRiskyPathOutcome1: this.state.taskRiskyPathOutcome1,
@@ -1519,6 +1523,7 @@ class ExptTask extends React.Component {
       taskRiskyPathProb1: this.state.taskRiskyPathProb1,
       taskRiskyPathProb2: this.state.taskRiskyPathProb2,
       taskOptChoice: this.state.taskOptChoice,
+      taskForceChoice: this.state.taskForceChoice,
     };
 
     try {
