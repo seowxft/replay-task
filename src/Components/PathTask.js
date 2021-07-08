@@ -1285,12 +1285,16 @@ class PathTask extends React.Component {
 
   condSave() {
     var userID = this.state.userID;
+    var sectionTime = currentDate.toTimeString();
+    var trialTime = Math.round(performance.now());
 
     let saveString = {
       userID: this.state.userID,
       date: this.state.date,
       startTime: this.state.startTime, // this is when they start the expt
       sectionTime: this.state.sectionTime, //this is if they somehow refresh the page...
+      sectionTime: sectionTime, //this is if they somehow refresh the page...
+      trialTime: trialTime,
       taskSession: this.state.taskSession,
       taskSessionTry: this.state.taskSessionTry,
       structNum: null,
