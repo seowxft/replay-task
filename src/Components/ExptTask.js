@@ -274,6 +274,7 @@ class ExptTask extends React.Component {
 
     this.handleInstructLocal = this.handleInstructLocal.bind(this);
     this.handleDebugKeyLocal = this.handleDebugKeyLocal.bind(this);
+    this.lateResponse = this.lateResponse.bind(this);
     this.taskStart = this.taskStart.bind(this);
 
     /* prevents page from going down when space bar is hit .*/
@@ -1034,6 +1035,7 @@ class ExptTask extends React.Component {
   }
 
   lateResponse() {
+    document.removeEventListener("keyup", this._handleTaskKey);
     var coins = this.state.coins - 1;
     var trialRT = Math.round(performance.now()) - this.state.trialTime;
 
@@ -1051,11 +1053,10 @@ class ExptTask extends React.Component {
       outcome: null,
       pathIndx: null,
       pathProbEnd: null,
-
+      taskPathPicWord: null,
       taskOutcomeWord: null,
       taskOutcomeIndx: null,
-
-      outcomeValue: -1, //i can see what number 0 is
+      outcomeValue: null, //i can see what number 0 is
       taskOutcomeValue: -1, //actual value
     });
 
@@ -1146,6 +1147,8 @@ class ExptTask extends React.Component {
   }
 
   playStateOne() {
+    document.removeEventListener("keyup", this._handleTaskKey);
+
     var pathRoutePic1 = this.state.pathRoute[0]; //[0,1,2] or [3,4,5] or [6,7,8]
     var pathNum;
     var pathPicWord;
@@ -1263,6 +1266,7 @@ class ExptTask extends React.Component {
     if (outcome > 0) {
       outcomeIndx = 0;
       outcomeWord = this.state.outcomeWord[0];
+
       if (this.state.trialNumInBlock <= this.state.trialForced) {
         outcomePic = this.state.outcomePic[0];
       } else {
@@ -1275,6 +1279,7 @@ class ExptTask extends React.Component {
     } else if (outcome < 0) {
       outcomeIndx = 1;
       outcomeWord = this.state.outcomeWord[1];
+
       if (this.state.trialNumInBlock <= this.state.trialForced) {
         outcomePic = this.state.outcomePic[1];
       } else {
@@ -1287,6 +1292,7 @@ class ExptTask extends React.Component {
     } else if (outcome === 0) {
       outcomeIndx = 2;
       outcomeWord = this.state.outcomeWord[2];
+
       if (this.state.trialNumInBlock <= this.state.trialForced) {
         outcomePic = this.state.outcomePic[2];
       } else {
@@ -1327,7 +1333,8 @@ class ExptTask extends React.Component {
     if (this.state.outcome === 0) {
       trialOutcomeValence = 0;
     } else if (this.state.outcome === null) {
-      trialOutcomeValence = -1;
+      //this only comes from late response
+      trialOutcomeValence = null;
     } else {
       trialOutcomeValence = this.state.outcome / this.state.taskOutcomeValue;
     }
