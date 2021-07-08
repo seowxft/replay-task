@@ -259,6 +259,7 @@ class ExptTask extends React.Component {
       // taskRiskyPathProb2: taskRiskyPathProb2,
       //
       // taskOptChoice: taskOptChoice,
+
       taskOutcomeValue: null,
       taskForcedChoiceText1: [],
       taskForcedChoiceText2: [],
@@ -596,7 +597,8 @@ class ExptTask extends React.Component {
     var taskForcedChoiceText1 = this.state.taskForcedChoiceText1;
     var taskForcedChoiceText2 = this.state.taskForcedChoiceText2;
 
-    var taskOptChoice = this.state.taskForceChoice[trialNum - 1];
+    var taskOptChoice = this.state.taskOptChoice[trialNum - 1];
+    var taskForceChoice = this.state.taskForceChoice[trialNum - 1];
 
     var SafePath;
     var RiskyPath1;
