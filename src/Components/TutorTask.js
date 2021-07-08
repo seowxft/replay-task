@@ -181,7 +181,7 @@ class TutorTask extends React.Component {
       sectionTime: timeString,
 
       taskSessionTry: 1,
-      taskSession: "tutorial",
+      taskSession: "TutorTask",
       instructScreenText: 1,
 
       shuttle: shuttle,

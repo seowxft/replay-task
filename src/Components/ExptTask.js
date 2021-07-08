@@ -29,7 +29,7 @@ const renderTime = ({ remainingTime }) => {
 
   return (
     <div className={styles.timer}>
-      <span className={styles.timerValue}>{remainingTime}</span>
+      <span className={styles.timerValue}>{10 - remainingTime}</span>
       <span className={styles.timerText}>sec</span>
     </div>
   );
@@ -194,7 +194,7 @@ class ExptTask extends React.Component {
       date: date,
       startTime: startTime,
       taskSessionTry: 1,
-      taskSession: 1,
+      taskSession: "ExptTask",
       instructScreenText: 1,
       sectionTime: timeString,
 
@@ -597,7 +597,7 @@ class ExptTask extends React.Component {
     var taskForcedChoiceText1 = this.state.taskForcedChoiceText1;
     var taskForcedChoiceText2 = this.state.taskForcedChoiceText2;
 
-    var taskOptChoice = this.state.taskOptChoice[trialNum - 1];
+    // var taskOptChoice = this.state.taskOptChoice[trialNum - 1];
     var taskForceChoice = this.state.taskForceChoice[trialNum - 1];
 
     var SafePath;
@@ -611,14 +611,13 @@ class ExptTask extends React.Component {
     shuffle(paths);
 
     var bool = trialNumInBlock <= this.state.trialForced;
-    console.log("Still Forced Choice? " + bool);
-
-    console.log("trialNumInBlock " + trialNumInBlock);
-    console.log("trialForced " + this.state.trialForced);
+    // console.log("Still Forced Choice? " + bool);
+    // console.log("trialNumInBlock " + trialNumInBlock);
+    // console.log("trialForced " + this.state.trialForced);
 
     if (trialNumInBlock <= this.state.trialForced) {
       //if it is a forced choice then the safe path will play each of the paths twice
-      console.log("Forced Choice");
+      // console.log("Forced Choice");
       var forcedPath = this.state.forcedPaths[trialNumInBlock - 1];
 
       if (forcedPath === 1) {
@@ -637,7 +636,7 @@ class ExptTask extends React.Component {
     } else if (trialNumInBlock > this.state.trialForced) {
       // shuffle the paths - this is random when not a forced choice
       // decide which paths are which options
-      console.log("Free Choice");
+      // console.log("Free Choice");
       if ((paths[0] === 1) & (paths[1] === 2) & (paths[2] === 3)) {
         //this means safe is spaceship 1, risky 1 is spaceship 2 and risky 2 is spaceship 3
         SafePath = this.state.pathOne;
@@ -675,13 +674,13 @@ class ExptTask extends React.Component {
     }
 
     console.log("Trial No: " + trialNum);
-    console.log("Path: " + paths);
-    console.log("SafePath: " + SafePath);
-    console.log("RiskyPath1: " + RiskyPath1);
-    console.log("RiskyPath2: " + RiskyPath2);
-    console.log("Path: " + paths);
-    console.log("SafeRand1: " + SafeRand1);
-    console.log("SafeRand2: " + SafeRand2);
+    // console.log("Path: " + paths);
+    // console.log("SafePath: " + SafePath);
+    // console.log("RiskyPath1: " + RiskyPath1);
+    // console.log("RiskyPath2: " + RiskyPath2);
+    // console.log("Path: " + paths);
+    // console.log("SafeRand1: " + SafeRand1);
+    // console.log("SafeRand2: " + SafeRand2);
 
     // the shuttlePic can be the first or second state, while the path outcome can be the second or third state
     var SafePathShuttlePic = SafePath[SafeRand1];
@@ -718,6 +717,8 @@ class ExptTask extends React.Component {
     var Shuttle2Word;
     var ShuttlePicWord;
     var pathProbBoth;
+    var choice1Fade = styles.shuttlePreChoice;
+    var choice2Fade = styles.shuttlePreChoice;
 
     if (cueShutPosIndx[0] === 0) {
       //safe one is left choice
@@ -733,26 +734,26 @@ class ExptTask extends React.Component {
         "/" +
         this.state.stateWord[RiskyPath2ShuttlePic];
 
-      console.log("taskForceChoice: " + taskForceChoice);
+      // console.log("taskForceChoice: " + taskForceChoice);
 
       if (trialNumInBlock <= this.state.trialForced && taskForceChoice === 1) {
         taskForcedChoiceText1 = "Let us take the reliable shuttle.";
         taskForcedChoiceText2 = "[Press the ← key]";
-        choice1Fade = styles.shuttleChoice;
-        choice2Fade = styles.shuttleChoiceFade;
+        // choice1Fade = styles.shuttleChoice;
+        // choice2Fade = styles.shuttleChoiceFade;
       } else if (
         trialNumInBlock <= this.state.trialForced &&
         taskForceChoice === 2
       ) {
         taskForcedChoiceText1 = "Let us take the unreliable shuttle.";
         taskForcedChoiceText2 = "[Press the → key]";
-        choice1Fade = styles.shuttleChoiceFade;
-        choice2Fade = styles.shuttleChoice;
+        // choice1Fade = styles.shuttleChoiceFade;
+        // choice2Fade = styles.shuttleChoice;
       } else {
         taskForcedChoiceText1 = [];
         taskForcedChoiceText2 = "[Press the ← or → key to choose]";
-        choice1Fade = styles.shuttleChoice;
-        choice2Fade = styles.shuttleChoice;
+        // choice1Fade = styles.shuttleChoice;
+        // choice2Fade = styles.shuttleChoice;
       }
     } else if (cueShutPosIndx[0] === 1) {
       Prob1 = taskRiskyPathProb1 * 100 + "%/" + taskRiskyPathProb2 * 100 + "%";
@@ -770,21 +771,21 @@ class ExptTask extends React.Component {
       if (trialNumInBlock <= this.state.trialForced && taskForceChoice === 1) {
         taskForcedChoiceText1 = "Let us take the reliable shuttle.";
         taskForcedChoiceText2 = "[Press the → key]";
-        choice1Fade = styles.shuttleChoiceFade;
-        choice2Fade = styles.shuttleChoice;
+        // choice1Fade = styles.shuttleChoiceFade;
+        // choice2Fade = styles.shuttleChoice;
       } else if (
         trialNumInBlock <= this.state.trialForced &&
         taskForceChoice === 2
       ) {
         taskForcedChoiceText1 = "Let us take the unreliable shuttle.";
         taskForcedChoiceText2 = "[Press the ← key]";
-        choice1Fade = styles.shuttleChoice;
-        choice2Fade = styles.shuttleChoiceFade;
+        // choice1Fade = styles.shuttleChoice;
+        // choice2Fade = styles.shuttleChoiceFade;
       } else {
         taskForcedChoiceText1 = [];
         taskForcedChoiceText2 = "[Press the ← or → key to choose]";
-        choice1Fade = styles.shuttleChoice;
-        choice2Fade = styles.shuttleChoice;
+        // choice1Fade = styles.shuttleChoice;
+        // choice2Fade = styles.shuttleChoice;
       }
     }
 
@@ -990,6 +991,46 @@ class ExptTask extends React.Component {
 
   allowResp() {
     document.addEventListener("keyup", this._handleTaskKey);
+    var taskForceChoice = this.state.taskForceChoice[this.state.trialNum - 1];
+    var trialNumInBlock = this.state.trialNumInBlock;
+    var choice1Fade;
+    var choice2Fade;
+    if (this.state.ShuttlePos[0] === 0) {
+      //safe one is left choice
+      if (trialNumInBlock <= this.state.trialForced && taskForceChoice === 1) {
+        choice1Fade = styles.shuttleChoice;
+        choice2Fade = styles.shuttleChoiceFade;
+      } else if (
+        trialNumInBlock <= this.state.trialForced &&
+        taskForceChoice === 2
+      ) {
+        choice1Fade = styles.shuttleChoiceFade;
+        choice2Fade = styles.shuttleChoice;
+      } else {
+        choice1Fade = styles.shuttleChoice;
+        choice2Fade = styles.shuttleChoice;
+      }
+    } else if (this.state.ShuttlePos[0] === 1) {
+      //safe one is right choice
+      if (trialNumInBlock <= this.state.trialForced && taskForceChoice === 1) {
+        choice1Fade = styles.shuttleChoiceFade;
+        choice2Fade = styles.shuttleChoice;
+      } else if (
+        trialNumInBlock <= this.state.trialForced &&
+        taskForceChoice === 2
+      ) {
+        choice1Fade = styles.shuttleChoice;
+        choice2Fade = styles.shuttleChoiceFade;
+      } else {
+        choice1Fade = styles.shuttleChoice;
+        choice2Fade = styles.shuttleChoice;
+      }
+    }
+
+    this.setState({
+      choice1Fade: choice1Fade,
+      choice2Fade: choice2Fade,
+    });
   }
 
   lateResponse() {
@@ -1010,6 +1051,12 @@ class ExptTask extends React.Component {
       outcome: null,
       pathIndx: null,
       pathProbEnd: null,
+
+      taskOutcomeWord: null,
+      taskOutcomeIndx: null,
+
+      outcomeValue: -1, //i can see what number 0 is
+      taskOutcomeValue: -1, //actual value
     });
 
     setTimeout(
@@ -1132,10 +1179,9 @@ class ExptTask extends React.Component {
       statePic = this.state.stateHolder[0];
     }
 
-    console.log("trialNumInBlock: " + this.state.trialNumInBlock);
-    console.log("trialForced: " + this.state.trialForced);
-
-    console.log("statePic: " + statePic);
+    // console.log("trialNumInBlock: " + this.state.trialNumInBlock);
+    // console.log("trialForced: " + this.state.trialForced);
+    // console.log("statePic: " + statePic);
 
     this.setState({
       pathPlay: true,
@@ -1280,8 +1326,10 @@ class ExptTask extends React.Component {
 
     if (this.state.outcome === 0) {
       trialOutcomeValence = 0;
+    } else if (this.state.outcome === null) {
+      trialOutcomeValence = -1;
     } else {
-      trialOutcomeValence = this.state.outcome / this.state.tutOutcomeValue;
+      trialOutcomeValence = this.state.outcome / this.state.taskOutcomeValue;
     }
 
     if (this.state.trialNumInBlock <= this.state.trialForced) {
@@ -1354,10 +1402,10 @@ class ExptTask extends React.Component {
       console.log("Cant post?");
     }
 
-    console.log("trialInBlock: " + this.state.trialInBlock);
+    // console.log("trialInBlock: " + this.state.trialInBlock);
 
     if (
-      this.state.trialNumInBlock === this.state.trialInBlock &&
+      this.state.trialNumInBlock >= this.state.trialInBlock &&
       this.state.trialNum !== this.state.trialTotal
     ) {
       //end of block, send to resting screen
@@ -1663,6 +1711,15 @@ class ExptTask extends React.Component {
                 <br />
                 <br />
                 You may take a short break.
+                <br />
+                <br />
+                Remember: the first {this.state.trialForced} shuttle journeys
+                will only have the <strong>reliable shuttle</strong> option
+                available.
+                <br />
+                <br />
+                You should take the opportunity to refresh your memory of the
+                room and outcome images.
                 <br />
                 <span className={styles.centerTwo}>
                   If you are ready to continue, please press the [

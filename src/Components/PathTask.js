@@ -1452,6 +1452,7 @@ class PathTask extends React.Component {
                 {this.state.trialScore1 + this.state.trialScore2} /
                 {this.state.trialTestTotal * 2} correct.
                 <br />
+                <br />
                 Let us revisit the order of the rooms in each spaceship type
                 using the items associated with each planet.
                 <br /> <br />
