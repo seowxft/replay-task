@@ -504,7 +504,7 @@ class ExptTask extends React.Component {
 
     // console.log("taskOptChoice " + this.state.taskOptChoice[trialNum - 1]);
     if (
-      trialNum <= this.state.trialForced &&
+      this.state.trialNumInBlock <= this.state.trialForced &&
       pathIndx !== this.state.taskForceChoice[trialNum - 1]
     ) {
       //if the trial the forced, keyChoice has to be the same as the dictated asnwer, else it wil not move on

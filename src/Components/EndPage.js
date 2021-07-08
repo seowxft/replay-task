@@ -44,7 +44,7 @@ class EndPage extends React.Component {
     const userID = this.props.location.state.userID;
     const date = this.props.location.state.date;
     const startTime = this.props.location.state.startTime;
-    const bonus = this.props.location.state.coins;
+    const bonus = this.props.location.state.bonus;
 
     // This will change for the questionnaires going AFTER the main task
     this.state = {
