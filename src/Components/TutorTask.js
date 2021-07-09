@@ -276,6 +276,13 @@ class TutorTask extends React.Component {
     var tutRiskyPathProb1 = StructToRender[4];
     var tutRiskyPathProb2 = StructToRender[5];
 
+    var tutSafePathEV = StructToRender[6];
+    var tutRiskyPathEV1 = StructToRender[7];
+    var tutRiskyPathEV2 = StructToRender[8];
+
+    var tutGambleEV = StructToRender[9]; //Risky EV1+EV2
+    var tutChoiceEV = StructToRender[10]; //SafeEV - (RiskyEV1+EV2)
+
     var tutOptChoice = StructToRender[11];
     var tutForceChoice = StructToRender[12];
 
@@ -285,6 +292,13 @@ class TutorTask extends React.Component {
       tutSafePathOutcome: tutSafePathOutcome,
       tutRiskyPathOutcome1: tutRiskyPathOutcome1,
       tutRiskyPathOutcome2: tutRiskyPathOutcome2,
+
+      tutSafePathEV: tutSafePathEV,
+      tutRiskyPathEV1: tutRiskyPathEV1,
+      tutRiskyPathEV2: tutRiskyPathEV2,
+
+      tutGambleEV: tutGambleEV, //Risky EV1+EV2
+      tutChoiceEV: tutChoiceEV, //SafeEV - (RiskyEV1+EV2)
 
       tutSafePathProb: tutSafePathProb,
       tutRiskyPathProb1: tutRiskyPathProb1,
@@ -1200,6 +1214,25 @@ class TutorTask extends React.Component {
       trialSafePath: this.state.SafePath,
       trialRiskyPath1: this.state.RiskyPath1,
       trialRiskyPath2: this.state.RiskyPath2,
+
+      trialSafeProb: this.state.taskSafePathProb[this.state.trialNum - 1],
+      trialRiskyProb1: this.state.taskRiskyPathProb1[this.state.trialNum - 1],
+      trialRiskyProb2: this.state.taskRiskyPathProb2[this.state.trialNum - 1],
+
+      trialSafeValue: this.state.taskSafePathOutcome[this.state.trialNum - 1],
+      trialRiskyValue1: this.state.taskRiskyPathOutcome1[
+        this.state.trialNum - 1
+      ],
+      trialRiskyValue2: this.state.taskRiskyPathOutcome2[
+        this.state.trialNum - 1
+      ],
+
+      trialSafePathEV: this.state.taskSafePathEV[this.state.trialNum - 1],
+      trialRiskyPathEV1: this.state.taskRiskyPathEV1[this.state.trialNum - 1],
+      trialRiskyPathEV2: this.state.taskRiskyPathEV2[this.state.trialNum - 1],
+      trialGambleEV: this.state.taskGambleEV[this.state.trialNum - 1], //Risky EV1+EV2
+      trialChoiceEV: this.state.taskChoiceEV[this.state.trialNum - 1], //SafeEV - (RiskyEV1+EV2)
+
       trialPathProb: this.state.pathProbBoth, //this is whether they chose 100 or 50/50, etc
       trialRT: this.state.trialRT,
       trialKeypress: this.state.keyChoice, //press left or right
