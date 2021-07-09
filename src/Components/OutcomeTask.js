@@ -616,6 +616,7 @@ class OutcomeTask extends React.Component {
 
   condSave() {
     var userID = this.state.userID;
+    var currentDate = new Date(); // maybe change to local
     var sectionTime = currentDate.toTimeString();
     var trialTime = Math.round(performance.now());
 

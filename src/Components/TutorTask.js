@@ -1215,23 +1215,23 @@ class TutorTask extends React.Component {
       trialRiskyPath1: this.state.RiskyPath1,
       trialRiskyPath2: this.state.RiskyPath2,
 
-      trialSafeProb: this.state.taskSafePathProb[this.state.trialNum - 1],
-      trialRiskyProb1: this.state.taskRiskyPathProb1[this.state.trialNum - 1],
-      trialRiskyProb2: this.state.taskRiskyPathProb2[this.state.trialNum - 1],
+      trialSafeProb: this.state.tutSafePathProb[this.state.trialNum - 1],
+      trialRiskyProb1: this.state.tutRiskyPathProb1[this.state.trialNum - 1],
+      trialRiskyProb2: this.state.tutRiskyPathProb2[this.state.trialNum - 1],
 
-      trialSafeValue: this.state.taskSafePathOutcome[this.state.trialNum - 1],
-      trialRiskyValue1: this.state.taskRiskyPathOutcome1[
+      trialSafeValue: this.state.tutSafePathOutcome[this.state.trialNum - 1],
+      trialRiskyValue1: this.state.tutRiskyPathOutcome1[
         this.state.trialNum - 1
       ],
-      trialRiskyValue2: this.state.taskRiskyPathOutcome2[
+      trialRiskyValue2: this.state.tutRiskyPathOutcome2[
         this.state.trialNum - 1
       ],
 
-      trialSafePathEV: this.state.taskSafePathEV[this.state.trialNum - 1],
-      trialRiskyPathEV1: this.state.taskRiskyPathEV1[this.state.trialNum - 1],
-      trialRiskyPathEV2: this.state.taskRiskyPathEV2[this.state.trialNum - 1],
-      trialGambleEV: this.state.taskGambleEV[this.state.trialNum - 1], //Risky EV1+EV2
-      trialChoiceEV: this.state.taskChoiceEV[this.state.trialNum - 1], //SafeEV - (RiskyEV1+EV2)
+      trialSafePathEV: this.state.tutSafePathEV[this.state.trialNum - 1],
+      trialRiskyPathEV1: this.state.tutRiskyPathEV1[this.state.trialNum - 1],
+      trialRiskyPathEV2: this.state.tutRiskyPathEV2[this.state.trialNum - 1],
+      trialGambleEV: this.state.tutGambleEV[this.state.trialNum - 1], //Risky EV1+EV2
+      trialChoiceEV: this.state.tutChoiceEV[this.state.trialNum - 1], //SafeEV - (RiskyEV1+EV2)
 
       trialPathProb: this.state.pathProbBoth, //this is whether they chose 100 or 50/50, etc
       trialRT: this.state.trialRT,
@@ -1332,6 +1332,7 @@ class TutorTask extends React.Component {
 
   condSave() {
     var userID = this.state.userID;
+    var currentDate = new Date(); // maybe change to local
     var sectionTime = currentDate.toTimeString();
     var trialTime = Math.round(performance.now());
 
