@@ -153,10 +153,10 @@ shuffle(forcedPaths);
 //
 // var taskOptChoice = taskStruct[11];
 
-var trialBlockTotal = 8;
+var trialBlockTotal = 2; //the full length is 8
 var trialForced = 3;
 var trialForcedTotal = trialForced * trialBlockTotal;
-var trialTotal = 104 + trialForcedTotal;
+var trialTotal = 26 + trialForcedTotal; //usually its 104 +
 
 var trialInBlock = trialTotal / trialBlockTotal;
 
@@ -619,13 +619,10 @@ class ExptTask extends React.Component {
     var RiskyPath1;
     var RiskyPath2;
 
-    var choice1Fade = this.state.choice1Fade;
-    var choice2Fade = this.state.choice2Fade;
-
     var paths = this.state.paths; //1,2,3
     shuffle(paths);
 
-    var bool = trialNumInBlock <= this.state.trialForced;
+    //  var bool = trialNumInBlock <= this.state.trialForced;
     // console.log("Still Forced Choice? " + bool);
     // console.log("trialNumInBlock " + trialNumInBlock);
     // console.log("trialForced " + this.state.trialForced);
@@ -732,6 +729,7 @@ class ExptTask extends React.Component {
     var Shuttle2Word;
     var ShuttlePicWord;
     var pathProbBoth;
+
     var choice1Fade = styles.shuttlePreChoice;
     var choice2Fade = styles.shuttlePreChoice;
 
@@ -1008,8 +1006,9 @@ class ExptTask extends React.Component {
     document.addEventListener("keyup", this._handleTaskKey);
     var taskForceChoice = this.state.taskForceChoice[this.state.trialNum - 1];
     var trialNumInBlock = this.state.trialNumInBlock;
-    var choice1Fade;
-    var choice2Fade;
+    var choice1Fade = this.state.choice1Fade;
+    var choice2Fade = this.state.choice2Fade;
+
     if (this.state.ShuttlePos[0] === 0) {
       //safe one is left choice
       if (trialNumInBlock <= this.state.trialForced && taskForceChoice === 1) {
@@ -1067,6 +1066,7 @@ class ExptTask extends React.Component {
       outcome: null,
       pathIndx: null,
       pathProbEnd: null,
+      pathNum: null,
       taskPathPicWord: null,
       taskOutcomeWord: null,
       taskOutcomeIndx: null,
@@ -1161,63 +1161,71 @@ class ExptTask extends React.Component {
   }
 
   playStateOne() {
-    document.removeEventListener("keyup", this._handleTaskKey);
+    // if it is null, it means you were too late!!! this helps catch the inconsistent time out
+    if (this.state.pathRoute !== null) {
+      var pathRoutePic1 = this.state.pathRoute[0]; //[0,1,2] or [3,4,5] or [6,7,8]
+      var pathNum;
+      var pathPicWord;
+      if (pathRoutePic1 === 0) {
+        pathNum = 1;
+        pathPicWord = [
+          this.state.stateWord[0],
+          this.state.stateWord[1],
+          this.state.stateWord[2],
+        ];
+      } else if (pathRoutePic1 === 3) {
+        pathNum = 2;
+        pathPicWord = [
+          this.state.stateWord[3],
+          this.state.stateWord[4],
+          this.state.stateWord[5],
+        ];
+      } else if (pathRoutePic1 === 6) {
+        pathNum = 3;
+        pathPicWord = [
+          this.state.stateWord[6],
+          this.state.stateWord[7],
+          this.state.stateWord[8],
+        ];
+      }
+      var statePic;
 
-    var pathRoutePic1 = this.state.pathRoute[0]; //[0,1,2] or [3,4,5] or [6,7,8]
-    var pathNum;
-    var pathPicWord;
-    if (pathRoutePic1 === 0) {
-      pathNum = 1;
-      pathPicWord = [
-        this.state.stateWord[0],
-        this.state.stateWord[1],
-        this.state.stateWord[2],
-      ];
-    } else if (pathRoutePic1 === 3) {
-      pathNum = 2;
-      pathPicWord = [
-        this.state.stateWord[3],
-        this.state.stateWord[4],
-        this.state.stateWord[5],
-      ];
-    } else if (pathRoutePic1 === 6) {
-      pathNum = 3;
-      pathPicWord = [
-        this.state.stateWord[6],
-        this.state.stateWord[7],
-        this.state.stateWord[8],
-      ];
-    }
-    var statePic;
+      if (this.state.trialNumInBlock <= this.state.trialForced) {
+        statePic = this.state.statePic[pathRoutePic1];
+      } else {
+        statePic = this.state.stateHolder[0];
+      }
 
-    if (this.state.trialNumInBlock <= this.state.trialForced) {
-      statePic = this.state.statePic[pathRoutePic1];
+      // console.log("trialNumInBlock: " + this.state.trialNumInBlock);
+      // console.log("trialForced: " + this.state.trialForced);
+      // console.log("statePic: " + statePic);
+
+      this.setState({
+        pathPlay: true,
+        stateNum: "Room 1",
+        stateShown: statePic,
+        pathNum: pathNum,
+        outcomeValue: null,
+        taskPathPicWord: pathPicWord,
+        taskOutcome1: [],
+        taskOutcome2: [],
+        taskOutcomeValue: null,
+      });
+
+      setTimeout(
+        function () {
+          this.playStateTwo();
+        }.bind(this),
+        this.state.stateDur
+      );
     } else {
-      statePic = this.state.stateHolder[0];
+      setTimeout(
+        function () {
+          this.lateResponse();
+        }.bind(this),
+        1
+      );
     }
-
-    // console.log("trialNumInBlock: " + this.state.trialNumInBlock);
-    // console.log("trialForced: " + this.state.trialForced);
-    // console.log("statePic: " + statePic);
-
-    this.setState({
-      pathPlay: true,
-      stateNum: "Room 1",
-      stateShown: statePic,
-      pathNum: pathNum,
-      outcomeValue: null,
-      taskPathPicWord: pathPicWord,
-      taskOutcome1: [],
-      taskOutcome2: [],
-      taskOutcomeValue: null,
-    });
-
-    setTimeout(
-      function () {
-        this.playStateTwo();
-      }.bind(this),
-      this.state.stateDur
-    );
   }
 
   playStateTwo() {
