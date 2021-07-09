@@ -449,12 +449,12 @@ class ExptTask extends React.Component {
     var trialNum = this.state.trialNum;
     var pathRoute = this.state.pathRoute;
     var pathProb;
-
     var pathTrans;
     var outcome;
     var pathIndx;
     var ShuttlePos = this.state.ShuttlePos; //[0,1] means safe/risky vs [0,1] means risky, safe
     var pathProbEnd;
+
     // if choose left
     if (keyChoice === 1) {
       choice1Fade = styles.shuttleChoice;
@@ -466,6 +466,7 @@ class ExptTask extends React.Component {
         pathIndx = 1;
         pathProb = 1;
         pathProbEnd = 1;
+        pathTrans = null;
       } else if (ShuttlePos[0] === 1) {
         //I choose the risky choice
         //Then Let's roll on the probability
@@ -481,6 +482,10 @@ class ExptTask extends React.Component {
           pathRoute = this.state.RiskyPath2;
           outcome = this.state.taskRiskyPathOutcome2[trialNum - 1];
           pathProbEnd = this.state.taskRiskyPathProb2[trialNum - 1];
+        } else {
+          pathRoute = "error";
+          outcome = "error";
+          pathProbEnd = "error";
         }
       }
 
@@ -495,13 +500,13 @@ class ExptTask extends React.Component {
         pathIndx = 1;
         pathProb = 1;
         pathProbEnd = 1;
+        pathTrans = null;
       } else if (ShuttlePos[1] === 1) {
         //I choose the risky choice
         //Then Let's roll on the probability
         pathProb = this.state.taskRiskyPathProb2[trialNum - 1]; //this is the smaller prob
         pathTrans = pathToGo(pathProb); // 0 (Risk1) or 1 (Risk2)
         pathIndx = 2;
-
         if (pathTrans === 0) {
           pathRoute = this.state.RiskyPath1;
           outcome = this.state.taskRiskyPathOutcome1[trialNum - 1];
@@ -510,6 +515,10 @@ class ExptTask extends React.Component {
           pathRoute = this.state.RiskyPath2;
           outcome = this.state.taskRiskyPathOutcome2[trialNum - 1];
           pathProbEnd = this.state.taskRiskyPathProb2[trialNum - 1];
+        } else {
+          pathRoute = "error";
+          outcome = "error";
+          pathProbEnd = "error";
         }
       }
     } else {
@@ -517,10 +526,10 @@ class ExptTask extends React.Component {
       console.log("Choice not made.");
     }
 
-    // console.log("taskOptChoice " + this.state.taskOptChoice[trialNum - 1]);
     if (
-      this.state.trialNumInBlock <= this.state.trialForced &&
-      pathIndx !== this.state.taskForceChoice[trialNum - 1]
+      (this.state.trialNumInBlock <= this.state.trialForced &&
+        pathIndx !== this.state.taskForceChoice[trialNum - 1]) ||
+      outcome === null
     ) {
       //if the trial the forced, keyChoice has to be the same as the dictated asnwer, else it wil not move on
     } else {
@@ -1163,6 +1172,7 @@ class ExptTask extends React.Component {
   playStateOne() {
     // if it is null, it means you were too late!!! this helps catch the inconsistent time out
     if (this.state.pathRoute !== null) {
+      document.removeEventListener("keyup", this._handleTaskKey);
       var pathRoutePic1 = this.state.pathRoute[0]; //[0,1,2] or [3,4,5] or [6,7,8]
       var pathNum;
       var pathPicWord;
