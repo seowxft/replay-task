@@ -793,6 +793,7 @@ class ExptTask extends React.Component {
             planFeedback: "Correct order! No coins lost!",
             coins: coins,
             planPathChosen: planPathChosen,
+            planCurrentChoice: 3, //keep the number on screen
           });
         } else {
           coins = coins - 1;
@@ -801,6 +802,7 @@ class ExptTask extends React.Component {
             planFeedback: "Incorrect order! You lose 1 coin!",
             coins: coins,
             planPathChosen: null, //failed to choose correct path
+            planCurrentChoice: 3,
           });
         }
 

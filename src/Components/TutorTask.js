@@ -750,6 +750,7 @@ class TutorTask extends React.Component {
             planFeedback: "Correct order! No coins lost!",
             coins: coins,
             planPathChosen: planPathChosen,
+            planCurrentChoice: 3, //keep the number on screen
           });
         } else {
           coins = coins - 1;
@@ -758,6 +759,7 @@ class TutorTask extends React.Component {
             planFeedback: "Incorrect order! You lose 1 coin!",
             coins: coins,
             planPathChosen: null, //failed to choose correct path
+            planCurrentChoice: 3,
           });
         }
 
@@ -788,7 +790,6 @@ class TutorTask extends React.Component {
             <strong>you believe you will end up in</strong> in order.
           </span>
           <br />
-
           <span className={styles.centerThree}>
             Which is <strong>Room {this.state.planCurrentChoice}</strong>?
           </span>
