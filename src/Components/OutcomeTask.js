@@ -646,8 +646,9 @@ class OutcomeTask extends React.Component {
       tutSafePathProb: null,
       tutRiskyPathProb1: null,
       tutRiskyPathProb2: null,
-      tutForceChoice: null,
       tutOptChoice: null,
+      tutForceChoice: null,
+      tutPlanChoice: null,
 
       taskSafePathOutcome: null,
       taskRiskyPathOutcome1: null,
@@ -657,6 +658,7 @@ class OutcomeTask extends React.Component {
       taskRiskyPathProb2: null,
       taskOptChoice: null,
       taskForceChoice: null,
+      taskPlanChoice: null,
     };
 
     console.log(saveString);
@@ -786,6 +788,14 @@ class OutcomeTask extends React.Component {
       outcomeNotAnsLog1: outcomeNotAnsLog1,
       // outcomeNotAnsLog2: outcomeNotAnsLog2,
     });
+
+    //send the outcomeTask conditions?
+    setTimeout(
+      function () {
+        this.condSave();
+      }.bind(this),
+      0
+    );
   }
 
   passMission() {
@@ -819,6 +829,13 @@ class OutcomeTask extends React.Component {
 
   componentDidMount() {
     window.scrollTo(0, 0);
+    //send the outcomeTask conditions?
+    setTimeout(
+      function () {
+        this.condSave();
+      }.bind(this),
+      0
+    );
   }
 
   componentWillUnmount() {
@@ -865,14 +882,6 @@ class OutcomeTask extends React.Component {
                 </span>
               </p>
             </div>
-          );
-
-          //send the outcomeTask conditions?
-          setTimeout(
-            function () {
-              this.condSave();
-            }.bind(this),
-            0
           );
         } else if (this.state.instructScreenText === 2) {
           text = (

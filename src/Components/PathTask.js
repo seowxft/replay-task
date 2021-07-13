@@ -1247,6 +1247,14 @@ class PathTask extends React.Component {
       testScreen: false,
       instructScreenText: 4,
     });
+
+    //send the outcomeTask conditions?
+    setTimeout(
+      function () {
+        this.condSave();
+      }.bind(this),
+      0
+    );
   }
 
   passTest() {
@@ -1293,7 +1301,6 @@ class PathTask extends React.Component {
       userID: this.state.userID,
       date: this.state.date,
       startTime: this.state.startTime, // this is when they start the expt
-      sectionTime: this.state.sectionTime, //this is if they somehow refresh the page...
       sectionTime: sectionTime, //this is if they somehow refresh the page...
       trialTime: trialTime,
       taskSession: this.state.taskSession,
@@ -1320,6 +1327,8 @@ class PathTask extends React.Component {
       tutRiskyPathProb2: null,
       tutOptChoice: null,
       tutForceChoice: null,
+      tutPlanChoice: null,
+
       taskSafePathOutcome: null,
       taskRiskyPathOutcome1: null,
       taskRiskyPathOutcome2: null,
@@ -1328,6 +1337,7 @@ class PathTask extends React.Component {
       taskRiskyPathProb2: null,
       taskOptChoice: null,
       taskForceChoice: null,
+      taskPlanChoice: null,
     };
 
     try {
@@ -1346,6 +1356,13 @@ class PathTask extends React.Component {
 
   componentDidMount() {
     window.scrollTo(0, 0);
+    //send the outcomeTask conditions?
+    setTimeout(
+      function () {
+        this.condSave();
+      }.bind(this),
+      0
+    );
   }
 
   componentWillUnmount() {
@@ -1386,14 +1403,6 @@ class PathTask extends React.Component {
                 </span>
               </p>
             </div>
-          );
-
-          //send the outcomeTask conditions?
-          setTimeout(
-            function () {
-              this.condSave();
-            }.bind(this),
-            0
           );
         } else if (this.state.instructScreenText === 2) {
           text = (
