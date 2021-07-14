@@ -424,20 +424,33 @@ class OutcomeTask extends React.Component {
         pressed = 1;
         time_pressed = Math.round(performance.now());
         this.testCheck(pressed, time_pressed);
-
         break;
       case 50:
         pressed = 2;
         time_pressed = Math.round(performance.now());
         this.testCheck(pressed, time_pressed);
-
         break;
       case 51:
         pressed = 3;
         time_pressed = Math.round(performance.now());
         this.testCheck(pressed, time_pressed);
         break;
-
+      //this is keycode for numpad
+      case 97:
+        pressed = 1;
+        time_pressed = Math.round(performance.now());
+        this.testCheck(pressed, time_pressed);
+        break;
+      case 98:
+        pressed = 2;
+        time_pressed = Math.round(performance.now());
+        this.testCheck(pressed, time_pressed);
+        break;
+      case 99:
+        pressed = 3;
+        time_pressed = Math.round(performance.now());
+        this.testCheck(pressed, time_pressed);
+        break;
       default:
     }
   };

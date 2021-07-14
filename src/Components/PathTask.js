@@ -404,6 +404,22 @@ class PathTask extends React.Component {
         this.taskCheck(pressed, time_pressed);
         break;
 
+      case 97:
+        pressed = 1;
+        time_pressed = Math.round(performance.now());
+        this.taskCheck(pressed, time_pressed);
+        break;
+      case 98:
+        pressed = 2;
+        time_pressed = Math.round(performance.now());
+        this.taskCheck(pressed, time_pressed);
+        break;
+      case 99:
+        pressed = 3;
+        time_pressed = Math.round(performance.now());
+        this.taskCheck(pressed, time_pressed);
+        break;
+
       default:
     }
   };
@@ -428,6 +444,23 @@ class PathTask extends React.Component {
         time_pressed = Math.round(performance.now());
         this.testCheck(pressed, time_pressed);
         break;
+
+      case 97:
+        pressed = 1;
+        time_pressed = Math.round(performance.now());
+        this.testCheck(pressed, time_pressed);
+        break;
+      case 98:
+        pressed = 2;
+        time_pressed = Math.round(performance.now());
+        this.testCheck(pressed, time_pressed);
+        break;
+      case 99:
+        pressed = 3;
+        time_pressed = Math.round(performance.now());
+        this.testCheck(pressed, time_pressed);
+        break;
+
       case 32: //this is SPACEBAR
         pressed = 10;
         time_pressed = Math.round(performance.now());

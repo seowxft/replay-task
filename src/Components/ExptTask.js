@@ -537,6 +537,37 @@ class ExptTask extends React.Component {
         time_pressed = Math.round(performance.now());
         this.planCheck(pressed, time_pressed);
         break;
+
+      case 97:
+        pressed = 1;
+        time_pressed = Math.round(performance.now());
+        this.planCheck(pressed, time_pressed);
+        break;
+      case 98:
+        pressed = 2;
+        time_pressed = Math.round(performance.now());
+        this.planCheck(pressed, time_pressed);
+        break;
+      case 99:
+        pressed = 3;
+        time_pressed = Math.round(performance.now());
+        this.planCheck(pressed, time_pressed);
+        break;
+      case 100:
+        pressed = 4;
+        time_pressed = Math.round(performance.now());
+        this.planCheck(pressed, time_pressed);
+        break;
+      case 101:
+        pressed = 5;
+        time_pressed = Math.round(performance.now());
+        this.planCheck(pressed, time_pressed);
+        break;
+      case 102:
+        pressed = 6;
+        time_pressed = Math.round(performance.now());
+        this.planCheck(pressed, time_pressed);
+        break;
       default:
     }
   };

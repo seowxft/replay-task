@@ -302,7 +302,7 @@ class StartPage extends React.Component {
           <br />
           <br />
           <Consent.Survey
-            json={json1}
+            json={json}
             showCompletedPage={false}
             onComplete={this.redirectToTarget}
           />
