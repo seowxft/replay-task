@@ -830,6 +830,14 @@ class OutcomeTask extends React.Component {
   componentDidMount() {
     window.scrollTo(0, 0);
     //send the outcomeTask conditions?
+    let imagesPreload = [statePic, outcomePic];
+
+    imagesPreload.forEach((image) => {
+      const newImage = new Image();
+      newImage.src = image;
+      window[image] = newImage;
+    });
+
     setTimeout(
       function () {
         this.condSave();

@@ -1357,6 +1357,15 @@ class PathTask extends React.Component {
   componentDidMount() {
     window.scrollTo(0, 0);
     //send the outcomeTask conditions?
+
+    let imagesPreload = [this.state.statePic, this.state.outcomePic];
+
+    imagesPreload.forEach((image) => {
+      const newImage = new Image();
+      newImage.src = image;
+      window[image] = newImage;
+    });
+
     setTimeout(
       function () {
         this.condSave();

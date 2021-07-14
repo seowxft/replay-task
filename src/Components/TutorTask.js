@@ -328,6 +328,24 @@ class TutorTask extends React.Component {
       tutPlanChoice: tutPlanChoice,
     });
 
+    let imagesPreload = [
+      this.state.statePic,
+      this.state.outcomePic,
+      shuttle1,
+      shuttle2,
+      astrodude,
+      counter,
+      coin,
+      stateHolder1,
+      stateHolder2,
+    ];
+
+    imagesPreload.forEach((image) => {
+      const newImage = new Image();
+      newImage.src = image;
+      window[image] = newImage;
+    });
+
     //send the outcomeTask conditions?
     setTimeout(
       function () {
