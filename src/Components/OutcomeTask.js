@@ -17,6 +17,7 @@ import state12 from "./states/cupcake.jpg";
 
 import astrodude from "./img/astro_1.png";
 import counter from "./img/shuttle_red.png";
+import coin from "./img/coin_small.png";
 
 import styles from "./style/taskStyle.module.css";
 
@@ -576,9 +577,12 @@ class OutcomeTask extends React.Component {
             />
           </span>
           <span className={styles.centerTwo}>
-            <br />[<strong>1</strong>]: {ansOne}
-            <br />[<strong>2</strong>]: {ansTwo}
-            <br />[<strong>3</strong>]: {ansThree}
+            <br />[<strong>1</strong>]: {ansOne}{" "}
+            <img className={styles.coin} src={coin} alt="coin" />
+            <br />[<strong>2</strong>]: {ansTwo}{" "}
+            <img className={styles.coin} src={coin} alt="coin" />
+            <br />[<strong>3</strong>]: {ansThree}{" "}
+            <img className={styles.coin} src={coin} alt="coin" />
           </span>
           <span className={styles.centerTwo}>
             [Press the correct number key]
@@ -882,14 +886,24 @@ class OutcomeTask extends React.Component {
                 <br />
                 Welcome onboard!
                 <br /> <br />
-                Today we will be taking shuttles to different types of
-                spaceships to find a valuable item.
+                For today&apos;s mission, we will be taking shuttles to our
+                spaceships
+                <br />
+                to find pictures of certain objects.
                 <br /> <br />
-                The more valuable items you find, the higher your bonus will be,
-                up to a maximum of <strong>£5</strong>!
+                One of these pictures are valuable, and you can{" "}
+                <strong>earn coins</strong>.
                 <br /> <br />
-                Before we begin our mission, you will need to learn several
-                things.
+                One of these pictures are undesirable, and you can{" "}
+                <strong>lose coins</strong>.
+                <br /> <br />
+                The more valuable pictures you find, the more coins you will
+                earn,
+                <br />
+                and the higher your bonus will be, up to a maximum of{" "}
+                <strong>£5</strong>!
+                <br /> <br />
+                Before we begin, you will need to learn several things.
                 <br /> <br />
                 <span className={styles.centerTwo}>
                   <i>(Use the ← → keys to navigate the pages.)</i>
@@ -906,8 +920,8 @@ class OutcomeTask extends React.Component {
               <p>
                 <span className={styles.center}>TUTORIAL I</span>
                 <br />
-                The first is, depending on which type of spaceship we board, we
-                will find one of these items:
+                The first is, when we board a spaceship, we will find one of
+                these pictures:
                 <br /> <br />
                 <span className={styles.centerTwo}>
                   <img
@@ -951,10 +965,10 @@ class OutcomeTask extends React.Component {
                   />
                 </span>
                 <br />
-                This item is valuable and we can exchange it for coins.
+                This picture is valuable and we can exchange it for coins.
                 <br /> <br />
                 In other words, if we find 3 {this.state.outcomeWord[0]}s, we
-                earn 3 coins.
+                earn 3 <img className={styles.coin} src={coin} alt="coin" />.
                 <br /> <br />
                 <span className={styles.centerTwo}>
                   [<strong>← BACK</strong>] [<strong>NEXT →</strong>]
@@ -978,10 +992,10 @@ class OutcomeTask extends React.Component {
                   />
                 </span>
                 <br />
-                This item is undesirable, and we will be fined coins.
+                This picture is undesirable, and we will be fined coins.
                 <br /> <br />
                 In other words, if we find 2 {this.state.outcomeWord[1]}s, we
-                lose 2 coins.
+                lose 2 <img className={styles.coin} src={coin} alt="coin" />.
                 <br /> <br />
                 <span className={styles.centerTwo}>
                   [<strong>← BACK</strong>] [<strong>NEXT →</strong>]
@@ -1005,10 +1019,12 @@ class OutcomeTask extends React.Component {
                   />
                 </span>
                 <br />
-                This item is neutral, and we will not gain or lose coins for it.
+                This picture is neutral, and we will not gain or lose coins for
+                it.
                 <br /> <br />
                 In other words, even if we find 5 {this.state.outcomeWord[2]}s,
-                we earn/lose 0 coins.
+                we earn/lose 0{" "}
+                <img className={styles.coin} src={coin} alt="coin" />.
                 <br /> <br />
                 <span className={styles.centerTwo}>
                   [<strong>← BACK</strong>] [<strong>NEXT →</strong>]
@@ -1025,8 +1041,8 @@ class OutcomeTask extends React.Component {
                 For your first tutorial, let us check if you understood what is
                 valuable for us to find.
                 <br /> <br />
-                When we find an item, you simply have to tell us how many coins
-                you gain or lose.
+                When we find a picture, you simply have to tell us how many
+                coins you gain or lose.
                 <br /> <br />
                 <span className={styles.centerTwo}>
                   Press the [<strong>SPACEBAR</strong>] to start the tutorial.
@@ -1068,6 +1084,32 @@ class OutcomeTask extends React.Component {
                 Great, you had {this.state.trialScore}/{this.state.trialTotal}
                 &nbsp;correct!
                 <br /> <br />
+                In summary,
+                <span className={styles.centerTwo}>
+                  <img
+                    className={styles.stateSmall}
+                    src={this.state.outcomePic[0]}
+                    alt="outcome1"
+                  />
+                  &nbsp;&nbsp; = &nbsp;+{" "}
+                  <img className={styles.coin} src={coin} alt="coin" /> (gain)
+                  <br />
+                  <img
+                    className={styles.stateSmall}
+                    src={this.state.outcomePic[1]}
+                    alt="outcome2"
+                  />
+                  &nbsp;&nbsp; = &nbsp;-{" "}
+                  <img className={styles.coin} src={coin} alt="coin" /> (lose)
+                  <br />
+                  <img
+                    className={styles.stateSmall}
+                    src={this.state.outcomePic[2]}
+                    alt="outcome3"
+                  />
+                  &nbsp;&nbsp; = &nbsp;none
+                </span>
+                <br />
                 You are ready to move on to the next tutorial.
                 <br /> <br />
                 <span className={styles.centerTwo}>

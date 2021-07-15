@@ -5,6 +5,8 @@ import { DATABASE_URL } from "./config";
 import astrodude from "./img/astro_2.png";
 import counter from "./img/shuttle_red.png";
 
+import pathInstruct1 from "./img/PathInstruct1.png";
+
 import styles from "./style/taskStyle.module.css";
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -529,18 +531,22 @@ class PathTask extends React.Component {
     var spaceship1;
     var spaceship2;
     var spaceship3;
+    var whichShip;
     if (pathForceExplore === 1) {
       spaceship1 = styles.spaceship;
       spaceship2 = styles.spaceshipDis;
       spaceship3 = styles.spaceshipDis;
+      whichShip = "A";
     } else if (pathForceExplore === 2) {
       spaceship1 = styles.spaceshipDis;
       spaceship2 = styles.spaceship;
       spaceship3 = styles.spaceshipDis;
+      whichShip = "B";
     } else if (pathForceExplore === 3) {
       spaceship1 = styles.spaceshipDis;
       spaceship2 = styles.spaceshipDis;
       spaceship3 = styles.spaceship;
+      whichShip = "C";
     }
 
     let text = (
@@ -551,15 +557,15 @@ class PathTask extends React.Component {
         </div>
         <p>
           <span className={styles.centerTwo}>
-            Let us explore Spaceship {pathForceExplore}.
+            Let us explore Spaceship {whichShip}.
           </span>
           <br /> <br />
           <span className={styles.centerTwo}>
-            <span className={spaceship1}>Spaceship 1</span>
+            <span className={spaceship1}>Spaceship A</span>
             &nbsp; &nbsp;
-            <span className={spaceship2}>Spaceship 2</span>
+            <span className={spaceship2}>Spaceship B</span>
             &nbsp; &nbsp;
-            <span className={spaceship3}>Spaceship 3</span>
+            <span className={spaceship3}>Spaceship C</span>
           </span>
           <br /> <br />
           <span className={styles.centerTwo}>
@@ -574,19 +580,25 @@ class PathTask extends React.Component {
 
   playStateOne() {
     var statePic;
+    var whichShip;
 
     if (this.state.pathChoice === 1) {
       //if choose path 1,
       statePic = this.state.pathOne[0];
+      whichShip = "A";
     } else if (this.state.pathChoice === 2) {
       statePic = this.state.pathTwo[0];
+      whichShip = "B";
     } else if (this.state.pathChoice === 3) {
       statePic = this.state.pathThree[0];
+
+      whichShip = "C";
     }
 
     this.setState({
       stateNum: 1,
       stateShown: statePic,
+      whichShip: whichShip,
     });
 
     setTimeout(
@@ -763,19 +775,23 @@ class PathTask extends React.Component {
 
     var whichCombi = this.state.testShuff[whichPath - 1];
     var whichQnNot = null;
+    var whichShip = null;
 
     if (whichPath === 1) {
       ///this.state.testOne - combinations e.g [1,0] [0,1] [1,2] [2,1]
       whichQn = this.state.testOne[whichCombi - 1];
       whichQnNot = randNumExceptArray(0, 8, this.state.pathOne); //none of the other states of the path should be the other option
+      whichShip = "A";
     } else if (whichPath === 2) {
       //this.state.testTwo - combinations e.g [3,4] [4,3] [5,4] [4,5]
       whichQn = this.state.testTwo[whichCombi - 1];
       whichQnNot = randNumExceptArray(0, 8, this.state.pathTwo);
+      whichShip = "B";
     } else if (whichPath === 3) {
       //this.state.testThree - combinations e.g [6,7] [7,6] [7,8] [8,7]
       whichQn = this.state.testThree[whichCombi - 1]; //e.g.[6,7]
       whichQnNot = randNumExceptArray(0, 8, this.state.pathThree);
+      whichShip = "C";
     }
 
     // console.log("whichQn: " + whichQn);
@@ -792,6 +808,7 @@ class PathTask extends React.Component {
       whichQnNot: whichQnNot,
       whichQnNot2: whichQnNot2,
       whichQnNot3: whichQnNot3,
+      whichShip: whichShip,
     });
 
     if (this.state.trialTestNum === 1) {
@@ -808,7 +825,7 @@ class PathTask extends React.Component {
   ///////////// test their memory
   testStart(trialTestNum, trialPart) {
     var whichPath = this.state.trialtestPath[trialTestNum - 1];
-
+    var whichShip = this.state.whichShip;
     var testAns1 = this.state.testAns1[trialTestNum - 1];
     var testAns2 = this.state.testAns2[trialTestNum - 1];
 
@@ -939,7 +956,7 @@ class PathTask extends React.Component {
         </div>
         <p>
           <span className={styles.center}>
-            You are in Spaceship {whichPath}.
+            You are in Spaceship {whichShip}.
           </span>
           Which room will you encounter?
           <br />
@@ -964,7 +981,7 @@ class PathTask extends React.Component {
         </div>
         <p>
           <span className={styles.center}>
-            You are in Spaceship {whichPath}.
+            You are in Spaceship {whichShip}.
           </span>
           <span className={styles.centerThree}>{trialFb1}</span>
           <span className={styles.centerTwo}>
@@ -973,7 +990,7 @@ class PathTask extends React.Component {
             <img className={stateClass2} src={statePic2} alt="state" />
           </span>
           <span className={styles.centerTwo}>
-            Which room {partBeforeAfter} comes this room?
+            Which room comes {partBeforeAfter} the room above?
           </span>
           <span className={styles.centerTwo}>
             [<strong>1</strong>]:&nbsp;
@@ -998,7 +1015,7 @@ class PathTask extends React.Component {
         </div>
         <p>
           <span className={styles.center}>
-            You are in Spaceship {whichPath}.
+            You are in Spaceship {whichShip}.
           </span>
           <span className={styles.centerThree}></span>
           <span className={styles.centerTwo}>
@@ -1007,7 +1024,7 @@ class PathTask extends React.Component {
             <img className={stateClass2} src={statePic2} alt="state" />
           </span>
           <span className={styles.centerTwo}>
-            Which room {partBeforeAfter} comes this room?
+            Which room comes {partBeforeAfter} the room above?
           </span>
           <span className={styles.centerTwo}>
             [<strong>1</strong>]:&nbsp;
@@ -1419,16 +1436,23 @@ class PathTask extends React.Component {
             <div className={styles.main}>
               <p>
                 <span className={styles.center}>TUTORIAL II</span>
-                The second thing you need to learn is that there are connecting
-                rooms in the spaceships.
+                The second thing you need to learn is that there are{" "}
+                <strong>3 different types of spaceships</strong>.
                 <br /> <br />
-                Each spaceship has three connecting rooms which you will have to
-                go through
+                <strong>Within</strong> each spaceship, there are{" "}
+                <strong>3 connecting rooms</strong>.
+                <br /> <br />
+                For instance,
+                <span className={styles.centerTwo}>
+                  <img
+                    className={styles.pathInstruct}
+                    src={pathInstruct1}
+                    alt="pathInstruct1"
+                  />
+                </span>
                 <br />
-                in sequence to find your valuable item(s).
-                <br /> <br />
-                Every room is associated with an image, which you will have to
-                learn.
+                Each room can be <strong>identified by a unique image</strong>,
+                which you will have to learn.
                 <br />
                 <span className={styles.centerTwo}>
                   [<strong>NEXT →</strong>]
@@ -1441,13 +1465,12 @@ class PathTask extends React.Component {
             <div className={styles.main}>
               <p>
                 <span className={styles.center}>TUTORIAL II</span>
-                In this tutorial, we will show you the rooms of each
-                spaceship&nbsp;
+                In this tutorial, we will show you the room images of each of
+                the 3 spaceships&nbsp;
                 {this.state.pathTotal} times.
                 <br />
                 <br />
-                Your aim is to memorise the order of rooms in each type of
-                spaceship.
+                Your aim is to memorise the order of rooms in each spaceship.
                 <br />
                 <br />
                 We will test your memory afterwards.
@@ -1500,7 +1523,7 @@ class PathTask extends React.Component {
                 <br />
                 <br />
                 Let us revisit the order of the rooms in each spaceship type
-                using the items associated with each planet.
+                using the image associated with each room.
                 <br /> <br />
                 <span className={styles.centerTwo}>
                   Press [<strong>SPACEBAR</strong>] key to explore the
@@ -1522,6 +1545,70 @@ class PathTask extends React.Component {
                 {this.state.trialScore1 + this.state.trialScore2}/
                 {this.state.trialTestTotal * 2}
                 &nbsp;correct!
+                <br /> <br />
+                You saw that each of the 3 spaceships have 3 connecting rooms,
+                <br /> and you have learnt the order of the rooms.
+                <br /> <br />
+                In summary,
+                <br />
+                <span className={styles.centerTwo}>
+                  <span className={styles.spaceshipSmall}>Spaceship A</span>
+                  <img
+                    className={styles.stateSmall}
+                    src={this.state.statePic[0]}
+                    alt="statePic1"
+                  />
+                  &nbsp;&nbsp;&nbsp;&nbsp;→&nbsp;&nbsp;&nbsp;&nbsp;
+                  <img
+                    className={styles.stateSmall}
+                    src={this.state.statePic[1]}
+                    alt="statePic2"
+                  />
+                  &nbsp;&nbsp;&nbsp;&nbsp;→&nbsp;&nbsp;&nbsp;&nbsp;
+                  <img
+                    className={styles.stateSmall}
+                    src={this.state.statePic[2]}
+                    alt="statePic3"
+                  />
+                  <br /> <br />
+                  <span className={styles.spaceshipSmall}>Spaceship B</span>
+                  <img
+                    className={styles.stateSmall}
+                    src={this.state.statePic[3]}
+                    alt="statePic4"
+                  />
+                  &nbsp;&nbsp;&nbsp;&nbsp;→&nbsp;&nbsp;&nbsp;&nbsp;
+                  <img
+                    className={styles.stateSmall}
+                    src={this.state.statePic[4]}
+                    alt="statePic5"
+                  />
+                  &nbsp;&nbsp;&nbsp;&nbsp;→&nbsp;&nbsp;&nbsp;&nbsp;
+                  <img
+                    className={styles.stateSmall}
+                    src={this.state.statePic[5]}
+                    alt="statePic6"
+                  />
+                  <br /> <br />
+                  <span className={styles.spaceshipSmall}>Spaceship C</span>
+                  <img
+                    className={styles.stateSmall}
+                    src={this.state.statePic[6]}
+                    alt="statePic7"
+                  />
+                  &nbsp;&nbsp;&nbsp;&nbsp;→&nbsp;&nbsp;&nbsp;&nbsp;
+                  <img
+                    className={styles.stateSmall}
+                    src={this.state.statePic[7]}
+                    alt="statePic8"
+                  />
+                  &nbsp;&nbsp;&nbsp;&nbsp;→&nbsp;&nbsp;&nbsp;&nbsp;
+                  <img
+                    className={styles.stateSmall}
+                    src={this.state.statePic[8]}
+                    alt="statePic9"
+                  />
+                </span>
                 <br /> <br />
                 You are ready to move on to the next tutorial.
                 <br /> <br />
@@ -1555,7 +1642,7 @@ class PathTask extends React.Component {
                   </div>
                   <p>
                     <span className={styles.center}>
-                      Spaceship {this.state.pathChoice}
+                      Spaceship {this.state.whichShip}
                     </span>
                     <span className={styles.centerTwo}>
                       Room {this.state.stateNum}

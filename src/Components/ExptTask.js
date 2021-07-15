@@ -394,11 +394,11 @@ class ExptTask extends React.Component {
     var curText = this.state.instructScreenText;
     var whichButton = key_pressed;
 
-    if (whichButton === 4 && curText > 1 && curText <= 2) {
+    if (whichButton === 4 && curText > 1 && curText <= 4) {
       this.setState({ instructScreenText: curText - 1 });
-    } else if (whichButton === 5 && curText < 2) {
+    } else if (whichButton === 5 && curText < 4) {
       this.setState({ instructScreenText: curText + 1 });
-    } else if (curText === 2 && whichButton === 10) {
+    } else if (curText === 4 && whichButton === 10) {
       //start task
       setTimeout(
         function () {
@@ -406,7 +406,7 @@ class ExptTask extends React.Component {
         }.bind(this),
         0
       );
-    } else if (curText === 3 && whichButton === 10) {
+    } else if (curText === 5 && whichButton === 10) {
       //into rest block
       setTimeout(
         function () {
@@ -414,7 +414,7 @@ class ExptTask extends React.Component {
         }.bind(this),
         0
       );
-    } else if (curText === 4 && whichButton === 10) {
+    } else if (curText === 6 && whichButton === 10) {
       //into rest block
       setTimeout(
         function () {
@@ -1571,9 +1571,11 @@ class ExptTask extends React.Component {
       document.removeEventListener("keyup", this._handleTaskKey);
       var pathRoutePic1 = this.state.pathRoute[0]; //[0,1,2] or [3,4,5] or [6,7,8]
       var pathNum;
+      var whichShip;
       var pathPicWord;
       if (pathRoutePic1 === 0) {
         pathNum = 1;
+        whichShip = "A";
         pathPicWord = [
           this.state.stateWord[0],
           this.state.stateWord[1],
@@ -1581,6 +1583,7 @@ class ExptTask extends React.Component {
         ];
       } else if (pathRoutePic1 === 3) {
         pathNum = 2;
+        whichShip = "B";
         pathPicWord = [
           this.state.stateWord[3],
           this.state.stateWord[4],
@@ -1588,6 +1591,7 @@ class ExptTask extends React.Component {
         ];
       } else if (pathRoutePic1 === 6) {
         pathNum = 3;
+        whichShip = "C";
         pathPicWord = [
           this.state.stateWord[6],
           this.state.stateWord[7],
@@ -1612,6 +1616,7 @@ class ExptTask extends React.Component {
         stateNum: "Room 1",
         stateShown: statePic,
         pathNum: pathNum,
+        whichShip: whichShip,
         outcomeValue: null,
         taskPathPicWord: pathPicWord,
         taskOutcome1: [],
@@ -1891,7 +1896,7 @@ class ExptTask extends React.Component {
     this.setState({
       instructScreen: true,
       taskScreen: false,
-      instructScreenText: 3,
+      instructScreenText: 5,
     });
   }
 
@@ -1921,7 +1926,7 @@ class ExptTask extends React.Component {
     this.setState({
       instructScreen: true,
       taskScreen: false,
-      instructScreenText: 4,
+      instructScreenText: 6,
     });
 
     setTimeout(
@@ -2128,6 +2133,112 @@ class ExptTask extends React.Component {
             <div className={styles.main}>
               <span className={styles.likeP}>
                 <span className={styles.center}>MISSION START</span>
+                As a refresher, the pictures you can find are worth:
+                <span className={styles.centerTwo}>
+                  <img
+                    className={styles.stateSmall}
+                    src={this.state.outcomePic[0]}
+                    alt="outcome1"
+                  />
+                  &nbsp;&nbsp; = &nbsp;+{" "}
+                  <img className={styles.coin} src={coin} alt="coin" /> (gain)
+                  <br />
+                  <img
+                    className={styles.stateSmall}
+                    src={this.state.outcomePic[1]}
+                    alt="outcome2"
+                  />
+                  &nbsp;&nbsp; = &nbsp;-{" "}
+                  <img className={styles.coin} src={coin} alt="coin" /> (lose)
+                  <br />
+                  <img
+                    className={styles.stateSmall}
+                    src={this.state.outcomePic[2]}
+                    alt="outcome3"
+                  />
+                  &nbsp;&nbsp; = &nbsp;none
+                </span>
+                <span className={styles.centerTwo}>
+                  [<strong>← BACK</strong>] [<strong>NEXT →</strong>]
+                </span>
+              </span>
+            </div>
+          );
+        } else if (this.state.instructScreenText === 3) {
+          text = (
+            <div className={styles.main}>
+              <span className={styles.likeP}>
+                <span className={styles.center}>MISSION START</span>
+                And the room order of the spaceships are:
+                <span className={styles.centerTwo}>
+                  <span className={styles.spaceshipSmall}>Spaceship A</span>
+                  <img
+                    className={styles.stateSmall}
+                    src={this.state.statePic[0]}
+                    alt="statePic1"
+                  />
+                  &nbsp;&nbsp;&nbsp;&nbsp;→&nbsp;&nbsp;&nbsp;&nbsp;
+                  <img
+                    className={styles.stateSmall}
+                    src={this.state.statePic[1]}
+                    alt="statePic2"
+                  />
+                  &nbsp;&nbsp;&nbsp;&nbsp;→&nbsp;&nbsp;&nbsp;&nbsp;
+                  <img
+                    className={styles.stateSmall}
+                    src={this.state.statePic[2]}
+                    alt="statePic3"
+                  />
+                  <br /> <br />
+                  <span className={styles.spaceshipSmall}>Spaceship B</span>
+                  <img
+                    className={styles.stateSmall}
+                    src={this.state.statePic[3]}
+                    alt="statePic4"
+                  />
+                  &nbsp;&nbsp;&nbsp;&nbsp;→&nbsp;&nbsp;&nbsp;&nbsp;
+                  <img
+                    className={styles.stateSmall}
+                    src={this.state.statePic[4]}
+                    alt="statePic5"
+                  />
+                  &nbsp;&nbsp;&nbsp;&nbsp;→&nbsp;&nbsp;&nbsp;&nbsp;
+                  <img
+                    className={styles.stateSmall}
+                    src={this.state.statePic[5]}
+                    alt="statePic6"
+                  />
+                  <br /> <br />
+                  <span className={styles.spaceshipSmall}>Spaceship C</span>
+                  <img
+                    className={styles.stateSmall}
+                    src={this.state.statePic[6]}
+                    alt="statePic7"
+                  />
+                  &nbsp;&nbsp;&nbsp;&nbsp;→&nbsp;&nbsp;&nbsp;&nbsp;
+                  <img
+                    className={styles.stateSmall}
+                    src={this.state.statePic[7]}
+                    alt="statePic8"
+                  />
+                  &nbsp;&nbsp;&nbsp;&nbsp;→&nbsp;&nbsp;&nbsp;&nbsp;
+                  <img
+                    className={styles.stateSmall}
+                    src={this.state.statePic[8]}
+                    alt="statePic9"
+                  />
+                </span>
+                <span className={styles.centerTwo}>
+                  [<strong>← BACK</strong>] [<strong>NEXT →</strong>]
+                </span>
+              </span>
+            </div>
+          );
+        } else if (this.state.instructScreenText === 4) {
+          text = (
+            <div className={styles.main}>
+              <span className={styles.likeP}>
+                <span className={styles.center}>MISSION START</span>
                 You will make {this.state.trialTotal} shuttle journeys in total
                 across {this.state.trialBlockTotal} blocks.
                 <br />
@@ -2161,7 +2272,6 @@ class ExptTask extends React.Component {
                     Recall the spaceship rooms and figure out which spaceship
                     you would gain or lose coins.
                   </li>
-                  <br />
                   <li>
                     Then, decide if it is worth the risk take the reliable or
                     unreliable shuttle according to their probabilties.
@@ -2177,7 +2287,7 @@ class ExptTask extends React.Component {
               </span>
             </div>
           );
-        } else if (this.state.instructScreenText === 3) {
+        } else if (this.state.instructScreenText === 5) {
           text = (
             <div className={styles.main}>
               <p>
@@ -2204,7 +2314,7 @@ class ExptTask extends React.Component {
               </p>
             </div>
           );
-        } else if (this.state.instructScreenText === 4) {
+        } else if (this.state.instructScreenText === 6) {
           text = (
             <div className={styles.main}>
               <p>
@@ -2258,7 +2368,7 @@ class ExptTask extends React.Component {
                   </div>
                   <p>
                     <span className={styles.center}>
-                      Spaceship {this.state.pathNum}
+                      Spaceship {this.state.whichShip}
                     </span>
                     <span className={styles.centerTwo}>
                       {this.state.stateNum}
