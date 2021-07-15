@@ -2,16 +2,12 @@ import React from "react";
 import { withRouter } from "react-router-dom";
 import { DATABASE_URL } from "./config";
 
-// import tutStruct from "./tutorialStruct/struct_1.json";
-// import Struct from "./StructImport.js";
-// import StructToRender from "./Main.js";
-
 import shuttle1 from "./img/shuttle_green.png";
 import shuttle2 from "./img/shuttle_blue.png";
 
 import astrodude from "./img/astro_3.png";
 import counter from "./img/shuttle_red.png";
-import coin from "./img/coin.png";
+import coin from "./img/coin_small.png";
 
 import stateHolder1 from "./img/quest_holder1.png";
 import stateHolder2 from "./img/quest_holder2.png";

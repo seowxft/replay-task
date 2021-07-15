@@ -2,22 +2,18 @@ import React from "react";
 import { withRouter } from "react-router-dom";
 import { DATABASE_URL } from "./config";
 
-// import outcome1 from "./states/car.png";
-// import outcome2 from "./states/cat.png";
-// import outcome3 from "./states/cupcake.png";
-
-import state1 from "./states/baby.png";
-import state2 from "./states/backpack.png";
-import state3 from "./states/bicycle.png";
-import state4 from "./states/bowtie.png";
-import state5 from "./states/hourglass.png";
-import state6 from "./states/house.png";
-import state7 from "./states/lamp.png";
-import state8 from "./states/toothbrush.png";
-import state9 from "./states/zebra.png";
-import state10 from "./states/car.png";
-import state11 from "./states/cat.png";
-import state12 from "./states/cupcake.png";
+import state1 from "./states/baby.jpg";
+import state2 from "./states/backpack.jpg";
+import state3 from "./states/bicycle.jpg";
+import state4 from "./states/bowtie.jpg";
+import state5 from "./states/hourglass.jpg";
+import state6 from "./states/house.jpg";
+import state7 from "./states/lamp.jpg";
+import state8 from "./states/toothbrush.jpg";
+import state9 from "./states/zebra.jpg";
+import state10 from "./states/car.jpg";
+import state11 from "./states/cat.jpg";
+import state12 from "./states/cupcake.jpg";
 
 import astrodude from "./img/astro_1.png";
 import counter from "./img/shuttle_red.png";
