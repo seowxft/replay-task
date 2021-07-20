@@ -4,6 +4,7 @@ import { DATABASE_URL } from "./config";
 
 import astrodude from "./img/astro_2.png";
 import counter from "./img/shuttle_red.png";
+import fix from "./img/fixation_white.png";
 
 import pathInstruct1 from "./img/PathInstruct1.png";
 
@@ -233,6 +234,7 @@ class PathTask extends React.Component {
       stateNum: 0,
       stateShown: null,
       stateDur: 2000,
+      fixDur: 250,
 
       pathTotal: pathTotal,
       pathForceExplore: pathForceExplore,
@@ -584,14 +586,13 @@ class PathTask extends React.Component {
 
     if (this.state.pathChoice === 1) {
       //if choose path 1,
-      statePic = this.state.pathOne[0];
+      statePic = this.state.statePic[this.state.pathOne[0]];
       whichShip = "A";
     } else if (this.state.pathChoice === 2) {
-      statePic = this.state.pathTwo[0];
+      statePic = this.state.statePic[this.state.pathTwo[0]];
       whichShip = "B";
     } else if (this.state.pathChoice === 3) {
-      statePic = this.state.pathThree[0];
-
+      statePic = this.state.statePic[this.state.pathThree[0]];
       whichShip = "C";
     }
 
@@ -603,10 +604,32 @@ class PathTask extends React.Component {
 
     setTimeout(
       function () {
-        this.playStateTwo();
+        this.playFix();
       }.bind(this),
       this.state.stateDur
     );
+  }
+
+  playFix() {
+    this.setState({
+      stateShown: fix,
+    });
+
+    if (this.state.stateNum === 1) {
+      setTimeout(
+        function () {
+          this.playStateTwo();
+        }.bind(this),
+        this.state.fixDur
+      );
+    } else if (this.state.stateNum === 2) {
+      setTimeout(
+        function () {
+          this.playStateThree();
+        }.bind(this),
+        this.state.fixDur
+      );
+    }
   }
 
   playStateTwo() {
@@ -614,11 +637,11 @@ class PathTask extends React.Component {
 
     if (this.state.pathChoice === 1) {
       //if choose path 1,
-      statePic = this.state.pathOne[1];
+      statePic = this.state.statePic[this.state.pathOne[1]];
     } else if (this.state.pathChoice === 2) {
-      statePic = this.state.pathTwo[1];
+      statePic = this.state.statePic[this.state.pathTwo[1]];
     } else if (this.state.pathChoice === 3) {
-      statePic = this.state.pathThree[1];
+      statePic = this.state.statePic[this.state.pathThree[1]];
     }
 
     this.setState({
@@ -628,7 +651,7 @@ class PathTask extends React.Component {
 
     setTimeout(
       function () {
-        this.playStateThree();
+        this.playFix();
       }.bind(this),
       this.state.stateDur
     );
@@ -639,11 +662,11 @@ class PathTask extends React.Component {
 
     if (this.state.pathChoice === 1) {
       //if choose path 1,
-      statePic = this.state.pathOne[2];
+      statePic = this.state.statePic[this.state.pathOne[2]];
     } else if (this.state.pathChoice === 2) {
-      statePic = this.state.pathTwo[2];
+      statePic = this.state.statePic[this.state.pathTwo[2]];
     } else if (this.state.pathChoice === 3) {
-      statePic = this.state.pathThree[2];
+      statePic = this.state.statePic[this.state.pathThree[2]];
     }
 
     this.setState({
@@ -1398,7 +1421,14 @@ class PathTask extends React.Component {
     window.scrollTo(0, 0);
     //send the outcomeTask conditions?
 
-    let imagesPreload = [this.state.statePic, this.state.outcomePic];
+    let imagesPreload = [
+      this.state.statePic,
+      this.state.outcomePic,
+      astrodude,
+      pathInstruct1,
+      counter,
+      fix,
+    ];
 
     imagesPreload.forEach((image) => {
       const newImage = new Image();
@@ -1650,7 +1680,7 @@ class PathTask extends React.Component {
                     <br />
                     <img
                       className={styles.stateLarge}
-                      src={this.state.statePic[this.state.stateShown]}
+                      src={this.state.stateShown}
                       alt="state"
                     />
                     <br /> <br />

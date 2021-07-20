@@ -6,6 +6,7 @@ import { DATABASE_URL } from "./config";
 
 import shuttle1 from "./img/shuttle_green.png";
 import shuttle2 from "./img/shuttle_blue.png";
+import fix from "./img/fixation_white.png";
 
 import astrodude from "./img/astro_3.png";
 import counter from "./img/shuttle_red.png";
@@ -250,6 +251,7 @@ class ExptTask extends React.Component {
       stateDur: 2000,
       outcomeDur: 2000,
       respWaitDur: 3000,
+      fixDur: 250,
       stateHolder: [stateHolder1, stateHolder2],
 
       outcomePic: outcomePic,
@@ -373,6 +375,7 @@ class ExptTask extends React.Component {
       coin,
       stateHolder1,
       stateHolder2,
+      fix,
     ];
 
     imagesPreload.forEach((image) => {
@@ -848,7 +851,7 @@ class ExptTask extends React.Component {
           coins = coins - 1;
           this.setState({
             planCor: 0,
-            planFeedback: "Incorrect order! You lose 1 coin!",
+            planFeedback: "No such order! You lose 1 coin!",
             coins: coins,
             planPathChosen: null, //failed to choose correct path
             planCurrentChoice: 3,
@@ -1626,7 +1629,7 @@ class ExptTask extends React.Component {
 
       setTimeout(
         function () {
-          this.playStateTwo();
+          this.playFix();
         }.bind(this),
         this.state.stateDur
       );
@@ -1636,6 +1639,35 @@ class ExptTask extends React.Component {
           this.lateResponse();
         }.bind(this),
         1
+      );
+    }
+  }
+
+  playFix() {
+    this.setState({
+      stateShown: fix,
+    });
+
+    if (this.state.stateNum === "Room 1") {
+      setTimeout(
+        function () {
+          this.playStateTwo();
+        }.bind(this),
+        this.state.fixDur
+      );
+    } else if (this.state.stateNum === "Room 2") {
+      setTimeout(
+        function () {
+          this.playStateThree();
+        }.bind(this),
+        this.state.fixDur
+      );
+    } else if (this.state.stateNum === "Room 3") {
+      setTimeout(
+        function () {
+          this.playOutcome();
+        }.bind(this),
+        this.state.fixDur
       );
     }
   }
@@ -1657,7 +1689,7 @@ class ExptTask extends React.Component {
 
     setTimeout(
       function () {
-        this.playStateThree();
+        this.playFix();
       }.bind(this),
       this.state.stateDur
     );
@@ -1680,7 +1712,7 @@ class ExptTask extends React.Component {
 
     setTimeout(
       function () {
-        this.playOutcome();
+        this.playFix();
       }.bind(this),
       this.state.stateDur
     );
@@ -1939,7 +1971,7 @@ class ExptTask extends React.Component {
 
   calBonus() {
     var coins = this.state.coins;
-    var bonus = (coins / (0.4 * this.state.trialTotal)) * 5;
+    var bonus = (coins / (0.4 * this.state.trialTotal)) * 4;
 
     // if you earn negative then no bonus at all?
     if (bonus < 0) {
@@ -2089,7 +2121,7 @@ class ExptTask extends React.Component {
                 You are now ready to start the main mission.
                 <br />
                 <br />
-                Remember: you can earn a bonus of up to £5 if you complete the
+                Remember: you can earn a bonus of up to £4 if you complete the
                 mission!
                 <br />
                 <br />

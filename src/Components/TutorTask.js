@@ -4,6 +4,7 @@ import { DATABASE_URL } from "./config";
 
 import shuttle1 from "./img/shuttle_green.png";
 import shuttle2 from "./img/shuttle_blue.png";
+import fix from "./img/fixation_white.png";
 
 import astrodude from "./img/astro_3.png";
 import counter from "./img/shuttle_red.png";
@@ -218,6 +219,7 @@ class TutorTask extends React.Component {
       stateShown: null,
       stateDur: 2000,
       outcomeDur: 2500,
+      fixDur: 250,
       stateHolder: [stateHolder1, stateHolder2],
 
       outcomePic: outcomePic,
@@ -334,6 +336,7 @@ class TutorTask extends React.Component {
       coin,
       stateHolder1,
       stateHolder2,
+      fix,
     ];
 
     imagesPreload.forEach((image) => {
@@ -801,7 +804,7 @@ class TutorTask extends React.Component {
           coins = coins - 1;
           this.setState({
             planCor: 0,
-            planFeedback: "Incorrect order! You lose 1 coin!",
+            planFeedback: "No such order! You lose 1 coin!",
             coins: coins,
             planPathChosen: null, //failed to choose correct path
             planCurrentChoice: 3,
@@ -1432,10 +1435,39 @@ class TutorTask extends React.Component {
 
     setTimeout(
       function () {
-        this.playStateTwo();
+        this.playFix();
       }.bind(this),
       this.state.stateDur
     );
+  }
+
+  playFix() {
+    this.setState({
+      stateShown: fix,
+    });
+
+    if (this.state.stateNum === "Room 1") {
+      setTimeout(
+        function () {
+          this.playStateTwo();
+        }.bind(this),
+        this.state.fixDur
+      );
+    } else if (this.state.stateNum === "Room 2") {
+      setTimeout(
+        function () {
+          this.playStateThree();
+        }.bind(this),
+        this.state.fixDur
+      );
+    } else if (this.state.stateNum === "Room 3") {
+      setTimeout(
+        function () {
+          this.playOutcome();
+        }.bind(this),
+        this.state.fixDur
+      );
+    }
   }
 
   playStateTwo() {
@@ -1454,7 +1486,7 @@ class TutorTask extends React.Component {
 
     setTimeout(
       function () {
-        this.playStateThree();
+        this.playFix();
       }.bind(this),
       this.state.stateDur
     );
@@ -1476,7 +1508,7 @@ class TutorTask extends React.Component {
 
     setTimeout(
       function () {
-        this.playOutcome();
+        this.playFix();
       }.bind(this),
       this.state.stateDur
     );

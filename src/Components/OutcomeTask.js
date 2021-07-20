@@ -901,7 +901,7 @@ class OutcomeTask extends React.Component {
                 earn,
                 <br />
                 and the higher your bonus will be, up to a maximum of{" "}
-                <strong>£5</strong>!
+                <strong>£4</strong>!
                 <br /> <br />
                 Before we begin, you will need to learn several things.
                 <br /> <br />
