@@ -2,38 +2,38 @@ import React from "react";
 import { withRouter } from "react-router-dom";
 import { DATABASE_URL } from "./config";
 
-import astrodude from "./img/astro_1.png";
-
-import shuttle1 from "./img/shuttle_green.png";
-import shuttle2 from "./img/shuttle_blue.png";
+// import astrodude from "./img/astro_1.png";
+//
+// import shuttle1 from "./img/shuttle_green.png";
+// import shuttle2 from "./img/shuttle_blue.png";
 
 import styles from "./style/taskStyle.module.css";
 
 /////////////////////////////////////////////////////////////////////
-function shuffle(array) {
-  var currentIndex = array.length,
-    temporaryValue,
-    randomIndex;
-
-  // While there remain elements to shuffle...
-  while (0 !== currentIndex) {
-    // Pick a remaining element...
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex -= 1;
-
-    // And swap it with the current element.
-    temporaryValue = array[currentIndex];
-    array[currentIndex] = array[randomIndex];
-    array[randomIndex] = temporaryValue;
-  }
-
-  return array;
-}
-
-/////////////////////////////////////////////////////////////////////
-var shuttle = [shuttle1, shuttle2];
-
-shuffle(shuttle);
+// function shuffle(array) {
+//   var currentIndex = array.length,
+//     temporaryValue,
+//     randomIndex;
+//
+//   // While there remain elements to shuffle...
+//   while (0 !== currentIndex) {
+//     // Pick a remaining element...
+//     randomIndex = Math.floor(Math.random() * currentIndex);
+//     currentIndex -= 1;
+//
+//     // And swap it with the current element.
+//     temporaryValue = array[currentIndex];
+//     array[currentIndex] = array[randomIndex];
+//     array[randomIndex] = temporaryValue;
+//   }
+//
+//   return array;
+// }
+//
+// /////////////////////////////////////////////////////////////////////
+// var shuttle = [shuttle1, shuttle2];
+//
+// shuffle(shuttle);
 
 /////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////
@@ -45,6 +45,7 @@ class EndPage extends React.Component {
     const date = this.props.location.state.date;
     const startTime = this.props.location.state.startTime;
     const bonus = this.props.location.state.bonus;
+    const img_astrodude1 = this.props.location.state.img_astrodude1;
 
     // This will change for the questionnaires going AFTER the main task
     this.state = {
@@ -54,7 +55,7 @@ class EndPage extends React.Component {
       instructScreenText: 1,
       instructScreen: true,
       feedback: [],
-      shuttle: shuttle,
+      img_astrodude1: img_astrodude1,
       placeholder:
         "Were the task instructions clear? Did you encounter any problems?",
       bonus: bonus,
@@ -301,7 +302,7 @@ class EndPage extends React.Component {
     return (
       <div className={styles.spacebg}>
         <span className={styles.astro1}>
-          <img src={astrodude} alt="astrodude" />
+          <img src={this.state.img_astrodude1} alt="astrodude" />
         </span>
         <div className={styles.textblock}>{text}</div>
       </div>

@@ -2,23 +2,6 @@ import React from "react";
 import { withRouter } from "react-router-dom";
 import { DATABASE_URL } from "./config";
 
-import state1 from "./states/baby.jpg";
-import state2 from "./states/backpack.jpg";
-import state3 from "./states/bicycle.jpg";
-import state4 from "./states/bowtie.jpg";
-import state5 from "./states/hourglass.jpg";
-import state6 from "./states/house.jpg";
-import state7 from "./states/lamp.jpg";
-import state8 from "./states/toothbrush.jpg";
-import state9 from "./states/zebra.jpg";
-import state10 from "./states/car.jpg";
-import state11 from "./states/cat.jpg";
-import state12 from "./states/cupcake.jpg";
-
-import astrodude from "./img/astro_1.png";
-import counter from "./img/shuttle_red.png";
-import coin from "./img/coin_small.png";
-
 import styles from "./style/taskStyle.module.css";
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -178,75 +161,10 @@ function flipZero(vect, vect2) {
 /////////////////////////////////////////////////////////////////////////////////
 
 var trialTotal = 9;
-// var outcomeWord = ["car", "cat", "cupcake"];
-// var outcomePic = [outcome1, outcome2, outcome3];
+
 var outcomeVal = [1, -1, 0];
 var outcomeIndx = [0, 1, 2];
 
-var stateWord = [
-  "baby",
-  "backpack",
-  "bicycle",
-  "bowtie",
-  "hourglass",
-  "house",
-  "lamp",
-  "toothbrush",
-  "zebra",
-  "car",
-  "cat",
-  "cupcake",
-];
-
-var statePic = [
-  state1,
-  state2,
-  state3,
-  state4,
-  state5,
-  state6,
-  state7,
-  state8,
-  state9,
-  state10,
-  state11,
-  state12,
-];
-
-shuffleSame(stateWord, statePic);
-
-stateWord = stateWord.filter(function (val) {
-  return val !== undefined;
-});
-statePic = statePic.filter(function (val) {
-  return val !== undefined;
-});
-
-var outcomePic = [statePic[0], statePic[1], statePic[2]];
-var outcomeWord = [stateWord[0], stateWord[1], stateWord[2]];
-
-var roomPic = [
-  statePic[3],
-  statePic[4],
-  statePic[5],
-  statePic[6],
-  statePic[7],
-  statePic[8],
-  statePic[9],
-  statePic[10],
-  statePic[11],
-];
-var roomWord = [
-  stateWord[3],
-  stateWord[4],
-  stateWord[5],
-  stateWord[6],
-  stateWord[7],
-  stateWord[8],
-  stateWord[9],
-  stateWord[10],
-  stateWord[11],
-];
 /////////////////////////////////////////////////////////////////////////////////
 // Plan the outcome memory test here
 
@@ -286,6 +204,23 @@ class OutcomeTask extends React.Component {
     const date = this.props.location.state.date;
     const startTime = this.props.location.state.startTime;
 
+    const shuttlePic = this.props.location.state.shuttlePic;
+    const shuttleWord = this.props.location.state.shuttleWord;
+    const img_fix = this.props.location.state.img_fix;
+    const img_astrodude1 = this.props.location.state.img_astrodude1;
+    const img_astrodude2 = this.props.location.state.img_astrodude2;
+    const img_astrodude3 = this.props.location.state.img_astrodude3;
+    const img_counter = this.props.location.state.img_counter;
+    const img_coinSmall = this.props.location.state.img_coinSmall;
+    const img_coin = this.props.location.state.img_coin;
+    const img_pathInstruct1 = this.props.location.state.img_pathInstruct1;
+    const stateHolder = this.props.location.state.stateHolder;
+
+    const statePic = this.props.location.state.statePic;
+    const stateWord = this.props.location.state.stateWord;
+    const outcomePic = this.props.location.state.outcomePic;
+    const outcomeWord = this.props.location.state.outcomeWord;
+
     var currentDate = new Date(); // maybe change to local
     var timeString = currentDate.toTimeString();
 
@@ -300,13 +235,24 @@ class OutcomeTask extends React.Component {
       taskSession: "OutcomeTask",
       instructScreenText: 1,
 
+      shuttlePic: shuttlePic,
+      shuttleWord: shuttleWord,
+      img_fix: img_fix,
+      img_astrodude1: img_astrodude1,
+      img_astrodude2: img_astrodude2,
+      img_astrodude3: img_astrodude3,
+      img_counter: img_counter,
+      img_coinSmall: img_coinSmall,
+      img_coin: img_coin,
+      img_pathInstruct1: img_pathInstruct1,
+      stateHolder: stateHolder,
+      statePic: statePic,
+      stateWord: stateWord,
       outcomePic: outcomePic,
       outcomeWord: outcomeWord,
+
       outcomeVal: outcomeVal, // [1, -1, 0];
       outcomeIndx: outcomeIndx,
-
-      roomPic: roomPic,
-      roomWord: roomWord,
 
       outcomeIndxLog: outcomeIndxLog,
       outcomeMultLog: outcomeMultLog,
@@ -326,12 +272,6 @@ class OutcomeTask extends React.Component {
       trialKeypress: 0,
       trialCorLog: [],
       trialScore: 0,
-
-      // trialPicIndx: null,
-      // trialPicWord: null,
-      // trialPicNum: null,
-      // trialPicValue: null,
-      // trialPicAns: null,
       trialCor: null,
 
       instructScreen: true,
@@ -560,7 +500,11 @@ class OutcomeTask extends React.Component {
     let text = (
       <div className={styles.main}>
         <div className={styles.counter}>
-          <img className={styles.counter} src={counter} alt="counter" />
+          <img
+            className={styles.counter}
+            src={this.state.img_counter}
+            alt="counter"
+          />
           {this.state.trialNum}/{this.state.trialTotal}
         </div>
         <p>
@@ -578,11 +522,23 @@ class OutcomeTask extends React.Component {
           </span>
           <span className={styles.centerTwo}>
             <br />[<strong>1</strong>]: {ansOne}{" "}
-            <img className={styles.coin} src={coin} alt="coin" />
+            <img
+              className={styles.coin}
+              src={this.state.img_coinSmall}
+              alt="coin"
+            />
             <br />[<strong>2</strong>]: {ansTwo}{" "}
-            <img className={styles.coin} src={coin} alt="coin" />
+            <img
+              className={styles.coin}
+              src={this.state.img_coinSmall}
+              alt="coin"
+            />
             <br />[<strong>3</strong>]: {ansThree}{" "}
-            <img className={styles.coin} src={coin} alt="coin" />
+            <img
+              className={styles.coin}
+              src={this.state.img_coinSmall}
+              alt="coin"
+            />
           </span>
           <span className={styles.centerTwo}>
             [Press the correct number key]
@@ -829,13 +785,24 @@ class OutcomeTask extends React.Component {
         date: this.state.date,
         startTime: this.state.startTime,
 
+        shuttlePic: this.state.shuttlePic,
+        shuttleWord: this.state.shuttleWord,
+        img_fix: this.state.img_fix,
+        img_astrodude1: this.state.img_astrodude1,
+        img_astrodude2: this.state.img_astrodude2,
+        img_astrodude3: this.state.img_astrodude3,
+        img_counter: this.state.img_counter,
+        img_coinSmall: this.state.img_coinSmall,
+        img_coin: this.state.img_coin,
+        img_pathInstruct1: this.state.img_pathInstruct1,
+        stateHolder: this.state.stateHolder,
+
+        statePic: this.state.statePic,
+        stateWord: this.state.stateWord,
         outcomePic: this.state.outcomePic,
         outcomeWord: this.state.outcomeWord,
         outcomeVal: this.state.outcomeVal,
         outcomeIndx: this.state.outcomeIndx,
-
-        roomPic: this.state.roomPic,
-        roomWord: this.state.roomWord,
       },
     });
   }
@@ -843,19 +810,21 @@ class OutcomeTask extends React.Component {
   componentDidMount() {
     window.scrollTo(0, 0);
     //send the outcomeTask conditions?
-    let imagesPreload = [statePic, outcomePic];
-
-    imagesPreload.forEach((image) => {
-      const newImage = new Image();
-      newImage.src = image;
-      window[image] = newImage;
-    });
 
     setTimeout(
       function () {
         this.condSave();
       }.bind(this),
       0
+    );
+
+    setTimeout(
+      function () {
+        this.setState({
+          mounted: 1,
+        });
+      }.bind(this),
+      5000
     );
   }
 
@@ -968,7 +937,13 @@ class OutcomeTask extends React.Component {
                 This picture is valuable and we can exchange it for coins.
                 <br /> <br />
                 In other words, if we find 3 {this.state.outcomeWord[0]}s, we
-                earn 3 <img className={styles.coin} src={coin} alt="coin" />.
+                earn 3{" "}
+                <img
+                  className={styles.coin}
+                  src={this.state.img_coinSmall}
+                  alt="coin"
+                />
+                .
                 <br /> <br />
                 <span className={styles.centerTwo}>
                   [<strong>← BACK</strong>] [<strong>NEXT →</strong>]
@@ -995,7 +970,13 @@ class OutcomeTask extends React.Component {
                 This picture is undesirable, and we will be fined coins.
                 <br /> <br />
                 In other words, if we find 2 {this.state.outcomeWord[1]}s, we
-                lose 2 <img className={styles.coin} src={coin} alt="coin" />.
+                lose 2{" "}
+                <img
+                  className={styles.coin}
+                  src={this.state.img_coinSmall}
+                  alt="coin"
+                />
+                .
                 <br /> <br />
                 <span className={styles.centerTwo}>
                   [<strong>← BACK</strong>] [<strong>NEXT →</strong>]
@@ -1024,7 +1005,12 @@ class OutcomeTask extends React.Component {
                 <br /> <br />
                 In other words, even if we find 5 {this.state.outcomeWord[2]}s,
                 we earn/lose 0{" "}
-                <img className={styles.coin} src={coin} alt="coin" />.
+                <img
+                  className={styles.coin}
+                  src={this.state.img_coinSmall}
+                  alt="coin"
+                />
+                .
                 <br /> <br />
                 <span className={styles.centerTwo}>
                   [<strong>← BACK</strong>] [<strong>NEXT →</strong>]
@@ -1092,7 +1078,12 @@ class OutcomeTask extends React.Component {
                     alt="outcome1"
                   />
                   &nbsp;&nbsp; = &nbsp;+{" "}
-                  <img className={styles.coin} src={coin} alt="coin" /> (gain)
+                  <img
+                    className={styles.coin}
+                    src={this.state.img_coinSmall}
+                    alt="coin"
+                  />{" "}
+                  (gain)
                   <br />
                   <img
                     className={styles.stateSmall}
@@ -1100,7 +1091,12 @@ class OutcomeTask extends React.Component {
                     alt="outcome2"
                   />
                   &nbsp;&nbsp; = &nbsp;-{" "}
-                  <img className={styles.coin} src={coin} alt="coin" /> (lose)
+                  <img
+                    className={styles.coin}
+                    src={this.state.img_coinSmall}
+                    alt="coin"
+                  />{" "}
+                  (lose)
                   <br />
                   <img
                     className={styles.stateSmall}
@@ -1172,7 +1168,7 @@ class OutcomeTask extends React.Component {
     return (
       <div className={styles.spacebg}>
         <span className={styles.astro1}>
-          <img src={astrodude} alt="astrodude" />
+          <img src={this.state.img_astrodude1} alt="astrodude" />
         </span>
         <div className={styles.textblock}>{text}</div>
       </div>

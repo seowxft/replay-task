@@ -2,12 +2,6 @@ import React from "react";
 import { withRouter } from "react-router-dom";
 import { DATABASE_URL } from "./config";
 
-import astrodude from "./img/astro_2.png";
-import counter from "./img/shuttle_red.png";
-import fix from "./img/fixation_white.png";
-
-import pathInstruct1 from "./img/PathInstruct1.png";
-
 import styles from "./style/taskStyle.module.css";
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -32,43 +26,6 @@ function shuffle(array) {
 
   return array;
 }
-//
-// //shuffling 2 or more arrays in the same order
-// var isArray =
-//   Array.isArray ||
-//   function (value) {
-//     return {}.toString.call(value) !== "[object Array]";
-//   };
-//
-// function shuffleSame() {
-//   var arrLength = 0;
-//   var argsLength = arguments.length;
-//   var rnd, tmp, argsIndex;
-//
-//   for (var index = 0; index < argsLength; index += 1) {
-//     if (!isArray(arguments[index])) {
-//       throw new TypeError("Argument is not an array.");
-//     }
-//
-//     if (index === 0) {
-//       arrLength = arguments[0].length;
-//     }
-//
-//     if (arrLength !== arguments[index].length) {
-//       throw new RangeError("Array lengths do not match.");
-//     }
-//   }
-//
-//   while (arrLength) {
-//     rnd = Math.round(Math.random() * arrLength);
-//     arrLength -= 1;
-//     for (argsIndex = 0; argsIndex < argsLength; argsIndex += 1) {
-//       tmp = arguments[argsIndex][arrLength];
-//       arguments[argsIndex][arrLength] = arguments[argsIndex][rnd];
-//       arguments[argsIndex][rnd] = tmp;
-//     }
-//   }
-// }
 
 // vector of random numbers within a range
 function randVec(num, min, max) {
@@ -82,11 +39,6 @@ function randVec(num, min, max) {
   }
   return arr;
 }
-
-// function randNumExcept(min, max, except) {
-//   var num = Math.floor(Math.random() * (max - min + 1)) + min;
-//   return num === except ? randNumExcept(min, max, except) : num;
-// }
 
 function getRandomInt(min, max) {
   const minimum = Math.ceil(min);
@@ -116,40 +68,8 @@ function randNumExceptArray(min, max, excludeArrayNumbers) {
 var pathForceExplore = [1, 2, 3, 1, 2, 3];
 var trialTotal = pathForceExplore.length;
 var pathTotal = trialTotal / 3;
-// var statePic = [
-//   state1,
-//   state2,
-//   state3,
-//   state4,
-//   state5,
-//   state6,
-//   state7,
-//   state8,
-//   state9,
-// ];
-//
-// var stateWord = [
-//   "baby",
-//   "backpack",
-//   "bicycle",
-//   "bowtie",
-//   "hourglass",
-//   "house",
-//   "lamp",
-//   "toothbrush",
-//   "zebra",
-// ];
-//
+
 var stateIndx = [0, 1, 2, 3, 4, 5, 6, 7, 8];
-//
-// shuffleSame(stateWord, statePic);
-//
-// stateWord = stateWord.filter(function (val) {
-//   return val !== undefined;
-// });
-// statePic = statePic.filter(function (val) {
-//   return val !== undefined;
-// });
 
 var pathOne = [0, 1, 2];
 var pathTwo = [3, 4, 5];
@@ -196,13 +116,23 @@ class PathTask extends React.Component {
     const date = this.props.location.state.date;
     const startTime = this.props.location.state.startTime;
 
+    const shuttlePic = this.props.location.state.shuttlePic;
+    const shuttleWord = this.props.location.state.shuttleWord;
+    const img_fix = this.props.location.state.img_fix;
+    const img_astrodude1 = this.props.location.state.img_astrodude1;
+    const img_astrodude2 = this.props.location.state.img_astrodude2;
+    const img_astrodude3 = this.props.location.state.img_astrodude3;
+    const img_counter = this.props.location.state.img_counter;
+    const img_coinSmall = this.props.location.state.img_coinSmall;
+    const img_coin = this.props.location.state.img_coin;
+    const img_pathInstruct1 = this.props.location.state.img_pathInstruct1;
+    const stateHolder = this.props.location.state.stateHolder;
+    const statePic = this.props.location.state.statePic;
+    const stateWord = this.props.location.state.stateWord;
     const outcomePic = this.props.location.state.outcomePic;
     const outcomeWord = this.props.location.state.outcomeWord;
     const outcomeVal = this.props.location.state.outcomeVal;
     const outcomeIndx = this.props.location.state.outcomeIndx;
-
-    const roomPic = this.props.location.state.roomPic;
-    const roomWord = this.props.location.state.roomWord;
 
     var currentDate = new Date(); // maybe change to local
     var timeString = currentDate.toTimeString();
@@ -219,8 +149,21 @@ class PathTask extends React.Component {
       instructScreenText: 1,
       taskSection: "explore", //vs test
 
+      shuttlePic: shuttlePic,
+      shuttleWord: shuttleWord,
+      img_fix: img_fix,
+      img_astrodude1: img_astrodude1,
+      img_astrodude2: img_astrodude2,
+      img_astrodude3: img_astrodude3,
+      img_counter: img_counter,
+      img_coinSmall: img_coinSmall,
+      img_coin: img_coin,
+      img_pathInstruct1: img_pathInstruct1,
+      stateHolder: stateHolder,
+
       outcomePic: outcomePic,
       outcomeWord: outcomeWord,
+
       outcomeVal: outcomeVal,
       outcomeIndx: outcomeIndx,
 
@@ -228,8 +171,8 @@ class PathTask extends React.Component {
       taskScreen: false,
       testScreen: false,
 
-      stateWord: roomWord,
-      statePic: roomPic,
+      stateWord: stateWord,
+      statePic: statePic,
       stateIndx: stateIndx,
       stateNum: 0,
       stateShown: null,
@@ -554,7 +497,11 @@ class PathTask extends React.Component {
     let text = (
       <div className={styles.main}>
         <div className={styles.counter}>
-          <img className={styles.counter} src={counter} alt="counter" />
+          <img
+            className={styles.counter}
+            src={this.state.img_counter}
+            alt="counter"
+          />
           {this.state.trialNum}/{this.state.trialTotal}
         </div>
         <p>
@@ -612,7 +559,7 @@ class PathTask extends React.Component {
 
   playFix() {
     this.setState({
-      stateShown: fix,
+      stateShown: this.state.img_fix,
     });
 
     if (this.state.stateNum === 1) {
@@ -847,7 +794,7 @@ class PathTask extends React.Component {
 
   ///////////// test their memory
   testStart(trialTestNum, trialPart) {
-    var whichPath = this.state.trialtestPath[trialTestNum - 1];
+    // var whichPath = this.state.trialtestPath[trialTestNum - 1];
     var whichShip = this.state.whichShip;
     var testAns1 = this.state.testAns1[trialTestNum - 1];
     var testAns2 = this.state.testAns2[trialTestNum - 1];
@@ -974,7 +921,11 @@ class PathTask extends React.Component {
     let text1 = (
       <div className={styles.main}>
         <div className={styles.counter}>
-          <img className={styles.counter} src={counter} alt="counter" />
+          <img
+            className={styles.counter}
+            src={this.state.img_counter}
+            alt="counter"
+          />
           {this.state.trialTestNum}/{this.state.trialTestTotal}
         </div>
         <p>
@@ -999,7 +950,11 @@ class PathTask extends React.Component {
     let text2 = (
       <div className={styles.main}>
         <div className={styles.counter}>
-          <img className={styles.counter} src={counter} alt="counter" />
+          <img
+            className={styles.counter}
+            src={this.state.img_counter}
+            alt="counter"
+          />
           {this.state.trialTestNum}/{this.state.trialTestTotal}
         </div>
         <p>
@@ -1033,7 +988,11 @@ class PathTask extends React.Component {
     let text3 = (
       <div className={styles.main}>
         <div className={styles.counter}>
-          <img className={styles.counter} src={counter} alt="counter" />
+          <img
+            className={styles.counter}
+            src={this.state.img_counter}
+            alt="counter"
+          />
           {this.state.trialTestNum}/{this.state.trialTestTotal}
         </div>
         <p>
@@ -1350,6 +1309,19 @@ class PathTask extends React.Component {
         pathOne: this.state.pathOne,
         pathTwo: this.state.pathTwo,
         pathThree: this.state.pathThree,
+
+        shuttlePic: this.state.shuttlePic,
+        shuttleWord: this.state.shuttleWord,
+
+        img_fix: this.state.img_fix,
+        img_astrodude1: this.state.img_astrodude1,
+        img_astrodude2: this.state.img_astrodude2,
+        img_astrodude3: this.state.img_astrodude3,
+        img_counter: this.state.img_counter,
+        img_coinSmall: this.state.img_coinSmall,
+        img_coin: this.state.img_coin,
+        img_pathInstruct1: this.state.img_pathInstruct1,
+        stateHolder: this.state.stateHolder,
       },
     });
   }
@@ -1421,26 +1393,20 @@ class PathTask extends React.Component {
     window.scrollTo(0, 0);
     //send the outcomeTask conditions?
 
-    let imagesPreload = [
-      this.state.statePic,
-      this.state.outcomePic,
-      astrodude,
-      pathInstruct1,
-      counter,
-      fix,
-    ];
-
-    imagesPreload.forEach((image) => {
-      const newImage = new Image();
-      newImage.src = image;
-      window[image] = newImage;
-    });
-
     setTimeout(
       function () {
         this.condSave();
       }.bind(this),
       0
+    );
+
+    setTimeout(
+      function () {
+        this.setState({
+          mounted: 1,
+        });
+      }.bind(this),
+      5000
     );
   }
 
@@ -1476,7 +1442,7 @@ class PathTask extends React.Component {
                 <span className={styles.centerTwo}>
                   <img
                     className={styles.pathInstruct}
-                    src={pathInstruct1}
+                    src={this.state.img_pathInstruct1}
                     alt="pathInstruct1"
                   />
                 </span>
@@ -1665,7 +1631,7 @@ class PathTask extends React.Component {
                   <div className={styles.counter}>
                     <img
                       className={styles.counter}
-                      src={counter}
+                      src={this.state.img_counter}
                       alt="counter"
                     />
                     {this.state.trialNum}/{this.state.trialTotal}
@@ -1764,7 +1730,7 @@ class PathTask extends React.Component {
     return (
       <div className={styles.spacebg}>
         <span className={styles.astro2}>
-          <img src={astrodude} alt="astrodude" />
+          <img src={this.state.img_astrodude2} alt="astrodude" />
         </span>
         <div className={styles.textblock}>{text}</div>
       </div>

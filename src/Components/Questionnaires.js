@@ -3,7 +3,7 @@ import * as Quest from "survey-react";
 import "../../node_modules/survey-react/survey.css";
 import { DATABASE_URL } from "./config";
 
-import astrodude from "./img/astro_1.png";
+// import astrodude from "./img/astro_1.png";
 
 import styles from "./style/taskStyle.module.css";
 
@@ -37,6 +37,7 @@ class Questionnaires extends Component {
     const date = this.props.location.state.date;
     const startTime = this.props.location.state.startTime;
     const bonus = this.props.location.state.bonus;
+    const img_astrodude1 = this.props.location.state.img_astrodude1;
 
     var currentDate = new Date(); // maybe change to local
     var timeString = currentDate.toTimeString();
@@ -58,6 +59,7 @@ class Questionnaires extends Component {
       qnText4: [],
       qnText5: [],
       bonus: bonus,
+      img_astrodude1: img_astrodude1,
     };
   }
 
@@ -161,6 +163,7 @@ class Questionnaires extends Component {
         date: this.state.date,
         startTime: this.state.startTime,
         bonus: this.state.bonus,
+        img_astrodude1: this.state.img_astrodude1,
       },
     });
   }
@@ -519,7 +522,7 @@ class Questionnaires extends Component {
       text = (
         <div className={styles.spacebg}>
           <span className={styles.astro1}>
-            <img src={astrodude} alt="astrodude" />
+            <img src={this.state.img_astrodude1} alt="astrodude" />
           </span>
           <div className={styles.textblock}>
             <div className={styles.main}>

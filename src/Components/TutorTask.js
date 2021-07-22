@@ -2,17 +2,6 @@ import React from "react";
 import { withRouter } from "react-router-dom";
 import { DATABASE_URL } from "./config";
 
-import shuttle1 from "./img/shuttle_green.png";
-import shuttle2 from "./img/shuttle_blue.png";
-import fix from "./img/fixation_white.png";
-
-import astrodude from "./img/astro_3.png";
-import counter from "./img/shuttle_red.png";
-import coin from "./img/coin_small.png";
-
-import stateHolder1 from "./img/quest_holder1.png";
-import stateHolder2 from "./img/quest_holder2.png";
-
 import styles from "./style/taskStyle.module.css";
 
 // 13/07/21: This version has a planning check for all free choice trials
@@ -39,42 +28,42 @@ function shuffle(array) {
 
   return array;
 }
-
-var isArray =
-  Array.isArray ||
-  function (value) {
-    return {}.toString.call(value) !== "[object Array]";
-  };
-
-function shuffleSame() {
-  var arrLength = 0;
-  var argsLength = arguments.length;
-  var rnd, tmp, argsIndex;
-
-  for (var index = 0; index < argsLength; index += 1) {
-    if (!isArray(arguments[index])) {
-      throw new TypeError("Argument is not an array.");
-    }
-
-    if (index === 0) {
-      arrLength = arguments[0].length;
-    }
-
-    if (arrLength !== arguments[index].length) {
-      throw new RangeError("Array lengths do not match.");
-    }
-  }
-
-  while (arrLength) {
-    rnd = Math.round(Math.random() * arrLength);
-    arrLength -= 1;
-    for (argsIndex = 0; argsIndex < argsLength; argsIndex += 1) {
-      tmp = arguments[argsIndex][arrLength];
-      arguments[argsIndex][arrLength] = arguments[argsIndex][rnd];
-      arguments[argsIndex][rnd] = tmp;
-    }
-  }
-}
+//
+// var isArray =
+//   Array.isArray ||
+//   function (value) {
+//     return {}.toString.call(value) !== "[object Array]";
+//   };
+//
+// function shuffleSame() {
+//   var arrLength = 0;
+//   var argsLength = arguments.length;
+//   var rnd, tmp, argsIndex;
+//
+//   for (var index = 0; index < argsLength; index += 1) {
+//     if (!isArray(arguments[index])) {
+//       throw new TypeError("Argument is not an array.");
+//     }
+//
+//     if (index === 0) {
+//       arrLength = arguments[0].length;
+//     }
+//
+//     if (arrLength !== arguments[index].length) {
+//       throw new RangeError("Array lengths do not match.");
+//     }
+//   }
+//
+//   while (arrLength) {
+//     rnd = Math.round(Math.random() * arrLength);
+//     arrLength -= 1;
+//     for (argsIndex = 0; argsIndex < argsLength; argsIndex += 1) {
+//       tmp = arguments[argsIndex][arrLength];
+//       arguments[argsIndex][arrLength] = arguments[argsIndex][rnd];
+//       arguments[argsIndex][rnd] = tmp;
+//     }
+//   }
+// }
 
 function getOutPos1() {
   var num = Math.random();
@@ -120,21 +109,6 @@ function inArray(needle, haystack) {
 }
 
 //////////////////////////////////////////////////////////////////////////////
-//random the tutorial struct_1
-// var randNum = "struct_" + getRandomInt(0, 2);
-// var tutStruct = Struct[randNum];
-
-var shuttle = [shuttle1, shuttle2];
-var shuttleWord = ["green", "blue"];
-shuffleSame(shuttle, shuttleWord);
-
-shuttle = shuttle.filter(function (val) {
-  return val !== undefined;
-});
-
-shuttleWord = shuttleWord.filter(function (val) {
-  return val !== undefined;
-});
 
 var shuttleIndex = [0, 1]; //0 - safe, 1 - risky
 var cueOutPosIndx = [0, 1, 2]; //0-- top, 1 - middle, 2 - bottom
@@ -144,21 +118,6 @@ var paths = [1, 2, 3];
 var forcedPaths = [1, 2, 3];
 shuffle(forcedPaths);
 
-//////////////////////////////////
-// Variables for tutorial
-//tutStruct 0-2: values, 3-5: probability, 6-8: EVs, 9: risky EV, 10: safe - risky EV, 11: optimal answer (1:safe, 2: risky)
-// const StructToRender = getMarkdown(1);
-// var tutSafePathOutcome = StructToRender[0];
-// var tutRiskyPathOutcome1 = StructToRender[1];
-// var tutRiskyPathOutcome2 = StructToRender[2];
-//
-// var tutSafePathProb = StructToRender[3];
-// var tutRiskyPathProb1 = StructToRender[4];
-// var tutRiskyPathProb2 = StructToRender[5];
-//
-// var tutOptChoice = StructToRender[11];
-
-// var StructToRender = "";
 /////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////
 // REACT COMPONENT START
@@ -170,13 +129,26 @@ class TutorTask extends React.Component {
     const date = this.props.location.state.date;
     const startTime = this.props.location.state.startTime;
 
+    const shuttlePic = this.props.location.state.shuttlePic;
+    const shuttleWord = this.props.location.state.shuttleWord;
+    const img_fix = this.props.location.state.img_fix;
+    const img_astrodude1 = this.props.location.state.img_astrodude1;
+    const img_astrodude2 = this.props.location.state.img_astrodude2;
+    const img_astrodude3 = this.props.location.state.img_astrodude3;
+    const img_counter = this.props.location.state.img_counter;
+    const img_coinSmall = this.props.location.state.img_coinSmall;
+    const img_coin = this.props.location.state.img_coin;
+    const img_pathInstruct1 = this.props.location.state.img_pathInstruct1;
+    const stateHolder = this.props.location.state.stateHolder;
+
+    const statePic = this.props.location.state.statePic;
+    const stateWord = this.props.location.state.stateWord;
+
     const outcomePic = this.props.location.state.outcomePic;
     const outcomeWord = this.props.location.state.outcomeWord;
-    const outcomeVal = this.props.location.state.outcomeVal; //[1, -1, 0];
-    const outcomeIndx = this.props.location.state.outcomeIndx; // [0, 1, 2];
+    const outcomeVal = this.props.location.state.outcomeVal;
+    const outcomeIndx = this.props.location.state.outcomeIndx;
 
-    const stateWord = this.props.location.state.stateWord;
-    const statePic = this.props.location.state.statePic;
     const stateIndx = this.props.location.state.stateIndx; //[0, 1, 2, 3, 4, 5, 6, 7, 8];
 
     const pathOne = this.props.location.state.pathOne; //[0, 1, 2];
@@ -198,7 +170,16 @@ class TutorTask extends React.Component {
       taskSession: "TutorTask",
       instructScreenText: 1,
 
-      shuttle: shuttle,
+      img_fix: img_fix,
+      img_astrodude1: img_astrodude1,
+      img_astrodude2: img_astrodude2,
+      img_astrodude3: img_astrodude3,
+      img_counter: img_counter,
+      img_coinSmall: img_coinSmall,
+      img_coin: img_coin,
+      img_pathInstruct1: img_pathInstruct1,
+
+      shuttlePic: shuttlePic,
       shuttleWord: shuttleWord,
       instructScreen: true,
       taskScreen: false,
@@ -220,8 +201,8 @@ class TutorTask extends React.Component {
       stateDur: 2000,
       outcomeDur: 2500,
       fixDur: 250,
-      stateHolder: [stateHolder1, stateHolder2],
 
+      stateHolder: stateHolder,
       outcomePic: outcomePic,
       outcomeWord: outcomeWord,
       outcomeVal: outcomeVal,
@@ -245,15 +226,6 @@ class TutorTask extends React.Component {
       pathThree: pathThree,
       pathRoute: [],
       forcedPaths: forcedPaths,
-
-      // tutSafePathOutcome: tutSafePathOutcome,
-      // tutRiskyPathOutcome1: tutRiskyPathOutcome1,
-      // tutRiskyPathOutcome2: tutRiskyPathOutcome2,
-      //
-      // tutSafePathProb: tutSafePathProb,
-      // tutRiskyPathProb1: tutRiskyPathProb1,
-      // tutRiskyPathProb2: tutRiskyPathProb2,
-      // tutOptChoice: tutOptChoice,
 
       tutOutcomeValue: null,
       tutForcedChoiceText1: [],
@@ -280,6 +252,9 @@ class TutorTask extends React.Component {
 
   componentDidMount = () => {
     window.scrollTo(0, 0);
+
+    // Variables for tutorial
+    //tutStruct 0-2: values, 3-5: probability, 6-8: EVs, 9: risky EV, 10: safe - risky EV, 11: optimal answer (1:safe, 2: risky)
 
     var randNum = "struct_" + getRandomInt(1, 5);
     var StructToRender = require("./tutorialStruct/" + randNum + ".json");
@@ -326,31 +301,21 @@ class TutorTask extends React.Component {
       tutPlanChoice: tutPlanChoice,
     });
 
-    let imagesPreload = [
-      this.state.statePic,
-      this.state.outcomePic,
-      shuttle1,
-      shuttle2,
-      astrodude,
-      counter,
-      coin,
-      stateHolder1,
-      stateHolder2,
-      fix,
-    ];
-
-    imagesPreload.forEach((image) => {
-      const newImage = new Image();
-      newImage.src = image;
-      window[image] = newImage;
-    });
-
     //send the outcomeTask conditions?
     setTimeout(
       function () {
         this.condSave();
       }.bind(this),
       0
+    );
+
+    setTimeout(
+      function () {
+        this.setState({
+          mounted: 1,
+        });
+      }.bind(this),
+      5000
     );
   };
 
@@ -825,11 +790,19 @@ class TutorTask extends React.Component {
     let text = (
       <div className={styles.main}>
         <div className={styles.counter}>
-          <img className={styles.counter} src={counter} alt="counter" />
+          <img
+            className={styles.counter}
+            src={this.state.img_counter}
+            alt="counter"
+          />
           {this.state.trialNum}/{this.state.trialTotal}
         </div>
         <div className={styles.coins}>
-          <img className={styles.counter} src={coin} alt="coin" />
+          <img
+            className={styles.counter}
+            src={this.state.img_coin}
+            alt="coin"
+          />
           {this.state.coins}
         </div>
         <p>
@@ -1063,8 +1036,8 @@ class TutorTask extends React.Component {
       Prob2 = tutRiskyPathProb1 * 100 + "%/" + tutRiskyPathProb2 * 100 + "%";
 
       pathProbBoth = [Prob1, Prob2];
-      Shuttle1 = this.state.shuttle[0];
-      Shuttle2 = this.state.shuttle[1];
+      Shuttle1 = this.state.shuttlePic[0];
+      Shuttle2 = this.state.shuttlePic[1];
       ShuttlePicWord = [this.state.shuttleWord[0], this.state.shuttleWord[1]];
       Shuttle1Word = this.state.stateWord[SafePathShuttlePic];
       Shuttle2Word =
@@ -1093,8 +1066,8 @@ class TutorTask extends React.Component {
       Prob2 = tutSafePathProb * 100 + "%";
       pathProbBoth = [Prob1, Prob2];
 
-      Shuttle1 = this.state.shuttle[1];
-      Shuttle2 = this.state.shuttle[0];
+      Shuttle1 = this.state.shuttlePic[1];
+      Shuttle2 = this.state.shuttlePic[0];
 
       ShuttlePicWord = [this.state.shuttleWord[1], this.state.shuttleWord[0]];
       Shuttle1Word =
@@ -1324,11 +1297,19 @@ class TutorTask extends React.Component {
     let text = (
       <div className={styles.main}>
         <div className={styles.counter}>
-          <img className={styles.counter} src={counter} alt="counter" />
+          <img
+            className={styles.counter}
+            src={this.state.img_counter}
+            alt="counter"
+          />
           {this.state.trialNum}/{this.state.trialTotal}
         </div>
         <div className={styles.coins}>
-          <img className={styles.counter} src={coin} alt="coin" />
+          <img
+            className={styles.counter}
+            src={this.state.img_coin}
+            alt="coin"
+          />
           {this.state.coins}
         </div>
         <p>
@@ -1443,7 +1424,7 @@ class TutorTask extends React.Component {
 
   playFix() {
     this.setState({
-      stateShown: fix,
+      stateShown: this.state.img_fix,
     });
 
     if (this.state.stateNum === "Room 1") {
@@ -1743,6 +1724,19 @@ class TutorTask extends React.Component {
         pathOne: this.state.pathOne,
         pathTwo: this.state.pathTwo,
         pathThree: this.state.pathThree,
+
+        shuttlePic: this.state.shuttlePic,
+        shuttleWord: this.state.shuttleWord,
+
+        img_fix: this.state.img_fix,
+        img_astrodude1: this.state.img_astrodude1,
+        img_astrodude2: this.state.img_astrodude2,
+        img_astrodude3: this.state.img_astrodude3,
+        img_counter: this.state.img_counter,
+        img_coinSmall: this.state.img_coinSmall,
+        img_coin: this.state.img_coin,
+        img_pathInstruct1: this.state.img_pathInstruct1,
+        stateHolder: this.state.stateHolder,
       },
     });
   }
@@ -1870,7 +1864,7 @@ class TutorTask extends React.Component {
                     <br />
                     <img
                       className={styles.shuttle}
-                      src={this.state.shuttle[0]}
+                      src={this.state.shuttlePic[0]}
                       alt="shuttle1"
                     />
                   </span>
@@ -1880,7 +1874,7 @@ class TutorTask extends React.Component {
                     <br /> <br />
                     <img
                       className={styles.shuttle}
-                      src={this.state.shuttle[1]}
+                      src={this.state.shuttlePic[1]}
                       alt="shuttle2"
                     />
                   </span>
@@ -1926,7 +1920,7 @@ class TutorTask extends React.Component {
                     <br /> {this.state.stateWord[0]} <br />
                     <img
                       className={styles.shuttle}
-                      src={this.state.shuttle[0]}
+                      src={this.state.shuttlePic[0]}
                       alt="shuttle1"
                     />
                   </span>
@@ -1937,7 +1931,7 @@ class TutorTask extends React.Component {
                     <br />
                     <img
                       className={styles.shuttle}
-                      src={this.state.shuttle[1]}
+                      src={this.state.shuttlePic[1]}
                       alt="shuttle2"
                     />
                   </span>
@@ -2032,7 +2026,7 @@ class TutorTask extends React.Component {
                     <br /> {this.state.stateWord[0]} <br />
                     <img
                       className={styles.shuttle}
-                      src={this.state.shuttle[0]}
+                      src={this.state.shuttlePic[0]}
                       alt="shuttle1"
                     />
                   </span>
@@ -2043,7 +2037,7 @@ class TutorTask extends React.Component {
                     <br />
                     <img
                       className={styles.shuttle}
-                      src={this.state.shuttle[1]}
+                      src={this.state.shuttlePic[1]}
                       alt="shuttle2"
                     />
                   </span>
@@ -2081,7 +2075,7 @@ class TutorTask extends React.Component {
                     <br /> {this.state.stateWord[0]} <br />
                     <img
                       className={styles.shuttle}
-                      src={this.state.shuttle[0]}
+                      src={this.state.shuttlePic[0]}
                       alt="shuttle1"
                     />
                   </span>
@@ -2092,7 +2086,7 @@ class TutorTask extends React.Component {
                     <br />
                     <img
                       className={styles.shuttle}
-                      src={this.state.shuttle[1]}
+                      src={this.state.shuttlePic[1]}
                       alt="shuttle2"
                     />
                   </span>
@@ -2163,7 +2157,7 @@ class TutorTask extends React.Component {
                     <br /> {this.state.stateWord[0]} <br />
                     <img
                       className={styles.shuttle}
-                      src={this.state.shuttle[0]}
+                      src={this.state.shuttlePic[0]}
                       alt="shuttle1"
                     />
                   </span>
@@ -2174,7 +2168,7 @@ class TutorTask extends React.Component {
                     <br />
                     <img
                       className={styles.shuttle}
-                      src={this.state.shuttle[1]}
+                      src={this.state.shuttlePic[1]}
                       alt="shuttle2"
                     />
                   </span>
@@ -2397,13 +2391,17 @@ class TutorTask extends React.Component {
                   <div className={styles.counter}>
                     <img
                       className={styles.counter}
-                      src={counter}
+                      src={this.state.img_counter}
                       alt="counter"
                     />
                     {this.state.trialNum}/{this.state.trialTotal}
                   </div>
                   <div className={styles.coins}>
-                    <img className={styles.counter} src={coin} alt="coin" />
+                    <img
+                      className={styles.counter}
+                      src={this.state.img_coin}
+                      alt="coin"
+                    />
                     {this.state.coins}
                   </div>
                   <p>
@@ -2467,7 +2465,7 @@ class TutorTask extends React.Component {
     return (
       <div className={styles.spacebg}>
         <span className={styles.astro3}>
-          <img src={astrodude} alt="astrodude" />
+          <img src={this.state.img_astrodude3} alt="astrodude" />
         </span>
         <div className={styles.textblock}>{text}</div>
       </div>

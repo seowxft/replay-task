@@ -6,6 +6,148 @@ import queryString from "query-string"; // I need this for prolific
 
 import "./style/startStyle.css";
 
+// Edit: 22/07/2021: Add in pre-load and caching of images here
+
+import img_shuttle1 from "./img/shuttle_green.png";
+import img_shuttle2 from "./img/shuttle_blue.png";
+import img_fix from "./img/fixation_white.png";
+import img_astrodude1 from "./img/astro_1.png";
+import img_astrodude2 from "./img/astro_2.png";
+import img_astrodude3 from "./img/astro_3.png";
+import img_counter from "./img/shuttle_red.png";
+import img_coinSmall from "./img/coin_small.png";
+import img_coin from "./img/coin.png";
+import img_pathInstruct1 from "./img/PathInstruct1.png";
+import img_stateHolder1 from "./img/quest_holder1.png";
+import img_stateHolder2 from "./img/quest_holder2.png";
+import img_state1 from "./states/baby.jpg";
+import img_state2 from "./states/backpack.jpg";
+import img_state3 from "./states/bicycle.jpg";
+import img_state4 from "./states/bowtie.jpg";
+import img_state5 from "./states/hourglass.jpg";
+import img_state6 from "./states/house.jpg";
+import img_state7 from "./states/lamp.jpg";
+import img_state8 from "./states/toothbrush.jpg";
+import img_state9 from "./states/zebra.jpg";
+import img_state10 from "./states/car.jpg";
+import img_state11 from "./states/cat.jpg";
+import img_state12 from "./states/cupcake.jpg";
+
+/////////
+var isArray =
+  Array.isArray ||
+  function (value) {
+    return {}.toString.call(value) !== "[object Array]";
+  };
+
+function shuffleSame() {
+  var arrLength = 0;
+  var argsLength = arguments.length;
+  var rnd, tmp, argsIndex;
+
+  for (var index = 0; index < argsLength; index += 1) {
+    if (!isArray(arguments[index])) {
+      throw new TypeError("Argument is not an array.");
+    }
+
+    if (index === 0) {
+      arrLength = arguments[0].length;
+    }
+
+    if (arrLength !== arguments[index].length) {
+      throw new RangeError("Array lengths do not match.");
+    }
+  }
+
+  while (arrLength) {
+    rnd = Math.round(Math.random() * arrLength);
+    arrLength -= 1;
+    for (argsIndex = 0; argsIndex < argsLength; argsIndex += 1) {
+      tmp = arguments[argsIndex][arrLength];
+      arguments[argsIndex][arrLength] = arguments[argsIndex][rnd];
+      arguments[argsIndex][rnd] = tmp;
+    }
+  }
+}
+
+////////////////
+var stateWord = [
+  "baby",
+  "backpack",
+  "bicycle",
+  "bowtie",
+  "hourglass",
+  "house",
+  "lamp",
+  "toothbrush",
+  "zebra",
+  "car",
+  "cat",
+  "cupcake",
+];
+
+var statePic = [
+  img_state1,
+  img_state2,
+  img_state3,
+  img_state4,
+  img_state5,
+  img_state6,
+  img_state7,
+  img_state8,
+  img_state9,
+  img_state10,
+  img_state11,
+  img_state12,
+];
+
+shuffleSame(stateWord, statePic);
+
+stateWord = stateWord.filter(function (val) {
+  return val !== undefined;
+});
+statePic = statePic.filter(function (val) {
+  return val !== undefined;
+});
+
+var outcomePic = [statePic[0], statePic[1], statePic[2]];
+var outcomeWord = [stateWord[0], stateWord[1], stateWord[2]];
+
+var roomPic = [
+  statePic[3],
+  statePic[4],
+  statePic[5],
+  statePic[6],
+  statePic[7],
+  statePic[8],
+  statePic[9],
+  statePic[10],
+  statePic[11],
+];
+var roomWord = [
+  stateWord[3],
+  stateWord[4],
+  stateWord[5],
+  stateWord[6],
+  stateWord[7],
+  stateWord[8],
+  stateWord[9],
+  stateWord[10],
+  stateWord[11],
+];
+
+var shuttle = [img_shuttle1, img_shuttle2];
+var shuttleWord = ["green", "blue"];
+shuffleSame(shuttle, shuttleWord);
+
+shuttle = shuttle.filter(function (val) {
+  return val !== undefined;
+});
+
+shuttleWord = shuttleWord.filter(function (val) {
+  return val !== undefined;
+});
+
 class StartPage extends React.Component {
   constructor(props) {
     super(props);
@@ -40,6 +182,24 @@ class StartPage extends React.Component {
       dateTime: dateTime,
       startTime: timeString,
       consentComplete: 0,
+
+      img_shuttle1: img_shuttle1,
+      img_shuttle2: img_shuttle2,
+      img_fix: img_fix,
+      img_astrodude1: img_astrodude1,
+      img_astrodude2: img_astrodude2,
+      img_astrodude3: img_astrodude3,
+      img_counter: img_counter,
+      img_coinSmall: img_coinSmall,
+      img_coin: img_coin,
+      img_pathInstruct1: img_pathInstruct1,
+      stateHolder: [img_stateHolder1, img_stateHolder2],
+      statePic: roomPic,
+      stateWord: roomWord,
+      outcomePic: outcomePic,
+      outcomeWord: outcomeWord,
+      shuttlePic: shuttle,
+      shuttleWord: shuttleWord,
     };
 
     // update State when consent is complete
@@ -48,6 +208,56 @@ class StartPage extends React.Component {
 
   componentDidMount() {
     window.scrollTo(0, 0);
+
+    var img_fix = this.state.img_fix;
+    var img_astrodude1 = this.state.img_astrodude1;
+    var img_astrodude2 = this.state.img_astrodude2;
+    var img_astrodude3 = this.state.img_astrodude3;
+    var img_counter = this.state.img_counter;
+    var img_coinSmall = this.state.img_coinSmall;
+    var img_coin = this.state.img_coin;
+    var img_pathInstruct1 = this.state.img_pathInstruct1;
+    var stateHolder = this.state.stateHolder;
+    var statePic = this.state.statePic;
+    var outcomePic = this.state.outcomePic;
+    var shuttlePic = this.state.shuttlePic;
+
+    let imagesPreload = [
+      this.state.img_fix,
+      this.state.img_astrodude1,
+      this.state.img_astrodude2,
+      this.state.img_astrodude3,
+      this.state.img_counter,
+      this.state.img_coinSmall,
+      this.state.img_coin,
+      this.state.img_pathInstruct1,
+      this.state.stateHolder,
+      this.state.statePic,
+      this.state.outcomePic,
+      this.state.shuttlePic,
+    ];
+
+    imagesPreload.forEach((image) => {
+      const newImage = new Image();
+      newImage.src = image;
+      window[image] = newImage;
+    });
+
+    this.setState({
+      img_fix: img_fix,
+      img_astrodude1: img_astrodude1,
+      img_astrodude2: img_astrodude2,
+      img_astrodude3: img_astrodude3,
+      img_counter: img_counter,
+      img_coinSmall: img_coinSmall,
+      img_coin: img_coin,
+      img_pathInstruct1: img_pathInstruct1,
+      stateHolder: stateHolder,
+      statePic: statePic,
+      outcomePic: outcomePic,
+      shuttlePic: shuttlePic,
+      mounted: 1,
+    });
   }
 
   componentWillUnmount() {
@@ -68,6 +278,22 @@ class StartPage extends React.Component {
         userID: this.state.userID,
         date: this.state.date,
         startTime: this.state.startTime,
+        img_fix: this.state.img_fix,
+        img_astrodude1: this.state.img_astrodude1,
+        img_astrodude2: this.state.img_astrodude2,
+        img_astrodude3: this.state.img_astrodude3,
+        img_counter: this.state.img_counter,
+        img_coinSmall: this.state.img_coinSmall,
+        img_coin: this.state.img_coin,
+        img_pathInstruct1: this.state.img_pathInstruct1,
+        img_stateHolder1: this.state.img_stateHolder1,
+        img_stateHolder2: this.state.img_stateHolder2,
+        statePic: this.state.statePic,
+        stateWord: this.state.stateWord,
+        outcomePic: this.state.outcomePic,
+        outcomeWord: this.state.outcomeWord,
+        shuttlePic: this.state.shuttlePic,
+        shuttleWord: this.state.shuttleWord,
       },
     });
 
