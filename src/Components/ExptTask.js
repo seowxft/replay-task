@@ -142,10 +142,10 @@ var paths = [1, 2, 3];
 var forcedPaths = [1, 2, 3];
 shuffle(forcedPaths);
 
-var trialBlockTotal = 2; //the full length is 8
+var trialBlockTotal = 2; //the full length is 6
 var trialForced = 3;
 var trialForcedTotal = trialForced * trialBlockTotal;
-var trialTotal = 26 + trialForcedTotal; //usually its 104 +
+var trialTotal = 28 + trialForcedTotal; //usually its 102 +
 
 var trialInBlock = trialTotal / trialBlockTotal;
 

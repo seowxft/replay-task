@@ -909,13 +909,13 @@ class PathTask extends React.Component {
     if (this.state.trialCor1 === 1) {
       trialFb1 = "Correct!";
     } else {
-      trialFb1 = "Incorrect. This is correct room.";
+      trialFb1 = "Incorrect. This is the correct room.";
     }
 
     if (this.state.trialCor2 === 1) {
       trialFb2 = "Correct!";
     } else {
-      trialFb2 = "Incorrect. This is correct room.";
+      trialFb2 = "Incorrect. This is the correct room.";
     }
 
     let text1 = (
