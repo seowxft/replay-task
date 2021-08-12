@@ -3,7 +3,7 @@ import * as Quest from "survey-react";
 import "../../node_modules/survey-react/survey.css";
 import { DATABASE_URL } from "./config";
 
-// import astrodude from "./img/astro_1.png";
+import astrodude from "./img/astro_1.png";
 
 import styles from "./style/taskStyle.module.css";
 
@@ -51,13 +51,23 @@ class Questionnaires extends Component {
       currentquiz: false,
       qnStart: currTime,
       qnTime: currTime,
-      qnTotal: 5,
-      quizLabel: ["OCIR", "STAI_Y2", "STAI_Y1", "BIS11", "SDS"],
+      qnTotal: 7,
+      quizLabel: [
+        "OCIR",
+        "STAI_Y2",
+        "STAI_Y1",
+        "BIS11",
+        "SDS",
+        "OBQ20",
+        "WDQSF",
+      ],
       qnText1: [],
       qnText2: [],
       qnText3: [],
       qnText4: [],
       qnText5: [],
+      qnText6: [],
+      qnText7: [],
       bonus: bonus,
       img_astrodude1: img_astrodude1,
     };
@@ -125,6 +135,12 @@ class Questionnaires extends Component {
     let quizText;
     if (page === 0) {
       quizText = "demo";
+    }
+    if (page === 8) {
+      quizText = "IQ_1";
+    }
+    if (page === 9) {
+      quizText = "IQ_2";
     } else {
       quizText = this.state.quizLabel[page - 1];
     }
@@ -270,6 +286,7 @@ class Questionnaires extends Component {
     let quiz2 = {
       type: "matrix",
       name: "STAI_Y2",
+
       isAllRowRequired: true,
       title:
         "Read each statement and then indicate how you GENERALLY feel. There is no right or wrong answer. Do not spend too much time on any one statement but give the answer which seems to describe how you GENERALLY feel.",
@@ -327,6 +344,7 @@ class Questionnaires extends Component {
     let quiz3 = {
       type: "matrix",
       name: "STAI_Y1",
+
       isAllRowRequired: true,
       title:
         "Read each statement and select the appropriate response to indicate how you feel RIGHT NOW, that is, at this very moment. There are no right or wrong answers. Do not spend too much time on any one statement but give the answer which seems to describe your PRESENT feelings best.",
@@ -366,6 +384,7 @@ class Questionnaires extends Component {
     let quiz4 = {
       type: "matrix",
       name: "BIS11",
+
       isAllRowRequired: true,
       title:
         "People differ in the ways they act and think in different situations. This is a test to measure some of the ways in which you act and think. Read each statement and select the answer that DESCRIBES YOU BEST. Do not spend too much time on any statement. Answer quickly and honestly.",
@@ -424,6 +443,7 @@ class Questionnaires extends Component {
     let quiz5 = {
       type: "matrix",
       name: "SDS",
+
       isAllRowRequired: true,
       title:
         "Please read the following statements and then select the option that best describes how often you FELT OR BEHAVED this way during the PAST SEVERAL DAYS.",
@@ -466,7 +486,170 @@ class Questionnaires extends Component {
       ],
     };
 
-    var allQuizText = [quiz1, quiz2, quiz3, quiz4, quiz5];
+    let quiz6 = {
+      type: "matrix",
+      name: "OBQ20",
+      horizontalScroll: true,
+      isAllRowRequired: true,
+      title:
+        "This inventory lists different attitudes or beliefs that people sometimes hold. Read each statement carefully, decide how much you agree or disagree with it and choose the answer that best describes how you think. Because people are different, there are no right or wrong answers. To decide whether a given statement is typical of your way of looking at things, simply keep in mind what you are like most of the time.",
+      columns: [
+        { value: 1, text: "Disagree very much" },
+        { value: 2, text: "Disagree moderately" },
+        { value: 3, text: "Disagree a little" },
+        { value: 4, text: "Neither agree nor disagree" },
+        { value: 5, text: "Agree a little" },
+        { value: 6, text: "Agree moderately" },
+        { value: 7, text: "Agree very much" },
+      ],
+      rows: [
+        {
+          value: "OBQ_1",
+          text: "If I’m not absolutely sure, I’m bound to make a mistake.",
+        },
+        {
+          value: "OBQ_2",
+          text:
+            "To be a worthwhile person, I must be perfect at everything I do.",
+        },
+        {
+          value: "OBQ_3",
+          text:
+            "Even if harm is very unlikely, I should try to prevent it at any cost.",
+        },
+        {
+          value: "OBQ_4",
+          text:
+            "For me, having bad urges is as bad as actually carrying them out.",
+        },
+        {
+          value: "OBQ_5",
+          text:
+            "If I don’t act when I foresee danger, then I am to blame for consequences.",
+        },
+        {
+          value: "OBQ_6",
+          text:
+            "In all kinds of daily situations, failing to prevent harm is just as bad as deliberately causing it.",
+        },
+        {
+          value: "OBQ_7",
+          text: "For me, not preventing harm is as bad as causing harm.",
+        },
+        { value: "OBQ_8", text: "I should be upset if I make a mistake." },
+        {
+          value: "OBQ_9",
+          text: "For me, things are not right if they are not perfect.",
+        },
+        {
+          value: "OBQ_10",
+          text: "Having nasty thoughts means I’m a terrible person.",
+        },
+        {
+          value: "OBQ_11",
+          text:
+            "If I do not take extra precautions, I am more likely than others to have or cause a serious disaster.",
+        },
+        {
+          value: "OBQ_12",
+          text:
+            "I am more likely than other people to accidentally cause harm to myself or to others.",
+        },
+        {
+          value: "OBQ_13",
+          text: "Having bad thoughts means I am weird or abnormal.",
+        },
+        {
+          value: "CHECK_2",
+          text: "Demonstrate your attention by selecting 'Agree very much'.",
+        },
+        {
+          value: "OBQ_14",
+          text: "Even when I am careful, I often think bad things will happen.",
+        },
+        {
+          value: "OBQ_15",
+          text: "Having intrusive thoughts means I’m out of control.",
+        },
+        {
+          value: "OBQ_16",
+          text: "Harmful events will happen unless I’m careful.",
+        },
+        {
+          value: "OBQ_17",
+          text: "I must keep working until it’s done exactly right.",
+        },
+        {
+          value: "OBQ_18",
+          text: "To me, failing to prevent disaster is as bad as causing it.",
+        },
+        {
+          value: "OBQ_19",
+          text:
+            "Having a bad thought is morally no different than doing a bad deed.",
+        },
+        {
+          value: "OBQ_20",
+          text: "No matter what I do, it won’t be good enough.",
+        },
+      ],
+    };
+
+    let quiz7 = {
+      type: "matrix",
+      name: "WDQSF",
+      isAllRowRequired: true,
+      title:
+        "Please mark for each statement below an appropriate answer to show how much you WORRY about the following:",
+      columns: [
+        { value: 1, text: "Not at all" },
+        { value: 2, text: "A little" },
+        { value: 3, text: "Moderately" },
+        { value: 4, text: "Quite a lot" },
+        { value: 5, text: "Extremely" },
+      ],
+      rows: [
+        {
+          value: "WDQSF_1",
+          text: "I worry that I'll never achive my ambitions.",
+        },
+        {
+          value: "WDQSF_2",
+          text: "I wory that I will not keep my workload up to date.",
+        },
+        {
+          value: "WDQSF_3",
+          text: "I worry that I am not able to afford things.",
+        },
+        {
+          value: "WDQSF_4",
+          text: "I worry that I feel insecure.",
+        },
+        {
+          value: "WDQSF_5",
+          text: "I worry that I can’t afford to pay bills.",
+        },
+        {
+          value: "WDQSF_6",
+          text: "I worry that I leave work unfinished.",
+        },
+        {
+          value: "WDQSF_7",
+          text: "I worry that I lack confidence.",
+        },
+        { value: "WDQSF_8", text: "I worry that I am unattractive." },
+        {
+          value: "WDQSF_9",
+          text: "I worry that I will lose close friends.",
+        },
+        {
+          value: "WDQSF_10",
+          text: "I worry that I haven’t achieved much.",
+        },
+      ],
+    };
+
+    var allQuizText = [quiz1, quiz2, quiz3, quiz4, quiz5, quiz6, quiz7];
     var quizLabel = this.state.quizLabel;
 
     shuffleDouble(allQuizText, quizLabel);
@@ -484,6 +667,8 @@ class Questionnaires extends Component {
       qnText3: allQuizText[2],
       qnText4: allQuizText[3],
       qnText5: allQuizText[4],
+      qnText6: allQuizText[5],
+      qnText7: allQuizText[6],
       quizLabel: quizLabel,
     });
   }
@@ -536,6 +721,7 @@ class Questionnaires extends Component {
                 <ul>
                   <li>Provide some demographic information (age and gender)</li>
                   <li>Complete {this.state.qnTotal} questionnaires</li>
+                  <li>Complete a short IQ quiz</li>
                 </ul>
                 Do read the instructions for each quiz, which will be positioned
                 at the top of each page, carefully.
@@ -642,6 +828,326 @@ class Questionnaires extends Component {
 
           {
             questions: [this.state.qnText5],
+          },
+          {
+            questions: [this.state.qnText6],
+          },
+          {
+            questions: [this.state.qnText7],
+          },
+          {
+            questions: [
+              {
+                type: "radiogroup",
+                name: "IQ_1",
+                isRequired: true,
+                title:
+                  "What number is one fifth of one fourth of one ninth of 900?",
+                //colCount: 4,
+                choices: [
+                  { value: 1, text: "2" },
+                  { value: 2, text: "3" },
+                  { value: 3, text: "4" },
+                  { value: 4, text: "5" },
+                  { value: 5, text: "6" },
+                  { value: 6, text: "7" },
+                ],
+              },
+
+              {
+                type: "radiogroup",
+                name: "IQ_2",
+                isRequired: true,
+                title:
+                  "Zach is taller than Matt and Richard is shorter than Zach. Which of the following statements would be the most accurate?",
+                choices: [
+                  { value: 1, text: "Richard is taller than Matt" },
+                  { value: 2, text: "Richard is shorter than Matt" },
+                  { value: 3, text: "Richard is as tall as Matt" },
+                  { value: 4, text: "It's impossible to tell" },
+                ],
+              },
+
+              {
+                type: "radiogroup",
+                name: "IQ_3",
+                isRequired: true,
+                title:
+                  "Joshua is 12 years old and his sister is three times as old as he. When Joshua is 23 years old, how old will his sister be?",
+                choices: [
+                  { value: 1, text: "25" },
+                  { value: 2, text: "39" },
+                  { value: 3, text: "44" },
+                  { value: 4, text: "47" },
+                  { value: 5, text: "53" },
+                ],
+              },
+
+              {
+                type: "radiogroup",
+                name: "IQ_4",
+                isRequired: true,
+                title:
+                  "If the day after tomorrow is two days before Thursday then what day is it today?",
+                choices: [
+                  { value: 1, text: "Friday" },
+                  { value: 2, text: "Monday" },
+                  { value: 3, text: "Wednesday" },
+                  { value: 4, text: "Saturday" },
+                  { value: 5, text: "Tuesday" },
+                  { value: 6, text: "Sunday" },
+                ],
+              },
+
+              {
+                type: "radiogroup",
+                name: "IQ_5",
+                isRequired: true,
+                title:
+                  "In the following alphanumeric series, what letter comes next? K N P S U ...?",
+                choices: [
+                  { value: 1, text: "S" },
+                  { value: 2, text: "T" },
+                  { value: 3, text: "U" },
+                  { value: 4, text: "V" },
+                  { value: 5, text: "W" },
+                  { value: 6, text: "X" },
+                ],
+              },
+
+              {
+                type: "radiogroup",
+                name: "IQ_6",
+                isRequired: true,
+                title:
+                  "In the following alphanumeric series, what letter comes next? V Q M J H ...?",
+                choices: [
+                  { value: 1, text: "E" },
+                  { value: 2, text: "F" },
+                  { value: 3, text: "G" },
+                  { value: 4, text: "H" },
+                  { value: 5, text: "I" },
+                  { value: 6, text: "J" },
+                ],
+              },
+
+              {
+                type: "radiogroup",
+                name: "IQ_7",
+                isRequired: true,
+                title:
+                  "In the following alphanumeric series, what letter comes next? I J L O S ...?",
+                choices: [
+                  { value: 1, text: "T" },
+                  { value: 2, text: "U" },
+                  { value: 3, text: "V" },
+                  { value: 4, text: "X" },
+                  { value: 5, text: "Y" },
+                  { value: 6, text: "Z" },
+                ],
+              },
+
+              {
+                type: "radiogroup",
+                name: "IQ_8",
+                isRequired: true,
+                title:
+                  "In the following alphanumeric series, what letter comes next? Q S N P L ...?",
+                choices: [
+                  { value: 1, text: "J" },
+                  { value: 2, text: "H" },
+                  { value: 3, text: "I" },
+                  { value: 4, text: "N" },
+                  { value: 5, text: "M" },
+                  { value: 6, text: "L" },
+                ],
+              },
+            ],
+          },
+
+          // IQ images
+          {
+            questions: [
+              {
+                type: "html",
+                name: "info",
+                html:
+                  "<table><body></br></br></br></br><img src='/icar/mx45_q.jpg' width='230px'/></br></br></br> </td><img src='/icar/mx45_a.jpg' width='460px'/></body></table>",
+              },
+              {
+                type: "radiogroup",
+                name: "IQimage_1",
+                isRequired: true,
+                title: "Which figure fits into the missing slot?",
+                choices: [
+                  { value: 1, text: "A" },
+                  { value: 2, text: "B" },
+                  { value: 3, text: "C" },
+                  { value: 4, text: "D" },
+                  { value: 5, text: "E" },
+                  { value: 6, text: "F" },
+                ],
+              },
+
+              {
+                type: "html",
+                name: "info",
+                html:
+                  "<table><body></br></br></br></br><img src='/icar/mx46_q.jpg' width='230px'/></br></br></br> </td><img src='/icar/mx46_a.jpg' width='460px'/></body></table>",
+              },
+              {
+                type: "radiogroup",
+                name: "IQimage_2",
+                isRequired: true,
+                title: "Which figure fits into the missing slot?",
+                choices: [
+                  { value: 1, text: "A" },
+                  { value: 2, text: "B" },
+                  { value: 3, text: "C" },
+                  { value: 4, text: "D" },
+                  { value: 5, text: "E" },
+                  { value: 6, text: "F" },
+                ],
+              },
+
+              {
+                type: "html",
+                name: "info",
+                html:
+                  "<table><body></br></br></br></br><img src='/icar/mx47_q.jpg' width='230px'/></br></br></br> </td><img src='/icar/mx47_a.jpg' width='460px'/></body></table>",
+              },
+              {
+                type: "radiogroup",
+                name: "IQimage_3",
+                isRequired: true,
+                title: "Which figure fits into the missing slot?",
+                choices: [
+                  { value: 1, text: "A" },
+                  { value: 2, text: "B" },
+                  { value: 3, text: "C" },
+                  { value: 4, text: "D" },
+                  { value: 5, text: "E" },
+                  { value: 6, text: "F" },
+                ],
+              },
+
+              {
+                type: "html",
+                name: "info",
+                html:
+                  "<table><body></br></br></br></br><img src='/icar/mx55_q.jpg' width='230px'/></br></br></br> </td><img src='/icar/mx55_a.jpg' width='460px'/></body></table>",
+              },
+              {
+                type: "radiogroup",
+                name: "IQimage_4",
+                isRequired: true,
+                title: "Which figure fits into the missing slot?",
+                choices: [
+                  { value: 1, text: "A" },
+                  { value: 2, text: "B" },
+                  { value: 3, text: "C" },
+                  { value: 4, text: "D" },
+                  { value: 5, text: "E" },
+                  { value: 6, text: "F" },
+                ],
+              },
+
+              {
+                type: "html",
+                name: "info",
+                html:
+                  "<table><body></br></br></br></br><img src='/icar/rsd3_q.jpg' width='550px'/></body></table>",
+              },
+              {
+                type: "radiogroup",
+                name: "IQimage_5",
+                isRequired: true,
+                title:
+                  "All the cubes above have a different image on each side. Select the choice that represents a rotation of the cube labeled X.",
+                choices: [
+                  { value: 1, text: "A" },
+                  { value: 2, text: "B" },
+                  { value: 3, text: "C" },
+                  { value: 4, text: "D" },
+                  { value: 5, text: "E" },
+                  { value: 6, text: "F" },
+                  { value: 7, text: "G" },
+                  { value: 8, text: "H" },
+                ],
+              },
+
+              {
+                type: "html",
+                name: "info",
+                html:
+                  "<table><body></br></br></br></br><img src='/icar/rsd4_q.jpg' width='550px'/></body></table>",
+              },
+              {
+                type: "radiogroup",
+                name: "IQimage_6",
+                isRequired: true,
+                title:
+                  "All the cubes above have a different image on each side. Select the choice that represents a rotation of the cube labeled X.",
+                choices: [
+                  { value: 1, text: "A" },
+                  { value: 2, text: "B" },
+                  { value: 3, text: "C" },
+                  { value: 4, text: "D" },
+                  { value: 5, text: "E" },
+                  { value: 6, text: "F" },
+                  { value: 7, text: "G" },
+                  { value: 8, text: "H" },
+                ],
+              },
+
+              {
+                type: "html",
+                name: "info",
+                html:
+                  "<table><body></br></br></br></br><img src='/icar/rsd6_q.jpg' width='550px'/></body></table>",
+              },
+              {
+                type: "radiogroup",
+                name: "IQimage_7",
+                isRequired: true,
+                title:
+                  "All the cubes above have a different image on each side. Select the choice that represents a rotation of the cube labeled X.",
+                choices: [
+                  { value: 1, text: "A" },
+                  { value: 2, text: "B" },
+                  { value: 3, text: "C" },
+                  { value: 4, text: "D" },
+                  { value: 5, text: "E" },
+                  { value: 6, text: "F" },
+                  { value: 7, text: "G" },
+                  { value: 8, text: "H" },
+                ],
+              },
+
+              {
+                type: "html",
+                name: "info",
+                html:
+                  "<table><body></br></br></br></br><img src='/icar/rsd8_q.jpg' width='550px'/></body></table>",
+              },
+              {
+                type: "radiogroup",
+                name: "IQimage_8",
+                isRequired: true,
+                title:
+                  "All the cubes above have a different image on each side. Select the choice that represents a rotation of the cube labeled X.",
+                choices: [
+                  { value: 1, text: "A" },
+                  { value: 2, text: "B" },
+                  { value: 3, text: "C" },
+                  { value: 4, text: "D" },
+                  { value: 5, text: "E" },
+                  { value: 6, text: "F" },
+                  { value: 7, text: "G" },
+                  { value: 8, text: "H" },
+                ],
+              },
+            ],
           },
         ],
       };

@@ -142,10 +142,10 @@ var paths = [1, 2, 3];
 var forcedPaths = [1, 2, 3];
 shuffle(forcedPaths);
 
-var trialBlockTotal = 2; //the full length is 6
+var trialBlockTotal = 2; //the full length is 8
 var trialForced = 3;
 var trialForcedTotal = trialForced * trialBlockTotal;
-var trialTotal = 28 + trialForcedTotal; //usually its 102 +
+var trialTotal = 26 + trialForcedTotal; //usually its 104 +
 
 var trialInBlock = trialTotal / trialBlockTotal;
 
@@ -271,7 +271,7 @@ class ExptTask extends React.Component {
 
       StructToRender: "",
 
-      debug: false,
+      debug: true,
     };
 
     this.handleInstructLocal = this.handleInstructLocal.bind(this);
@@ -2131,8 +2131,8 @@ class ExptTask extends React.Component {
                     <strong>lose 1 coin</strong>.
                   </li>
                   <li>
-                    We will only ask you to select the room images in its
-                    correct order <br />
+                    We will only ask you to select the connecting room images in
+                    its correct order <br />
                     of the{" "}
                     <strong>
                       spaceship that you believe you will end up in
@@ -2151,7 +2151,7 @@ class ExptTask extends React.Component {
             <div className={styles.main}>
               <span className={styles.likeP}>
                 <span className={styles.center}>MISSION START</span>
-                As a refresher, the pictures you can find are worth:
+                As a refresher, the outcome rooms you can find:
                 <span className={styles.centerTwo}>
                   <img
                     className={styles.stateSmall}
@@ -2197,7 +2197,7 @@ class ExptTask extends React.Component {
             <div className={styles.main}>
               <span className={styles.likeP}>
                 <span className={styles.center}>MISSION START</span>
-                And the room order of the spaceships are:
+                And the connecting room order of the spaceships are:
                 <span className={styles.centerTwo}>
                   <span className={styles.spaceshipSmall}>Spaceship A</span>
                   <img
@@ -2283,7 +2283,7 @@ class ExptTask extends React.Component {
                 , only the <strong>reliable shuttle</strong> option will be
                 available and
                 <br />
-                you will be shown the room and outcome images.
+                you will be shown the connecting and outcome room images.
                 <br />
                 <br />
                 Thereafter, both shuttles will be available and&nbsp;
@@ -2297,8 +2297,8 @@ class ExptTask extends React.Component {
                 <strong>YOUR MISSION:</strong>
                 <ul>
                   <li>
-                    Recall the spaceship rooms and figure out which spaceship
-                    you would gain or lose coins.
+                    Recall the spaceship connecting rooms and figure out which
+                    spaceship you should board to gain or avoid losing coins.
                   </li>
                   <li>
                     Then, decide if it is worth the risk take the reliable or

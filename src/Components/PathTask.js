@@ -101,7 +101,6 @@ var testThree = [
 ];
 
 var testShuff = randVec(trialTestTotal, 1, 4);
-
 var testAns1 = randVec(trialTestTotal, 1, 2);
 var testAns2 = randVec(trialTestTotal, 1, 3);
 
@@ -1437,6 +1436,10 @@ class PathTask extends React.Component {
                 <br /> <br />
                 <strong>Within</strong> each spaceship, there are{" "}
                 <strong>3 connecting rooms</strong>.
+                <br />
+                <br />
+                You will have to pass through these connecting rooms to get to
+                the outcome room.
                 <br /> <br />
                 For instance,
                 <span className={styles.centerTwo}>
@@ -1447,7 +1450,8 @@ class PathTask extends React.Component {
                   />
                 </span>
                 <br />
-                Each room can be <strong>identified by a unique image</strong>,
+                Similar to the outcome room, each connecting room can be{" "}
+                <strong>identified by a unique image</strong>,<br />
                 which you will have to learn.
                 <br />
                 <span className={styles.centerTwo}>

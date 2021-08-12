@@ -855,22 +855,19 @@ class OutcomeTask extends React.Component {
                 <br />
                 Welcome onboard!
                 <br /> <br />
-                For today&apos;s mission, we will be taking shuttles to our
-                spaceships
+                For today&apos;s mission, we will be taking shuttles to
+                different
                 <br />
-                to find pictures of certain objects.
+                spaceships where we will end up in an outcome room onboard.
                 <br /> <br />
-                One of these pictures are valuable, and you can{" "}
-                <strong>earn coins</strong>.
-                <br /> <br />
-                One of these pictures are undesirable, and you can{" "}
+                One of these rooms will let us <strong>earn coins</strong>,
+                <br />
+                while one of these rooms will cause us to{" "}
                 <strong>lose coins</strong>.
                 <br /> <br />
-                The more valuable pictures you find, the more coins you will
-                earn,
+                The more coins you find, the higher your bonus will be,
                 <br />
-                and the higher your bonus will be, up to a maximum of{" "}
-                <strong>£4</strong>!
+                up to a maximum of <strong>£4</strong>!
                 <br /> <br />
                 Before we begin, you will need to learn several things.
                 <br /> <br />
@@ -889,8 +886,8 @@ class OutcomeTask extends React.Component {
               <p>
                 <span className={styles.center}>TUTORIAL I</span>
                 <br />
-                The first is, when we board a spaceship, we will find one of
-                these pictures:
+                The first is, when we board a spaceship, we will end up in these
+                outcome rooms, each presented by a picture:
                 <br /> <br />
                 <span className={styles.centerTwo}>
                   <img
@@ -924,7 +921,7 @@ class OutcomeTask extends React.Component {
               <p>
                 <span className={styles.center}>TUTORIAL I</span>
                 <br />
-                If we find:
+                If we enter this room:
                 <br />
                 <span className={styles.centerTwo}>
                   <img
@@ -934,10 +931,10 @@ class OutcomeTask extends React.Component {
                   />
                 </span>
                 <br />
-                This picture is valuable and we can exchange it for coins.
+                This room is valuable and we can find coins within it.
                 <br /> <br />
-                In other words, if we find 3 {this.state.outcomeWord[0]}s, we
-                earn 3{" "}
+                In other words, if we see a 3 next to a{" "}
+                {this.state.outcomeWord[0]}, we earn 3{" "}
                 <img
                   className={styles.coin}
                   src={this.state.img_coinSmall}
@@ -957,7 +954,7 @@ class OutcomeTask extends React.Component {
               <p>
                 <span className={styles.center}>TUTORIAL I</span>
                 <br />
-                However, if we find:
+                However, if we enter this room:
                 <br />
                 <span className={styles.centerTwo}>
                   <img
@@ -967,10 +964,10 @@ class OutcomeTask extends React.Component {
                   />
                 </span>
                 <br />
-                This picture is undesirable, and we will be fined coins.
+                This room is undesirable, and we will be fined coins.
                 <br /> <br />
-                In other words, if we find 2 {this.state.outcomeWord[1]}s, we
-                lose 2{" "}
+                In other words, if we find a 2 next to a{" "}
+                {this.state.outcomeWord[1]}, we lose 2{" "}
                 <img
                   className={styles.coin}
                   src={this.state.img_coinSmall}
@@ -990,7 +987,7 @@ class OutcomeTask extends React.Component {
               <p>
                 <span className={styles.center}>TUTORIAL I</span>
                 <br />
-                Alternatively, if we find:
+                Alternatively, if we enter this room:
                 <br />
                 <span className={styles.centerTwo}>
                   <img
@@ -1000,11 +997,10 @@ class OutcomeTask extends React.Component {
                   />
                 </span>
                 <br />
-                This picture is neutral, and we will not gain or lose coins for
-                it.
+                This room is neutral, and we will not gain or lose coins.
                 <br /> <br />
-                In other words, even if we find 5 {this.state.outcomeWord[2]}s,
-                we earn/lose 0{" "}
+                In other words, even if we find a 5 next to a{" "}
+                {this.state.outcomeWord[2]}, we earn/lose 0{" "}
                 <img
                   className={styles.coin}
                   src={this.state.img_coinSmall}
@@ -1024,11 +1020,13 @@ class OutcomeTask extends React.Component {
               <p>
                 <span className={styles.center}>TUTORIAL I</span>
                 <br />
-                For your first tutorial, let us check if you understood what is
-                valuable for us to find.
+                For your first tutorial, let us check if you understood the
+                different consequences of
+                <br />
+                entering each of the three outcome rooms.
                 <br /> <br />
-                When we find a picture, you simply have to tell us how many
-                coins you gain or lose.
+                When we enter a room, you simply have to tell us how many coins
+                you gain or lose.
                 <br /> <br />
                 <span className={styles.centerTwo}>
                   Press the [<strong>SPACEBAR</strong>] to start the tutorial.
@@ -1070,7 +1068,7 @@ class OutcomeTask extends React.Component {
                 Great, you had {this.state.trialScore}/{this.state.trialTotal}
                 &nbsp;correct!
                 <br /> <br />
-                In summary,
+                In summary, these outcome rooms lead to:
                 <span className={styles.centerTwo}>
                   <img
                     className={styles.stateSmall}
@@ -1082,8 +1080,8 @@ class OutcomeTask extends React.Component {
                     className={styles.coin}
                     src={this.state.img_coinSmall}
                     alt="coin"
-                  />{" "}
-                  (gain)
+                  />
+                  &nbsp;&nbsp; (gain)
                   <br />
                   <img
                     className={styles.stateSmall}
@@ -1095,8 +1093,8 @@ class OutcomeTask extends React.Component {
                     className={styles.coin}
                     src={this.state.img_coinSmall}
                     alt="coin"
-                  />{" "}
-                  (lose)
+                  />
+                  &nbsp;&nbsp; (lose)
                   <br />
                   <img
                     className={styles.stateSmall}

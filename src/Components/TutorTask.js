@@ -1824,11 +1824,11 @@ class TutorTask extends React.Component {
             <div className={styles.main}>
               <p>
                 <span className={styles.center}>MISSION PRACTICE</span>
-                You have now learnt the order of rooms (i.e., images) inside
+                You have now learnt the order of the connecting rooms inside
                 each spaceship type,
                 <br />
-                and that you can gain or lose coins depending on which picture
-                you find.
+                and that you can gain or lose coins depending on which outcome
+                room you end up in.
                 <br />
                 <br />
                 For your mission, you will use the information you have
@@ -1837,8 +1837,8 @@ class TutorTask extends React.Component {
                   choose <br />
                   shuttles
                 </strong>
-                &nbsp;that will get you to the spaceship with the valuable
-                picture to earn coins.
+                &nbsp;that will get you to the spaceship with the outcome room
+                where you can earn coins.
                 <br />
                 <br />
                 The more coins you earn at the end of the mission, the higher
@@ -1906,7 +1906,7 @@ class TutorTask extends React.Component {
                 information about which
                 <br />
                 shuttle will go to which spaceship, and which spaceship contains
-                the valuable picture
+                the outcome room
                 <br />
                 that you are searching for.
                 <br /> <br />
@@ -1961,10 +1961,8 @@ class TutorTask extends React.Component {
             <div className={styles.main}>
               <p>
                 <span className={styles.center}>MISSION PRACTICE</span>
-                You will also be told about the rooms in each spaceship where
-                you can
-                <br />
-                find the possible pictures.
+                You will also be told about the outcome room present in each
+                spaceship.
                 <br /> <br />
                 <span className={styles.centerThree}>
                   <span className={styles.cueScreen}>
@@ -1977,21 +1975,24 @@ class TutorTask extends React.Component {
                 </span>
                 <br />
                 Here, the <strong>{this.state.stateWord[8]}</strong> room will
-                find us&nbsp;
-                <strong>3 {this.state.outcomeWord[0]}s</strong>, the&nbsp;
-                <strong>{this.state.stateWord[2]}</strong> room will find
-                us&nbsp;
-                <strong>1 {this.state.outcomeWord[1]}</strong>,
+                find us a 3 in the <strong>{this.state.outcomeWord[0]}</strong>{" "}
+                room,
+                <br />
+                the <strong>{this.state.stateWord[2]}</strong> room will find us
+                a 1 in the <strong>{this.state.outcomeWord[1]}</strong> room,
                 <br />
                 and the <strong>{this.state.stateWord[5]}</strong> room will
-                find us&nbsp;
-                <strong>4 {this.state.outcomeWord[2]}s</strong>.
+                find us a 4 in the <strong>{this.state.outcomeWord[2]}</strong>{" "}
+                room.
                 <br />
                 <br />
-                If you remember, you can exchange {this.state.outcomeWord[0]}s
-                for coins, {this.state.outcomeWord[1]}s will lose you coins,
+                This means the {this.state.outcomeWord[0]} room gains us 3
+                coins, {this.state.outcomeWord[1]} room will lose us 4 coins,
                 <br />
-                while you gain/lose nothing for {this.state.outcomeWord[2]}s.
+                while we gain/lose nothing for the {
+                  this.state.outcomeWord[2]
+                }{" "}
+                room.
                 <br />
                 <br />
                 <span className={styles.centerTwo}>
@@ -2006,7 +2007,7 @@ class TutorTask extends React.Component {
               <p>
                 <span className={styles.center}>MISSION PRACTICE</span>
                 Together, these two sets of clues give us enough information to
-                choose which shuttle to take to find the valuable picture.{" "}
+                choose which shuttle to take to find the outcome room you want.
                 <br />
                 For instance:
                 <br /> <br />
@@ -2046,7 +2047,7 @@ class TutorTask extends React.Component {
                 You should recall the room order of each spaceship to help
                 decide which shuttle you should take to bring you to the
                 <br />
-                spaceship with the valuable picture.
+                spaceship with the outcome room that you want.
                 <br />
                 <span className={styles.centerTwo}>
                   [<strong>← BACK</strong>] [<strong>NEXT →</strong>]
@@ -2119,17 +2120,51 @@ class TutorTask extends React.Component {
                   />
                 </span>
                 <br />
-                You are told here that the {this.state.stateWord[2]} room is
-                where you can find 1 {this.state.outcomeWord[1]}.
+                You are told here that the{" "}
+                <strong>{this.state.stateWord[2]}</strong> room will lead you to
+                the <strong>{this.state.outcomeWord[1]}</strong> room.
                 <br />
                 <br />
                 This means that if you choose the <strong>reliable 100%</strong>
                 &nbsp;shuttle, you will board <strong>Spaceship A</strong> and
-                find <strong>1 {this.state.outcomeWord[1]}</strong>, and
+                reach the <strong>{this.state.outcomeWord[1]}</strong> room, and
                 thus&nbsp;
                 <strong>lose 1</strong> coin.
                 <br />
                 <br />
+                <span className={styles.centerTwo}>
+                  <span className={styles.spaceshipSmall}>Spaceship A</span>
+                  <img
+                    className={styles.stateSmall}
+                    src={this.state.statePic[0]}
+                    alt="statePic1"
+                  />
+                  &nbsp;&nbsp;&nbsp;&nbsp;→&nbsp;&nbsp;&nbsp;&nbsp;
+                  <img
+                    className={styles.stateSmall}
+                    src={this.state.statePic[1]}
+                    alt="statePic2"
+                  />
+                  &nbsp;&nbsp;&nbsp;&nbsp;→&nbsp;&nbsp;&nbsp;&nbsp;
+                  <img
+                    className={styles.stateSmall}
+                    src={this.state.statePic[2]}
+                    alt="statePic3"
+                  />
+                  &nbsp;&nbsp;&nbsp;&nbsp;→&nbsp;&nbsp;&nbsp;&nbsp;
+                  <img
+                    className={styles.stateSmall}
+                    src={this.state.outcomePic[1]}
+                    alt="outcome"
+                  />
+                  &nbsp;&nbsp; = &nbsp;-{" "}
+                  <img
+                    className={styles.coin}
+                    src={this.state.img_coinSmall}
+                    alt="coin"
+                  />
+                  &nbsp;&nbsp;(lose)
+                </span>
                 <span className={styles.centerTwo}>
                   [<strong>← BACK</strong>] [<strong>NEXT →</strong>]
                 </span>
@@ -2225,24 +2260,81 @@ class TutorTask extends React.Component {
                     alt="statePic9"
                   />
                 </span>
-                <br /> <br />
+                <br />
                 This means that if you choose the&nbsp;
                 <strong>unreliable 70%/30%</strong>
                 &nbsp;shuttle, you have:
                 <ul>
                   <li>
-                    a 70% chance of boarding <strong>Spaceship B</strong> and
-                    finding&nbsp;
-                    <strong>4 {this.state.outcomeWord[2]}s</strong>, and thus
-                    gaining/losing <strong>0 coins</strong>.
+                    a 70% chance of boarding <strong>Spaceship B</strong> to
+                    reach the <strong>{this.state.outcomeWord[2]}</strong> room,
+                    and thus gaining/losing <strong>0 coins</strong>.
                   </li>
                   <li>
-                    a 30% chance of boarding <strong>Spaceship C</strong> and
-                    finding&nbsp;
-                    <strong>3 {this.state.outcomeWord[0]}s</strong>, and
-                    thus&nbsp;<strong>gaining 3 coins</strong>.
+                    a 30% chance of boarding <strong>Spaceship C</strong> to
+                    reach the <strong>{this.state.outcomeWord[0]}</strong> room,
+                    and thus&nbsp;<strong>gaining 3 coins</strong>.
                   </li>
                 </ul>
+                <span className={styles.centerTwo}>
+                  <span className={styles.spaceshipSmall}>Spaceship B</span>
+                  <img
+                    className={styles.stateSmall}
+                    src={this.state.statePic[3]}
+                    alt="statePic4"
+                  />
+                  &nbsp;&nbsp;&nbsp;&nbsp;→&nbsp;&nbsp;&nbsp;&nbsp;
+                  <img
+                    className={styles.stateSmall}
+                    src={this.state.statePic[4]}
+                    alt="statePic5"
+                  />
+                  &nbsp;&nbsp;&nbsp;&nbsp;→&nbsp;&nbsp;&nbsp;&nbsp;
+                  <img
+                    className={styles.stateSmall}
+                    src={this.state.statePic[5]}
+                    alt="statePic6"
+                  />{" "}
+                  &nbsp;&nbsp;&nbsp;&nbsp;→&nbsp;&nbsp;&nbsp;&nbsp;
+                  <img
+                    className={styles.stateSmall}
+                    src={this.state.outcomePic[2]}
+                    alt="outcome"
+                  />
+                  &nbsp;&nbsp; = &nbsp;nothing
+                  <br /> <br />
+                  <span className={styles.spaceshipSmall}>Spaceship C</span>
+                  <img
+                    className={styles.stateSmall}
+                    src={this.state.statePic[6]}
+                    alt="statePic7"
+                  />
+                  &nbsp;&nbsp;&nbsp;&nbsp;→&nbsp;&nbsp;&nbsp;&nbsp;
+                  <img
+                    className={styles.stateSmall}
+                    src={this.state.statePic[7]}
+                    alt="statePic8"
+                  />
+                  &nbsp;&nbsp;&nbsp;&nbsp;→&nbsp;&nbsp;&nbsp;&nbsp;
+                  <img
+                    className={styles.stateSmall}
+                    src={this.state.statePic[8]}
+                    alt="statePic9"
+                  />{" "}
+                  &nbsp;&nbsp;&nbsp;&nbsp;→&nbsp;&nbsp;&nbsp;&nbsp;
+                  <img
+                    className={styles.stateSmall}
+                    src={this.state.outcomePic[0]}
+                    alt="outcome"
+                  />
+                  &nbsp;&nbsp; = &nbsp;+{" "}
+                  <img
+                    className={styles.coin}
+                    src={this.state.img_coinSmall}
+                    alt="coin"
+                  />
+                  &nbsp;&nbsp;(gain)
+                </span>
                 <span className={styles.centerTwo}>
                   [<strong>← BACK</strong>] [<strong>NEXT →</strong>]
                 </span>
@@ -2261,14 +2353,15 @@ class TutorTask extends React.Component {
                 <br />
                 <br />
                 You must do this <strong>in your head</strong> by remembering
-                the room order of the spaceships and the picture images.
+                the order of the connecting rooms of the spaceships and the
+                possible outcome rooms.
                 <br />
                 <br />
                 You will need to decide whether it is worth risking the
                 unreliable shuttle, or if you would be better off going with the
                 reliable shuttle,
                 <br />
-                to get to the spaceship and find the picture that you want.
+                to get to the spaceship and find the outcome room that you want.
                 <br />
                 <br />
                 Let us start with a practice.
@@ -2309,8 +2402,8 @@ class TutorTask extends React.Component {
                 <br />
                 <br />
                 Once you have chosen your shuttle, we will also ask you to
-                select the room images in its correct order (Room 1 to 2 to 3){" "}
-                <br />
+                select the connecting room images in its correct order (Room 1
+                to 2 to 3) <br />
                 of the{" "}
                 <strong>spaceship that you believe you will end up in</strong>.
                 <br />
@@ -2319,8 +2412,8 @@ class TutorTask extends React.Component {
                 getting to the spaceships.
                 <br />
                 <br />
-                If you select the room images in the wrong sequence, you will
-                have a penalty of <strong>losing 1 coin</strong>.
+                If you select the connecting room images in the wrong sequence,
+                you will have a penalty of <strong>losing 1 coin</strong>.
                 <br />
                 <br />
                 Remember: for the rest of the shuttle journeys, all images will
