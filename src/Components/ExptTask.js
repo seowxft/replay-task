@@ -230,7 +230,7 @@ class ExptTask extends React.Component {
       stateWord: stateWord,
       statePic: statePic,
       stateIndx: stateIndx,
-      stateNum: 0,
+      stateNum: "",
       stateShown: null,
       stateDur: 2000,
       outcomeDur: 2000,
