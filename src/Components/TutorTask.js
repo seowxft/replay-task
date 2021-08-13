@@ -627,7 +627,6 @@ class TutorTask extends React.Component {
   }
 
   selectPlanStates() {
-    document.addEventListener("keyup", this._handlePlanKey);
     //if choose safe option, then state shown is 100% path and a random other path
     //if choose risky option, then state shown is between the risky paths
     var path1;
@@ -729,7 +728,6 @@ class TutorTask extends React.Component {
 
       //finish choosing 3 choices
       if (planCurrentChoice === 4) {
-        document.removeEventListener("keyup", this._handlePlanKey);
         // check if correct?
         // the order has to be right!
         var samePathOne = arraysEqual(planChoices, this.state.pathOne);
@@ -1399,6 +1397,9 @@ class TutorTask extends React.Component {
     } else {
       statePic = this.state.stateHolder[0];
     }
+
+    console.log(pathRoutePic1);
+    console.log(statePic);
 
     this.setState({
       pathPlay: true,
@@ -2461,12 +2462,13 @@ class TutorTask extends React.Component {
       } else if (this.state.instructScreen === false) {
         if (this.state.taskScreen === true) {
           document.removeEventListener("keyup", this._handleInstructKey);
-          document.addEventListener("keyup", this._handleTaskKey);
+
           if (this.state.trialNum <= this.state.trialTotal) {
             if (
               this.state.pathPlay === false &&
               this.state.planPlay === false
             ) {
+              document.addEventListener("keyup", this._handleTaskKey);
               text = <div>{this.taskStart(this.state.trialNum)}</div>;
             }
             // the planning screen
@@ -2474,11 +2476,15 @@ class TutorTask extends React.Component {
               this.state.pathPlay === false &&
               this.state.planPlay === true
             ) {
+              document.addEventListener("keyup", this._handlePlanKey);
+              document.removeEventListener("keyup", this._handleTaskKey);
               text = <div>{this.planStart()}</div>;
             } else if (
               this.state.pathPlay === true &&
               this.state.planPlay === false
             ) {
+              document.removeEventListener("keyup", this._handlePlanKey);
+              document.removeEventListener("keyup", this._handleTaskKey);
               text = (
                 <div className={styles.main}>
                   <div className={styles.counter}>

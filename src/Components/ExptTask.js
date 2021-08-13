@@ -271,7 +271,7 @@ class ExptTask extends React.Component {
 
       StructToRender: "",
 
-      debug: true,
+      debug: false,
     };
 
     this.handleInstructLocal = this.handleInstructLocal.bind(this);
@@ -675,8 +675,6 @@ class ExptTask extends React.Component {
   }
 
   selectPlanStates() {
-    document.addEventListener("keyup", this._handlePlanKey);
-    document.removeEventListener("keyup", this._handleTaskKey);
     //if choose safe option, then state shown is 100% path and a random other path
     //if choose risky option, then state shown is between the risky paths
     var path1;
@@ -778,7 +776,6 @@ class ExptTask extends React.Component {
 
       //finish choosing 3 choices
       if (planCurrentChoice === 4) {
-        document.removeEventListener("keyup", this._handlePlanKey);
         // check if correct?
         // the order has to be right!
         var samePathOne = arraysEqual(planChoices, this.state.pathOne);
@@ -2375,11 +2372,15 @@ class ExptTask extends React.Component {
               this.state.pathPlay === false &&
               this.state.planPlay === true
             ) {
+              document.addEventListener("keyup", this._handlePlanKey);
+              document.removeEventListener("keyup", this._handleTaskKey);
               text = <div>{this.planStart()}</div>;
             } else if (
               this.state.pathPlay === true &&
               this.state.planPlay === false
             ) {
+              document.removeEventListener("keyup", this._handlePlanKey);
+              document.removeEventListener("keyup", this._handleTaskKey);
               text = (
                 <div className={styles.main}>
                   <div className={styles.counter}>
