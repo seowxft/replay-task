@@ -222,26 +222,63 @@ class StartPage extends React.Component {
     var outcomePic = this.state.outcomePic;
     var shuttlePic = this.state.shuttlePic;
 
-    let imagesPreload = [
-      this.state.img_fix,
-      this.state.img_astrodude1,
-      this.state.img_astrodude2,
-      this.state.img_astrodude3,
-      this.state.img_counter,
-      this.state.img_coinSmall,
-      this.state.img_coin,
-      this.state.img_pathInstruct1,
-      this.state.stateHolder,
-      this.state.statePic,
-      this.state.outcomePic,
-      this.state.shuttlePic,
-    ];
-
-    imagesPreload.forEach((image) => {
-      const newImage = new Image();
-      newImage.src = image;
-      window[image] = newImage;
+    [img_fix].forEach((image) => {
+      new Image().src = image;
     });
+    [img_astrodude1].forEach((image) => {
+      new Image().src = image;
+    });
+    [img_astrodude2].forEach((image) => {
+      new Image().src = image;
+    });
+    [img_astrodude3].forEach((image) => {
+      new Image().src = image;
+    });
+    [img_counter].forEach((image) => {
+      new Image().src = image;
+    });
+    [img_coinSmall].forEach((image) => {
+      new Image().src = image;
+    });
+    [img_coin].forEach((image) => {
+      new Image().src = image;
+    });
+    [img_pathInstruct1].forEach((image) => {
+      new Image().src = image;
+    });
+    [stateHolder].forEach((image) => {
+      new Image().src = image;
+    });
+    [statePic].forEach((image) => {
+      new Image().src = image;
+    });
+    [outcomePic].forEach((image) => {
+      new Image().src = image;
+    });
+    [shuttlePic].forEach((image) => {
+      new Image().src = image;
+    });
+
+    // let imagesPreload = [
+    //   img_fix,
+    //   img_astrodude1,
+    //   img_astrodude2,
+    //   img_astrodude3,
+    //   img_counter,
+    //   img_coinSmall,
+    //   img_coin,
+    //   img_pathInstruct1,
+    //   stateHolder,
+    //   statePic,
+    //   outcomePic,
+    //   shuttlePic,
+    // ];
+
+    // imagesPreload.forEach((image) => {
+    //   const newImage = new Image();
+    //   newImage.src = image;
+    //   window[image] = newImage;
+    // });
 
     this.setState({
       img_fix: img_fix,
