@@ -190,7 +190,7 @@ class Questionnaires extends Component {
       name: "OCIR",
       isAllRowRequired: true,
       title:
-        "Please indicate what best describes HOW MUCH each experience has DISTRESSED or BOTHERED you during the PAST MONTH.",
+        "Please indicate what best describes HOW MUCH each experience has DISTRESSED or BOTHERED you during the PAST MONTH. (Please make sure to scroll down within the questionnaire box.)",
       columns: [
         { value: 0, text: "Not at all" },
         { value: 1, text: "A little" },
@@ -218,7 +218,7 @@ class Questionnaires extends Component {
         {
           value: "OCIR_5",
           text:
-            "I find it difficult to touch an object when I know it has been touched by strangers or certain people.",
+            "I find it difficult to touch an object when I know it has been touched by strangers or certain people. (Please make sure to scroll down within the questionnaire box.)",
         },
         {
           value: "OCIR_6",
@@ -286,10 +286,9 @@ class Questionnaires extends Component {
     let quiz2 = {
       type: "matrix",
       name: "STAI_Y2",
-
       isAllRowRequired: true,
       title:
-        "Read each statement and then indicate how you GENERALLY feel. There is no right or wrong answer. Do not spend too much time on any one statement but give the answer which seems to describe how you GENERALLY feel.",
+        "Read each statement and then indicate how you GENERALLY feel. There is no right or wrong answer. Do not spend too much time on any one statement but give the answer which seems to describe how you GENERALLY feel. (Please make sure to scroll down within the questionnaire box.)",
       columns: [
         { value: 1, text: "Almost Never" },
         { value: 2, text: "Sometimes" },
@@ -325,7 +324,7 @@ class Questionnaires extends Component {
         { value: "STAI_36", text: "I am content." },
         {
           value: "STAI_37",
-          text: "Some unimportant thoughts run through my mind and bothers me.",
+          text: "Some unimportant thoughts run through my mind and bother me.",
         },
         {
           value: "STAI_38",
@@ -344,10 +343,9 @@ class Questionnaires extends Component {
     let quiz3 = {
       type: "matrix",
       name: "STAI_Y1",
-
       isAllRowRequired: true,
       title:
-        "Read each statement and select the appropriate response to indicate how you feel RIGHT NOW, that is, at this very moment. There are no right or wrong answers. Do not spend too much time on any one statement but give the answer which seems to describe your PRESENT feelings best.",
+        "Read each statement and select the appropriate response to indicate how you feel RIGHT NOW, that is, at this very moment. There are no right or wrong answers. Do not spend too much time on any one statement but give the answer which seems to describe your PRESENT feelings best. (Please make sure to scroll down within the questionnaire box.)",
       columns: [
         { value: 1, text: "Not At All" },
         { value: 2, text: "A Little" },
@@ -387,7 +385,7 @@ class Questionnaires extends Component {
 
       isAllRowRequired: true,
       title:
-        "People differ in the ways they act and think in different situations. This is a test to measure some of the ways in which you act and think. Read each statement and select the answer that DESCRIBES YOU BEST. Do not spend too much time on any statement. Answer quickly and honestly.",
+        "People differ in the ways they act and think in different situations. This is a test to measure some of the ways in which you act and think. Read each statement and select the answer that DESCRIBES YOU BEST. Do not spend too much time on any statement. Answer quickly and honestly. (Please make sure to scroll down within the questionnaire box.)",
       columns: [
         { value: 1, text: "Do not agree at all" },
         { value: 2, text: "Agree slightly" },
@@ -443,10 +441,9 @@ class Questionnaires extends Component {
     let quiz5 = {
       type: "matrix",
       name: "SDS",
-
       isAllRowRequired: true,
       title:
-        "Please read the following statements and then select the option that best describes how often you FELT OR BEHAVED this way during the PAST SEVERAL DAYS.",
+        "Please read the following statements and then select the option that best describes how often you FELT OR BEHAVED this way during the PAST SEVERAL DAYS. (Please make sure to scroll down within the questionnaire box.)",
       columns: [
         { value: 1, text: "A little of the time" },
         { value: 2, text: "Some of the time" },
@@ -489,10 +486,9 @@ class Questionnaires extends Component {
     let quiz6 = {
       type: "matrix",
       name: "OBQ20",
-      horizontalScroll: true,
       isAllRowRequired: true,
       title:
-        "This inventory lists different attitudes or beliefs that people sometimes hold. Read each statement carefully, decide how much you agree or disagree with it and choose the answer that best describes how you think. Because people are different, there are no right or wrong answers. To decide whether a given statement is typical of your way of looking at things, simply keep in mind what you are like most of the time.",
+        "This inventory lists different attitudes or beliefs that people sometimes hold. Read each statement carefully, decide how much you agree or disagree with it and choose the answer that best describes how you think. Because people are different, there are no right or wrong answers. To decide whether a given statement is typical of your way of looking at things, simply keep in mind what you are like most of the time. (Please make sure to scroll down within the questionnaire box.)",
       columns: [
         { value: 1, text: "Disagree very much" },
         { value: 2, text: "Disagree moderately" },
@@ -600,7 +596,7 @@ class Questionnaires extends Component {
       name: "WDQSF",
       isAllRowRequired: true,
       title:
-        "Please mark for each statement below an appropriate answer to show how much you WORRY about the following:",
+        "Please mark for each statement below an appropriate answer to show how much you WORRY about the following: (Please make sure to scroll down within the questionnaire box.)",
       columns: [
         { value: 1, text: "Not at all" },
         { value: 2, text: "A little" },
@@ -615,7 +611,7 @@ class Questionnaires extends Component {
         },
         {
           value: "WDQSF_2",
-          text: "I wory that I will not keep my workload up to date.",
+          text: "I worry that I will not keep my workload up to date.",
         },
         {
           value: "WDQSF_3",
