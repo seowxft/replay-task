@@ -1042,6 +1042,7 @@ class ExptTask extends React.Component {
 
   jitterFix() {
     if (this.state.pathRoute !== null) {
+      document.removeEventListener("keyup", this._handleTaskKey);
       var pathRoutePic1 = this.state.pathRoute[0]; //[0,1,2] or [3,4,5] or [6,7,8]
       var pathNum;
       var whichShip;
@@ -2764,7 +2765,7 @@ class ExptTask extends React.Component {
               this.state.playPathOutcomeShort === false
             ) {
               //cueScreen
-              document.addEventListener("keyup", this._handleTaskKey);
+              //document.addEventListener("keyup", this._handleTaskKey);
               text = <div>{this.taskStart(this.state.trialNum)}</div>;
             } else if (
               this.state.playCueScreen === false &&
