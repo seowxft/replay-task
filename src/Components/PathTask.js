@@ -1362,6 +1362,8 @@ class PathTask extends React.Component {
       tutOptChoice: null,
       tutForceChoice: null,
       tutPlanChoice: null,
+      tutShowPath: null,
+      tutOutcomeStruct: null,
 
       taskSafePathOutcome: null,
       taskRiskyPathOutcome1: null,
@@ -1372,6 +1374,8 @@ class PathTask extends React.Component {
       taskOptChoice: null,
       taskForceChoice: null,
       taskPlanChoice: null,
+      taskShowPath: null,
+      taskOutcomeStruct: null,
     };
 
     try {

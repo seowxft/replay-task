@@ -17,7 +17,7 @@ const renderTime = ({ remainingTime }) => {
 
   return (
     <div className={styles.timer}>
-      <span className={styles.timerValue}>{10 - remainingTime}</span>
+      <span className={styles.timerValue}>{20 - remainingTime}</span>
       <span className={styles.timerText}>sec</span>
     </div>
   );
@@ -42,42 +42,6 @@ function shuffle(array) {
 
   return array;
 }
-
-// var isArray =
-//   Array.isArray ||
-//   function (value) {
-//     return {}.toString.call(value) !== "[object Array]";
-//   };
-//
-// function shuffleSame() {
-//   var arrLength = 0;
-//   var argsLength = arguments.length;
-//   var rnd, tmp, argsIndex;
-//
-//   for (var index = 0; index < argsLength; index += 1) {
-//     if (!isArray(arguments[index])) {
-//       throw new TypeError("Argument is not an array.");
-//     }
-//
-//     if (index === 0) {
-//       arrLength = arguments[0].length;
-//     }
-//
-//     if (arrLength !== arguments[index].length) {
-//       throw new RangeError("Array lengths do not match.");
-//     }
-//   }
-//
-//   while (arrLength) {
-//     rnd = Math.round(Math.random() * arrLength);
-//     arrLength -= 1;
-//     for (argsIndex = 0; argsIndex < argsLength; argsIndex += 1) {
-//       tmp = arguments[argsIndex][arrLength];
-//       arguments[argsIndex][arrLength] = arguments[argsIndex][rnd];
-//       arguments[argsIndex][rnd] = tmp;
-//     }
-//   }
-// }
 
 function getOutPos1() {
   var num = Math.random();
@@ -145,7 +109,7 @@ shuffle(forcedPaths);
 var trialBlockTotal = 2; //the full length is 8
 var trialForced = 3;
 var trialForcedTotal = trialForced * trialBlockTotal;
-var trialTotal = 26 + trialForcedTotal; //usually its 104 +
+var trialTotal = 28 + trialForcedTotal; //usually its 102 +
 
 var trialInBlock = trialTotal / trialBlockTotal;
 
@@ -248,7 +212,12 @@ class ExptTask extends React.Component {
       choice1Fade: styles.shuttleChoice,
       choice2Fade: styles.shuttleChoice,
 
-      pathPlay: false,
+      playCueScreen: false,
+      playPlanScreen: false,
+      // playTransScreen: false,
+      playPathFull: false,
+      playPathShort: false,
+      playPathOutcomeShort: false,
       pathProb: 0,
       keyChoice: 0, //press left or right
 
@@ -266,19 +235,23 @@ class ExptTask extends React.Component {
       taskForcedChoiceText1: [],
       taskForcedChoiceText2: [],
 
-      timerCountDur: 10,
+      timerCountDur: 20,
       timerKey: 0,
 
       StructToRender: "",
 
       debug: false,
+      jitter: [1200, 1300, 1400, 1500, 1600, 1700],
     };
 
     this.handleInstructLocal = this.handleInstructLocal.bind(this);
     this.handleDebugKeyLocal = this.handleDebugKeyLocal.bind(this);
-    this.lateResponse = this.lateResponse.bind(this);
+    this.handleNextTrial = this.handleNextTrial.bind(this);
     this.taskStart = this.taskStart.bind(this);
     this.planStart = this.planStart.bind(this);
+    // this.transStart = this.transStart.bind(this);
+    this.pathStart = this.pathStart.bind(this);
+    this.pathShortStart = this.pathShortStart.bind(this);
 
     /* prevents page from going down when space bar is hit .*/
     window.addEventListener("keydown", function (e) {
@@ -295,6 +268,7 @@ class ExptTask extends React.Component {
 
     // Variables for tutorial
     //taskStruct 0-2: values, 3-5: probability, 6-8: EVs, 9: risky EV, 10: safe - risky EV, 11: optimal answer (1:safe, 2: risky)
+    // 12 -outcome structure, 13 - forced choice?, 14 - planning trial, 15 - play long path?
 
     var randNum = "struct_" + getRandomInt(1, 5);
     var StructToRender = require("./taskStruct/" + randNum + ".json");
@@ -315,9 +289,10 @@ class ExptTask extends React.Component {
     var taskChoiceEV = StructToRender[10]; //SafeEV - (RiskyEV1+EV2)
 
     var taskOptChoice = StructToRender[11];
-    var taskForceChoice = StructToRender[12];
-
-    var taskPlanChoice = StructToRender[13];
+    var taskOutcomeStruct = StructToRender[12];
+    var taskForceChoice = StructToRender[13];
+    var taskPlanChoice = StructToRender[14];
+    var taskShowPath = StructToRender[15];
 
     this.setState({
       structNum: randNum,
@@ -336,10 +311,11 @@ class ExptTask extends React.Component {
 
       taskGambleEV: taskGambleEV, //Risky EV1+EV2
       taskChoiceEV: taskChoiceEV, //SafeEV - (RiskyEV1+EV2)
-
+      taskOutcomeStruct: taskOutcomeStruct,
       taskOptChoice: taskOptChoice,
       taskForceChoice: taskForceChoice,
       taskPlanChoice: taskPlanChoice,
+      taskShowPath: taskShowPath,
     });
 
     //send the outcomeTask conditions?
@@ -542,6 +518,21 @@ class ExptTask extends React.Component {
     }
   };
 
+  _handleNextTrialKey = (event) => {
+    var pressed;
+    var time_pressed;
+
+    switch (event.keyCode) {
+      case 32:
+        //    this is SPACEBAR
+        pressed = 10;
+        time_pressed = Math.round(performance.now());
+        this.handleNextTrial(pressed, time_pressed);
+        break;
+      default:
+    }
+  };
+
   // function to play choice feedback, and then go play path
   taskCheck(pressed, time_pressed) {
     var trialRT = time_pressed - this.state.trialTime;
@@ -664,12 +655,29 @@ class ExptTask extends React.Component {
           500
         );
       } else {
-        setTimeout(
-          function () {
-            this.playStateOne();
-          }.bind(this),
-          500
-        );
+        // setTimeout(
+        //   function () {
+        //     this.transShip();
+        //   }.bind(this),
+        //   500
+        // );
+
+        if (this.state.taskShowPath[this.state.trialNum - 1] === 1) {
+          setTimeout(
+            function () {
+              this.playStateOne();
+            }.bind(this),
+            500
+          );
+        } else if (this.state.taskShowPath[this.state.trialNum - 1] === 0) {
+          //if dont show the route, go to a jitter fixation
+          setTimeout(
+            function () {
+              this.jitterFix();
+            }.bind(this),
+            500
+          );
+        }
       }
     }
   }
@@ -698,8 +706,12 @@ class ExptTask extends React.Component {
     var bothPath = shuffle(path1.concat(path2));
 
     this.setState({
-      planPlay: true,
-      pathPlay: false,
+      playCueScreen: false,
+      playPlanScreen: true,
+      // playTransScreen: false,
+      playPathFull: false,
+      playPathShort: false,
+      playPathOutcomeShort: false,
       bothPath: bothPath, //[0,2,8,1,6,7]
       statePlan1: this.state.statePic[bothPath[0]],
       statePlan2: this.state.statePic[bothPath[1]],
@@ -758,8 +770,12 @@ class ExptTask extends React.Component {
       var planTime = Math.round(performance.now());
 
       this.setState({
-        planPlay: true,
-        pathPlay: false,
+        playCueScreen: false,
+        playPlanScreen: true,
+        // playTransScreen: false,
+        playPathFull: false,
+        playPathShort: false,
+        playPathOutcomeShort: false,
         statePlan1Style: statePlan1Style,
         statePlan2Style: statePlan2Style,
         statePlan3Style: statePlan3Style,
@@ -822,12 +838,29 @@ class ExptTask extends React.Component {
           });
         }
 
-        setTimeout(
-          function () {
-            this.playStateOne();
-          }.bind(this),
-          1000
-        );
+        // setTimeout(
+        //   function () {
+        //     this.transShip();
+        //   }.bind(this),
+        //   1500
+        // );
+
+        if (this.state.taskShowPath[this.state.trialNum - 1] === 1) {
+          setTimeout(
+            function () {
+              this.playStateOne();
+            }.bind(this),
+            1000
+          );
+        } else if (this.state.taskShowPath[this.state.trialNum - 1] === 0) {
+          //if dont show the route, go to a jitter fixation
+          setTimeout(
+            function () {
+              this.jitterFix();
+            }.bind(this),
+            1000
+          );
+        }
       }
     }
   }
@@ -910,12 +943,313 @@ class ExptTask extends React.Component {
     return <div>{text}</div>;
   }
 
+  // transShip() {
+  //   var pathRoutePic1 = this.state.pathRoute[0]; //[0,1,2] or [3,4,5] or [6,7,8]
+  //   var pathNum;
+  //   var whichShip;
+  //
+  //   if (pathRoutePic1 === 0) {
+  //     pathNum = 1;
+  //     whichShip = "A";
+  //   } else if (pathRoutePic1 === 3) {
+  //     pathNum = 2;
+  //     whichShip = "B";
+  //   } else if (pathRoutePic1 === 6) {
+  //     pathNum = 3;
+  //     whichShip = "C";
+  //   }
+  //
+  //   this.setState({
+  //     playCueScreen: false,
+  //     playPlanScreen: false,
+  //     // playTransScreen: true,
+  //     playPathFull: false,
+  //     playPathShort: false,
+  //     playPathOutcomeShort: false,
+  //     stateNum: " ",
+  //     stateShown: this.state.img_fix,
+  //     pathNum: pathNum,
+  //     whichShip: whichShip,
+  //     outcomeValue: null,
+  //     taskOutcome1: [],
+  //     taskOutcome2: [],
+  //     taskOutcome3: [],
+  //     taskOutcomeValue: null,
+  //   });
+  //
+  //   if (this.state.taskShowPath[this.state.trialNum - 1] === 1) {
+  //     setTimeout(
+  //       function () {
+  //         this.playStateOne();
+  //       }.bind(this),
+  //       1000
+  //     );
+  //   } else if (this.state.taskShowPath[this.state.trialNum - 1] === 0) {
+  //     //if dont show the route, go to a jitter fixation
+  //     setTimeout(
+  //       function () {
+  //         this.jitterFix();
+  //       }.bind(this),
+  //       1000
+  //     );
+  //   }
+  // }
+  //
+  // transStart() {
+  //   let text = (
+  //     <div className={styles.main}>
+  //       <div className={styles.counter}>
+  //         <img
+  //           className={styles.counter}
+  //           src={this.state.img_counter}
+  //           alt="counter"
+  //         />
+  //         {this.state.trialNum}/{this.state.trialTotal}
+  //       </div>
+  //       <div className={styles.coins}>
+  //         <img
+  //           className={styles.counter}
+  //           src={this.state.img_coin}
+  //           alt="coin"
+  //         />
+  //         {this.state.coins}
+  //       </div>
+  //       <p>
+  //         <br />
+  //         <br />
+  //         <br />
+  //         <br />
+  //         <br />
+  //         <br />
+  //         <span className={styles.center}>
+  //           You entered Spaceship {this.state.whichShip}!
+  //         </span>
+  //         <br />
+  //         <span className={styles.centerThree}>
+  //           {this.state.taskOutcome1} {this.state.taskOutcomeValue}
+  //           &nbsp;
+  //           {this.state.taskOutcome2}
+  //         </span>
+  //         <br />
+  //         <span className={styles.centerThree}>{this.state.taskOutcome3}</span>
+  //         <br />
+  //       </p>
+  //     </div>
+  //   );
+  //
+  //   return <div>{text}</div>;
+  // }
+
+  jitterFix() {
+    if (this.state.pathRoute !== null) {
+      var pathRoutePic1 = this.state.pathRoute[0]; //[0,1,2] or [3,4,5] or [6,7,8]
+      var pathNum;
+      var whichShip;
+
+      if (pathRoutePic1 === 0) {
+        pathNum = 1;
+        whichShip = "A";
+      } else if (pathRoutePic1 === 3) {
+        pathNum = 2;
+        whichShip = "B";
+      } else if (pathRoutePic1 === 6) {
+        pathNum = 3;
+        whichShip = "C";
+      }
+
+      this.setState({
+        // playTransScreen: false,
+        playCueScreen: false,
+        playPlanScreen: false,
+        playPathShort: true,
+        playPathFull: false,
+
+        playPathOutcomeShort: false,
+        stateNum: " ",
+
+        pathNum: pathNum,
+        whichShip: whichShip,
+        stateShown: this.state.img_fix,
+        outcomeValue: null,
+        taskOutcome1: [],
+        taskOutcome2: [],
+        taskOutcome3: [],
+        taskOutcomeValue: null,
+      });
+
+      var jitterPos = this.state.jitter;
+      var jitterTime = jitterPos[Math.floor(Math.random() * jitterPos.length)]; //random jitter time
+
+      setTimeout(
+        function () {
+          this.playOutcomeShort();
+        }.bind(this),
+        jitterTime
+      );
+    } else {
+      setTimeout(
+        function () {
+          this.lateResponse();
+        }.bind(this),
+        1
+      );
+    }
+  }
+
+  playOutcomeShort() {
+    document.addEventListener("keyup", this._handleNextTrialKey);
+    var outcome = this.state.outcome;
+    var coins = this.state.coins + outcome;
+    var taskOutcomeValue = this.state.taskOutcomeValue;
+    var outcomeWord;
+    var outcomeIndx;
+    var outcomeValue;
+
+    if (outcome > 0) {
+      outcomeIndx = 0;
+      outcomeWord = this.state.outcomeWord[0];
+      outcomeValue = outcome / this.state.outcomeVal[0];
+      taskOutcomeValue = outcomeValue;
+    } else if (outcome < 0) {
+      outcomeIndx = 1;
+      outcomeWord = this.state.outcomeWord[1];
+      outcomeValue = outcome / this.state.outcomeVal[1];
+      taskOutcomeValue = outcomeValue;
+    } else if (outcome === 0) {
+      outcomeIndx = 2;
+      outcomeWord = this.state.outcomeWord[2];
+      outcomeValue = this.state.neuVal;
+      taskOutcomeValue = outcome;
+    }
+
+    this.setState({
+      playPathOutcomeShort: true,
+      playPathShort: false,
+      stateNum: "Coins you receive:",
+      outcomeValue: outcomeValue,
+      taskOutcome1: [],
+      taskOutcomeValue: taskOutcomeValue,
+      taskOutcome2: [],
+      coins: coins,
+      taskOutcomeWord: outcomeWord,
+      taskOutcomeIndx: outcomeIndx,
+      taskOutcome3: "[Press the SPACEBAR to continue to the next journey]",
+    });
+
+    setTimeout(
+      function () {
+        this.taskSave();
+      }.bind(this),
+      0
+    );
+  }
+
+  //just the jitter!
+  pathShortStart() {
+    let text = (
+      <div className={styles.main}>
+        <div className={styles.counter}>
+          <img
+            className={styles.counter}
+            src={this.state.img_counter}
+            alt="counter"
+          />
+          {this.state.trialNum}/{this.state.trialTotal}
+        </div>
+        <div className={styles.coins}>
+          <img
+            className={styles.counter}
+            src={this.state.img_coin}
+            alt="coin"
+          />
+          {this.state.coins}
+        </div>
+        <p>
+          <span className={styles.center}>&nbsp;</span>
+          <span className={styles.centerTwo}>&nbsp;</span>
+          <br />
+          <span className={styles.centerThree}>
+            <img
+              className={styles.stateLarge}
+              src={this.state.stateShown}
+              alt="state"
+            />
+          </span>
+          <span className={styles.centerThree}>
+            {this.state.taskOutcome1} {this.state.taskOutcomeValue}
+            &nbsp;
+            {this.state.taskOutcome2}
+          </span>
+          <br />
+          <span className={styles.centerThree}>{this.state.taskOutcome3}</span>
+          <br />
+        </p>
+      </div>
+    );
+
+    return <div>{text}</div>;
+  }
+
+  pathShortOutcomeStart() {
+    let text = (
+      <div className={styles.main}>
+        <div className={styles.counter}>
+          <img
+            className={styles.counter}
+            src={this.state.img_counter}
+            alt="counter"
+          />
+          {this.state.trialNum}/{this.state.trialTotal}
+        </div>
+        <div className={styles.coins}>
+          <img
+            className={styles.counter}
+            src={this.state.img_coin}
+            alt="coin"
+          />
+          {this.state.coins}
+        </div>
+        <p>
+          <span className={styles.center}>
+            Spaceship {this.state.whichShip}
+          </span>
+          <span className={styles.centerTwo}>{this.state.stateNum}</span>
+          <br />
+          <span className={styles.centerThree}>
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br /> <br />
+            <br />
+            <span className={styles.outcomeValue}>{this.state.outcome}</span>
+          </span>
+          <span className={styles.centerThree}>
+            {this.state.taskOutcome1}
+            &nbsp;
+            {this.state.taskOutcome2}
+          </span>
+          <br />
+          <span className={styles.centerThree}>{this.state.taskOutcome3}</span>
+          <br />
+        </p>
+      </div>
+    );
+
+    return <div>{text}</div>;
+  }
+
   missionThree() {
     var trialTime = Math.round(performance.now());
 
     this.setState({
-      pathPlay: false,
-      planPlay: false,
+      playCueScreen: false,
+      playPlanScreen: false,
+      // playTransScreen: false,
+      playPathFull: false,
+      playPathShort: false,
+      playPathOutcomeShort: false,
       trialNum: 0,
       trialNumInBlock: 0,
       trialTime: trialTime,
@@ -938,8 +1272,12 @@ class ExptTask extends React.Component {
     this.setState({
       instructScreen: false,
       taskScreen: true,
-      pathPlay: false,
-      planPlay: false,
+      playCueScreen: false,
+      playPlanScreen: false,
+      // playTransScreen: false,
+      playPathFull: false,
+      playPathShort: false,
+      playPathOutcomeShort: false,
       trialTime: trialTime,
     });
 
@@ -954,7 +1292,7 @@ class ExptTask extends React.Component {
   setTrialVar() {
     // disable the task key
     document.removeEventListener("keyup", this._handleTaskKey);
-
+    document.removeEventListener("keyup", this._handleNextTrialKey);
     // decide Left/Right position for shuttle option (I should save this later)
     var trialTime = Math.round(performance.now());
     var trialNum = this.state.trialNum + 1;
@@ -1343,7 +1681,12 @@ class ExptTask extends React.Component {
       choice1Fade: choice1Fade,
       choice2Fade: choice2Fade,
 
-      pathPlay: false,
+      playCueScreen: true,
+      playPlanScreen: false,
+      // playTransScreen: false,
+      playPathFull: false,
+      playPathShort: false,
+      playPathOutcomeShort: false,
 
       trialNum: trialNum,
       trialNumInBlock: trialNumInBlock,
@@ -1428,6 +1771,7 @@ class ExptTask extends React.Component {
   }
 
   lateResponse() {
+    document.addEventListener("keyup", this._handleNextTrialKey);
     document.removeEventListener("keyup", this._handleTaskKey);
     var coins = this.state.coins - 1;
     var trialRT = Math.round(performance.now()) - this.state.trialTime;
@@ -1435,8 +1779,9 @@ class ExptTask extends React.Component {
     this.setState({
       choice1Fade: styles.shuttleChoiceFade,
       choice2Fade: styles.shuttleChoiceFade,
-      taskForcedChoiceText1: "You lose 1 coin!",
-      taskForcedChoiceText2: "Please respond faster.",
+      taskForcedChoiceText1: "You lose 1 coin! Please respond faster.",
+      taskForcedChoiceText2:
+        "[Press the SPACEBAR to continue to the next journey]",
       trialRT: trialRT,
       coins: coins,
       timerOn: false,
@@ -1581,21 +1926,15 @@ class ExptTask extends React.Component {
           this.state.stateWord[8],
         ];
       }
-      var statePic;
-
-      if (this.state.trialNumInBlock <= this.state.trialForced) {
-        statePic = this.state.statePic[pathRoutePic1];
-      } else {
-        statePic = this.state.stateHolder[0];
-      }
-
-      // console.log("trialNumInBlock: " + this.state.trialNumInBlock);
-      // console.log("trialForced: " + this.state.trialForced);
-      // console.log("statePic: " + statePic);
+      var statePic = this.state.statePic[pathRoutePic1];
 
       this.setState({
-        planPlay: false,
-        pathPlay: true,
+        playCueScreen: false,
+        playPlanScreen: false,
+        // playTransScreen: false,
+        playPathFull: true,
+        playPathShort: false,
+        playPathOutcomeShort: false,
         stateNum: "Room 1",
         stateShown: statePic,
         pathNum: pathNum,
@@ -1605,6 +1944,7 @@ class ExptTask extends React.Component {
         taskOutcome1: [],
         taskOutcome2: [],
         taskOutcomeValue: null,
+        taskOutcome3: [],
       });
 
       setTimeout(
@@ -1654,13 +1994,7 @@ class ExptTask extends React.Component {
 
   playStateTwo() {
     var pathRoutePic2 = this.state.pathRoute[1]; //[0,1,2] or [3,4,5] or [6,7,8]
-    var statePic;
-
-    if (this.state.trialNumInBlock <= this.state.trialForced) {
-      statePic = this.state.statePic[pathRoutePic2];
-    } else {
-      statePic = this.state.stateHolder[1];
-    }
+    var statePic = this.state.statePic[pathRoutePic2];
 
     this.setState({
       stateNum: "Room 2",
@@ -1677,13 +2011,7 @@ class ExptTask extends React.Component {
 
   playStateThree() {
     var pathRoutePic3 = this.state.pathRoute[2]; //[0,1,2] or [3,4,5] or [6,7,8]
-    var statePic;
-
-    if (this.state.trialNumInBlock <= this.state.trialForced) {
-      statePic = this.state.statePic[pathRoutePic3];
-    } else {
-      statePic = this.state.stateHolder[0];
-    }
+    var statePic = this.state.statePic[pathRoutePic3];
 
     this.setState({
       stateNum: "Room 3",
@@ -1698,7 +2026,60 @@ class ExptTask extends React.Component {
     );
   }
 
+  //normal path play
+  pathStart() {
+    let text = (
+      <div className={styles.main}>
+        <div className={styles.counter}>
+          <img
+            className={styles.counter}
+            src={this.state.img_counter}
+            alt="counter"
+          />
+          {this.state.trialNum}/{this.state.trialTotal}
+        </div>
+        <div className={styles.coins}>
+          <img
+            className={styles.counter}
+            src={this.state.img_coin}
+            alt="coin"
+          />
+          {this.state.coins}
+        </div>
+        <p>
+          <span className={styles.center}>
+            Spaceship {this.state.whichShip}
+          </span>
+          <span className={styles.centerTwo}>{this.state.stateNum}</span>
+          <br />
+          <span className={styles.centerThree}>
+            <span className={styles.outcomeValue}>
+              {this.state.outcomeValue}
+            </span>
+            <img
+              className={styles.stateLarge}
+              src={this.state.stateShown}
+              alt="state"
+            />
+          </span>
+          <br />
+          <span className={styles.centerThree}>
+            {this.state.taskOutcome1} {this.state.taskOutcomeValue}
+            &nbsp;
+            {this.state.taskOutcome2}
+          </span>
+          <br />
+          <span className={styles.centerThree}>{this.state.taskOutcome3}</span>
+          <br />
+        </p>
+      </div>
+    );
+
+    return <div>{text}</div>;
+  }
+
   playOutcome() {
+    document.addEventListener("keyup", this._handleNextTrialKey);
     var outcome = this.state.outcome;
     var outcomePic;
     var outcomeValue = this.state.outcomeValue;
@@ -1760,13 +2141,14 @@ class ExptTask extends React.Component {
       coins: coins,
       taskOutcomeWord: outcomeWord,
       taskOutcomeIndx: outcomeIndx,
+      taskOutcome3: "[Press the SPACEBAR to continue to the next journey]",
     });
 
     setTimeout(
       function () {
         this.taskSave();
       }.bind(this),
-      this.state.outcomeDur
+      0
     );
   }
 
@@ -1882,29 +2264,35 @@ class ExptTask extends React.Component {
     }
 
     // console.log("trialInBlock: " + this.state.trialInBlock);
+  }
 
-    if (
-      this.state.trialNumInBlock >= this.state.trialInBlock &&
-      this.state.trialNum !== this.state.trialTotal
-    ) {
-      //end of block, send to resting screen
-      setTimeout(
-        function () {
-          this.endBlock();
-        }.bind(this),
-        this.state.outcomeDur
-      );
-    } else {
-      setTimeout(
-        function () {
-          this.setTrialVar();
-        }.bind(this),
-        this.state.outcomeDur
-      );
+  handleNextTrial(pressed, time_pressed) {
+    var whichButton = pressed;
+    if (whichButton === 10) {
+      if (
+        this.state.trialNumInBlock >= this.state.trialInBlock &&
+        this.state.trialNum !== this.state.trialTotal
+      ) {
+        //end of block, send to resting screen
+        setTimeout(
+          function () {
+            this.endBlock();
+          }.bind(this),
+          0
+        );
+      } else {
+        setTimeout(
+          function () {
+            this.setTrialVar();
+          }.bind(this),
+          0
+        );
+      }
     }
   }
 
   endBlock() {
+    document.removeEventListener("keyup", this._handleNextTrialKey);
     this.setState({
       instructScreen: true,
       taskScreen: false,
@@ -1949,16 +2337,18 @@ class ExptTask extends React.Component {
     );
   }
 
+  // There is a default of 2 pounds bonus - for their time?
   calBonus() {
     var coins = this.state.coins;
-    var bonus = (coins / (0.4 * this.state.trialTotal)) * 4;
+    var bonus = (coins / (0.4 * this.state.trialTotal)) * 2;
 
     // if you earn negative then no bonus at all?
     if (bonus < 0) {
-      bonus = 0;
+      bonus = 2;
     } else {
-      bonus = roundTo(bonus, 2); //2 dec pl
+      bonus = roundTo(bonus, 2) + 2; //2 dec pl
     }
+
     this.setState({
       bonus: bonus,
     });
@@ -2057,8 +2447,10 @@ class ExptTask extends React.Component {
       tutRiskyPathProb1: null,
       tutRiskyPathProb2: null,
       tutOptChoice: null,
+      tutOutcomeStruct: null,
       tutForceChoice: null,
       tutPlanChoice: null,
+      tutShowPath: null,
 
       taskSafePathOutcome: this.state.taskSafePathOutcome,
       taskRiskyPathOutcome1: this.state.taskRiskyPathOutcome1,
@@ -2067,8 +2459,10 @@ class ExptTask extends React.Component {
       taskRiskyPathProb1: this.state.taskRiskyPathProb1,
       taskRiskyPathProb2: this.state.taskRiskyPathProb2,
       taskOptChoice: this.state.taskOptChoice,
+      taskOutcomeStruct: this.state.taskOutcomeStruct,
       taskForceChoice: this.state.taskForceChoice,
       taskPlanChoice: this.state.taskPlanChoice,
+      taskShowPath: this.state.taskShowPath,
     };
 
     try {
@@ -2362,70 +2756,77 @@ class ExptTask extends React.Component {
           document.removeEventListener("keyup", this._handleInstructKey);
           if (this.state.trialNum <= this.state.trialTotal) {
             if (
-              this.state.pathPlay === false &&
-              this.state.planPlay === false
+              this.state.playCueScreen === true &&
+              this.state.playPlanScreen === false &&
+              // this.state.playTransScreen === false &&
+              this.state.playPathFull === false &&
+              this.state.playPathShort === false &&
+              this.state.playPathOutcomeShort === false
             ) {
+              //cueScreen
+              document.addEventListener("keyup", this._handleTaskKey);
               text = <div>{this.taskStart(this.state.trialNum)}</div>;
-            }
-            // the planning screen
-            else if (
-              this.state.pathPlay === false &&
-              this.state.planPlay === true
+            } else if (
+              this.state.playCueScreen === false &&
+              this.state.playPlanScreen === true &&
+              // this.state.playTransScreen === false &&
+              this.state.playPathFull === false &&
+              this.state.playPathShort === false &&
+              this.state.playPathOutcomeShort === false
             ) {
+              // the planning screen
               document.addEventListener("keyup", this._handlePlanKey);
               document.removeEventListener("keyup", this._handleTaskKey);
               text = <div>{this.planStart()}</div>;
+            }
+
+            // else if (
+            //   this.state.playCueScreen === false &&
+            //   this.state.playPlanScreen === false &&
+            //   // this.state.playTransScreen === true &&
+            //   this.state.playPathFull === false &&
+            //   this.state.playPathShort === false &&
+            //   this.state.playPathOutcomeShort === false
+            // ) {
+            //   // the transition screen
+            //   document.removeEventListener("keyup", this._handlePlanKey);
+            //   document.removeEventListener("keyup", this._handleTaskKey);
+            //   text = <div>{this.transStart()}</div>;
+            // }
+            else if (
+              this.state.playCueScreen === false &&
+              this.state.playPlanScreen === false &&
+              // this.state.playTransScreen === false &&
+              this.state.playPathFull === true &&
+              this.state.playPathShort === false &&
+              this.state.playPathOutcomeShort === false
+            ) {
+              // the path route with pics
+              document.removeEventListener("keyup", this._handlePlanKey);
+              document.removeEventListener("keyup", this._handleTaskKey);
+              text = <div>{this.pathStart()}</div>;
             } else if (
-              this.state.pathPlay === true &&
-              this.state.planPlay === false
+              this.state.playCueScreen === false &&
+              this.state.playPlanScreen === false &&
+              // this.state.playTransScreen === false &&
+              this.state.playPathFull === false &&
+              this.state.playPathShort === true &&
+              this.state.playPathOutcomeShort === false
             ) {
               document.removeEventListener("keyup", this._handlePlanKey);
               document.removeEventListener("keyup", this._handleTaskKey);
-              text = (
-                <div className={styles.main}>
-                  <div className={styles.counter}>
-                    <img
-                      className={styles.counter}
-                      src={this.state.img_counter}
-                      alt="counter"
-                    />
-                    {this.state.trialNum}/{this.state.trialTotal}
-                  </div>
-                  <div className={styles.coins}>
-                    <img
-                      className={styles.counter}
-                      src={this.state.img_coin}
-                      alt="coin"
-                    />
-                    {this.state.coins}
-                  </div>
-                  <p>
-                    <span className={styles.center}>
-                      Spaceship {this.state.whichShip}
-                    </span>
-                    <span className={styles.centerTwo}>
-                      {this.state.stateNum}
-                    </span>
-                    <br />
-                    <span className={styles.centerThree}>
-                      <span className={styles.outcomeValue}>
-                        {this.state.outcomeValue}
-                      </span>
-                      <img
-                        className={styles.stateLarge}
-                        src={this.state.stateShown}
-                        alt="state"
-                      />
-                    </span>
-                    <br />
-                    <span className={styles.centerThree}>
-                      {this.state.taskOutcome1} {this.state.taskOutcomeValue}
-                      &nbsp;{this.state.taskOutcome2}
-                    </span>
-                    <br />
-                  </p>
-                </div>
-              );
+              text = <div>{this.pathShortStart()}</div>;
+            } else if (
+              this.state.playCueScreen === false &&
+              this.state.playPlanScreen === false &&
+              // this.state.playTransScreen === false &&
+              this.state.playPathFull === false &&
+              this.state.playPathShort === false &&
+              this.state.playPathOutcomeShort === true
+            ) {
+              // document.removeEventListener("keyup", this._handlePlanKey);
+              // document.removeEventListener("keyup", this._handleTaskKey);
+              text = <div>{this.pathShortOutcomeStart()}</div>;
             }
             //
           } else {

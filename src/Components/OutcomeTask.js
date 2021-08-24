@@ -618,6 +618,8 @@ class OutcomeTask extends React.Component {
       tutOptChoice: null,
       tutForceChoice: null,
       tutPlanChoice: null,
+      tutShowPath: null,
+      tutOutcomeStruct: null,
 
       taskSafePathOutcome: null,
       taskRiskyPathOutcome1: null,
@@ -628,6 +630,8 @@ class OutcomeTask extends React.Component {
       taskOptChoice: null,
       taskForceChoice: null,
       taskPlanChoice: null,
+      taskShowPath: null,
+      taskOutcomeStruct: null,
     };
 
     console.log(saveString);

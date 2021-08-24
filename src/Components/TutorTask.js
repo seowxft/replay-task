@@ -28,42 +28,6 @@ function shuffle(array) {
 
   return array;
 }
-//
-// var isArray =
-//   Array.isArray ||
-//   function (value) {
-//     return {}.toString.call(value) !== "[object Array]";
-//   };
-//
-// function shuffleSame() {
-//   var arrLength = 0;
-//   var argsLength = arguments.length;
-//   var rnd, tmp, argsIndex;
-//
-//   for (var index = 0; index < argsLength; index += 1) {
-//     if (!isArray(arguments[index])) {
-//       throw new TypeError("Argument is not an array.");
-//     }
-//
-//     if (index === 0) {
-//       arrLength = arguments[0].length;
-//     }
-//
-//     if (arrLength !== arguments[index].length) {
-//       throw new RangeError("Array lengths do not match.");
-//     }
-//   }
-//
-//   while (arrLength) {
-//     rnd = Math.round(Math.random() * arrLength);
-//     arrLength -= 1;
-//     for (argsIndex = 0; argsIndex < argsLength; argsIndex += 1) {
-//       tmp = arguments[argsIndex][arrLength];
-//       arguments[argsIndex][arrLength] = arguments[argsIndex][rnd];
-//       arguments[argsIndex][rnd] = tmp;
-//     }
-//   }
-// }
 
 function getOutPos1() {
   var num = Math.random();
@@ -199,7 +163,7 @@ class TutorTask extends React.Component {
       stateNum: "",
       stateShown: null,
       stateDur: 2000,
-      outcomeDur: 2500,
+      // outcomeDur: 2500,
       fixDur: 250,
 
       stateHolder: stateHolder,
@@ -213,7 +177,12 @@ class TutorTask extends React.Component {
       choice1Fade: styles.shuttleChoice,
       choice2Fade: styles.shuttleChoice,
 
-      pathPlay: false,
+      playCueScreen: false,
+      playPlanScreen: false,
+      // playTransScreen: false,
+      playPathFull: false,
+      playPathShort: false,
+      playPathOutcomeShort: false,
       pathProb: 0,
       keyChoice: 0, //press left or right
 
@@ -231,14 +200,19 @@ class TutorTask extends React.Component {
       tutForcedChoiceText1: [],
       tutForcedChoiceText2: [],
 
+      jitter: [1200, 1300, 1400, 1500, 1600, 1700],
       StructToRender: "",
       debug: false,
     };
 
     this.handleInstructLocal = this.handleInstructLocal.bind(this);
     this.handleDebugKeyLocal = this.handleDebugKeyLocal.bind(this);
+    this.handleNextTrial = this.handleNextTrial.bind(this);
     this.taskStart = this.taskStart.bind(this);
     this.planStart = this.planStart.bind(this);
+    // this.transStart = this.transStart.bind(this);
+    this.pathStart = this.pathStart.bind(this);
+    this.pathShortStart = this.pathShortStart.bind(this);
 
     /* prevents page from going down when space bar is hit .*/
     window.addEventListener("keydown", function (e) {
@@ -255,7 +229,7 @@ class TutorTask extends React.Component {
 
     // Variables for tutorial
     //tutStruct 0-2: values, 3-5: probability, 6-8: EVs, 9: risky EV, 10: safe - risky EV, 11: optimal answer (1:safe, 2: risky)
-
+    // 12 -outcome structure, 13 - forced choice?, 14 - planning trial, 15 - play long path?
     var randNum = "struct_" + getRandomInt(1, 5);
     var StructToRender = require("./tutorialStruct/" + randNum + ".json");
 
@@ -275,9 +249,10 @@ class TutorTask extends React.Component {
     var tutChoiceEV = StructToRender[10]; //SafeEV - (RiskyEV1+EV2)
 
     var tutOptChoice = StructToRender[11];
-    var tutForceChoice = StructToRender[12];
-
-    var tutPlanChoice = StructToRender[13];
+    var tutForceChoice = StructToRender[13];
+    var tutOutcomeStruct = StructToRender[12];
+    var tutPlanChoice = StructToRender[14];
+    var tutShowPath = StructToRender[15];
 
     this.setState({
       structNum: randNum,
@@ -297,8 +272,11 @@ class TutorTask extends React.Component {
       tutRiskyPathProb1: tutRiskyPathProb1,
       tutRiskyPathProb2: tutRiskyPathProb2,
       tutOptChoice: tutOptChoice,
+      tutOutcomeStruct: tutOutcomeStruct,
       tutForceChoice: tutForceChoice,
       tutPlanChoice: tutPlanChoice,
+      tutShowPath: tutShowPath,
+      // I MIGHT NEED TO MOD THE COND SAVE
     });
 
     //send the outcomeTask conditions?
@@ -319,6 +297,8 @@ class TutorTask extends React.Component {
     );
   };
 
+  /////////////////////////////////////////////////////////////////////////////////
+  // KEY STUFF
   handleInstructLocal(key_pressed) {
     var curText = this.state.instructScreenText;
     var whichButton = key_pressed;
@@ -344,6 +324,14 @@ class TutorTask extends React.Component {
         0
       );
     } else if (curText === 10 && whichButton === 10) {
+      //startmissionThree
+      setTimeout(
+        function () {
+          this.missionCont();
+        }.bind(this),
+        0
+      );
+    } else if (curText === 11 && whichButton === 10) {
       //startmissionThree
       setTimeout(
         function () {
@@ -475,6 +463,21 @@ class TutorTask extends React.Component {
     }
   };
 
+  _handleNextTrialKey = (event) => {
+    var pressed;
+    var time_pressed;
+
+    switch (event.keyCode) {
+      case 32:
+        //    this is SPACEBAR
+        pressed = 10;
+        time_pressed = Math.round(performance.now());
+        this.handleNextTrial(pressed, time_pressed);
+        break;
+      default:
+    }
+  };
+
   handleDebugKeyLocal(pressed) {
     var whichButton = pressed;
 
@@ -501,372 +504,18 @@ class TutorTask extends React.Component {
     }
   };
 
-  // function to play choice feedback, and then go play path
-  taskCheck(pressed, time_pressed) {
-    var trialRT = time_pressed - this.state.trialTime;
-    var keyChoice = pressed;
-    var choice1Fade = this.state.choice1Fade;
-    var choice2Fade = this.state.choice2Fade;
-    var trialNum = this.state.trialNum;
-    var pathRoute = this.state.pathRoute;
-    var pathProb;
-
-    var pathTrans;
-    var outcome;
-    var pathIndx;
-    var ShuttlePos = this.state.ShuttlePos; //[0,1] means safe/risky vs [0,1] means risky, safe
-    var pathProbEnd;
-    // if choose left
-    if (keyChoice === 1) {
-      choice1Fade = styles.shuttleChoice;
-      choice2Fade = styles.shuttleChoiceFade;
-
-      if (ShuttlePos[0] === 0) {
-        //I choose the safe choice
-        pathRoute = this.state.SafePath;
-        outcome = this.state.tutSafePathOutcome[trialNum - 1];
-        pathIndx = 1;
-        pathProb = 1;
-        pathProbEnd = 1;
-      } else if (ShuttlePos[0] === 1) {
-        //I choose the risky choice
-        //Then Let's roll on the probability
-        pathProb = this.state.tutRiskyPathProb2[trialNum - 1]; //this is the smaller prob
-        pathTrans = pathToGo(pathProb); // 0 (Risk1) or 1 (Risk2)
-        pathIndx = 2;
-
-        if (pathTrans === 0) {
-          pathRoute = this.state.RiskyPath1;
-          outcome = this.state.tutRiskyPathOutcome1[trialNum - 1];
-          pathProbEnd = this.state.tutRiskyPathProb1[trialNum - 1];
-        } else if (pathTrans === 1) {
-          pathRoute = this.state.RiskyPath2;
-          outcome = this.state.tutRiskyPathOutcome2[trialNum - 1];
-          pathProbEnd = this.state.tutRiskyPathProb2[trialNum - 1];
-        }
-      }
-      //if choose right
-    } else if (keyChoice === 2) {
-      choice1Fade = styles.shuttleChoiceFade;
-      choice2Fade = styles.shuttleChoice;
-
-      if (ShuttlePos[1] === 0) {
-        //I choose the safe choice
-        pathRoute = this.state.SafePath;
-        outcome = this.state.tutSafePathOutcome[trialNum - 1];
-        pathIndx = 1;
-        pathProb = 1;
-        pathProbEnd = 1;
-      } else if (ShuttlePos[1] === 1) {
-        //I choose the risky choice
-        //Then Let's roll on the probability
-        pathProb = this.state.tutRiskyPathProb2[trialNum - 1]; //this is the smaller prob
-        pathTrans = pathToGo(pathProb); // 0 (Risk1) or 1 (Risk2)
-        pathIndx = 2;
-
-        if (pathTrans === 0) {
-          pathRoute = this.state.RiskyPath1;
-          outcome = this.state.tutRiskyPathOutcome1[trialNum - 1];
-          pathProbEnd = this.state.tutRiskyPathProb1[trialNum - 1];
-        } else if (pathTrans === 1) {
-          pathRoute = this.state.RiskyPath2;
-          outcome = this.state.tutRiskyPathOutcome2[trialNum - 1];
-          pathProbEnd = this.state.tutRiskyPathProb2[trialNum - 1];
-        }
-      }
-    } else {
-      //if neither left or right, then nothing happens
-      console.log("Choice not made.");
-    }
-
-    // console.log("tutOptChoice " + this.state.tutOptChoice[trialNum - 1]);
-    if (
-      trialNum <= this.state.trialForced &&
-      pathIndx !== this.state.tutForceChoice[trialNum - 1]
-    ) {
-      //if the trial the forced, keyChoice has to be the same as the dictated asnwer, else it wil not move on
-    } else {
-      // free choice trials
-
-      this.setState({
-        trialRT: trialRT,
-        keyChoice: keyChoice,
-        choice1Fade: choice1Fade,
-        choice2Fade: choice2Fade,
-        pathProb: pathProb,
-        pathProbEnd: pathProbEnd,
-
-        pathRoute: pathRoute,
-        outcome: outcome,
-        pathIndx: pathIndx,
-      });
-
-      if (this.state.tutPlanChoice[trialNum - 1] === 1) {
-        //if it is a planning choice trial, then go to the planning screen
-        var planTime = Math.round(performance.now()) + 500;
-
-        this.setState({
-          planTime: planTime,
-        });
-
-        setTimeout(
-          function () {
-            this.selectPlanStates();
-          }.bind(this),
-          500
-        );
-      } else {
-        setTimeout(
-          function () {
-            this.playStateOne();
-          }.bind(this),
-          500
-        );
-      }
-    }
-  }
-
-  selectPlanStates() {
-    //if choose safe option, then state shown is 100% path and a random other path
-    //if choose risky option, then state shown is between the risky paths
-    var path1;
-    var path2;
-
-    if (this.state.pathIndx === 1) {
-      var rand = getRandomInt(1, 2);
-      //safe choice
-      if (rand === 1) {
-        path1 = this.state.SafePath;
-        path2 = this.state.RiskyPath1;
-      } else {
-        path1 = this.state.SafePath;
-        path2 = this.state.RiskyPath2;
-      }
-    } else if (this.state.pathIndx === 2) {
-      path1 = this.state.RiskyPath1;
-      path2 = this.state.RiskyPath2;
-    }
-
-    var bothPath = shuffle(path1.concat(path2));
-
-    this.setState({
-      planPlay: true,
-      pathPlay: false,
-      bothPath: bothPath, //[0,2,8,1,6,7]
-      statePlan1: this.state.statePic[bothPath[0]],
-      statePlan2: this.state.statePic[bothPath[1]],
-      statePlan3: this.state.statePic[bothPath[2]],
-      statePlan4: this.state.statePic[bothPath[3]],
-      statePlan5: this.state.statePic[bothPath[4]],
-      statePlan6: this.state.statePic[bothPath[5]],
-    });
-  }
-
-  planCheck(pressed, time_pressed) {
-    var trialRT = time_pressed - this.state.planTime;
-    var keyChoice = pressed;
-    var keyChoiceAll = this.state.keyChoiceAll; //havent made this array yet
-
-    // console.log("keyChoice: " + keyChoice);
-    // console.log("keyChoiceAll: " + keyChoiceAll);
-
-    if (inArray(keyChoice, keyChoiceAll)) {
-      // if the key choice has already been chosen before, do nothing
-    } else {
-      var planCurrentChoice = this.state.planCurrentChoice + 1;
-      var statePlan1Style = this.state.statePlan1Style;
-      var statePlan2Style = this.state.statePlan2Style;
-      var statePlan3Style = this.state.statePlan3Style;
-      var statePlan4Style = this.state.statePlan4Style;
-      var statePlan5Style = this.state.statePlan5Style;
-      var statePlan6Style = this.state.statePlan6Style;
-      var planChoices = this.state.planChoices;
-      var planChoicesWords = this.state.planChoicesWords;
-      var planRT = this.state.planRT;
-      var coins = this.state.coins;
-
-      keyChoiceAll[planCurrentChoice - 2] = keyChoice;
-
-      if (keyChoice === 1) {
-        statePlan1Style = styles.statePlanChosen;
-      } else if (keyChoice === 2) {
-        statePlan2Style = styles.statePlanChosen;
-      } else if (keyChoice === 3) {
-        statePlan3Style = styles.statePlanChosen;
-      } else if (keyChoice === 4) {
-        statePlan4Style = styles.statePlanChosen;
-      } else if (keyChoice === 5) {
-        statePlan5Style = styles.statePlanChosen;
-      } else if (keyChoice === 6) {
-        statePlan6Style = styles.statePlanChosen;
-      }
-
-      planChoices[planCurrentChoice - 2] = this.state.bothPath[keyChoice - 1];
-      planChoicesWords[planCurrentChoice - 2] = this.state.stateWord[
-        this.state.bothPath[keyChoice - 1]
-      ];
-      planRT[planCurrentChoice - 2] = trialRT;
-
-      var planTime = Math.round(performance.now());
-
-      this.setState({
-        planPlay: true,
-        pathPlay: false,
-        statePlan1Style: statePlan1Style,
-        statePlan2Style: statePlan2Style,
-        statePlan3Style: statePlan3Style,
-        statePlan4Style: statePlan4Style,
-        statePlan5Style: statePlan5Style,
-        statePlan6Style: statePlan6Style,
-        planCurrentChoice: planCurrentChoice,
-        planChoices: planChoices,
-        planChoicesWords: planChoicesWords,
-        planRT: planRT,
-        planTime: planTime,
-        keyChoiceAll: keyChoiceAll,
-      });
-
-      //finish choosing 3 choices
-      if (planCurrentChoice === 4) {
-        // check if correct?
-        // the order has to be right!
-        var samePathOne = arraysEqual(planChoices, this.state.pathOne);
-        var samePathTwo = arraysEqual(planChoices, this.state.pathTwo);
-        var samePathThree = arraysEqual(planChoices, this.state.pathThree);
-
-        if (
-          samePathOne === true ||
-          samePathTwo === true ||
-          samePathThree === true
-        ) {
-          // if correct, which path did they think they were gonna go?
-          var planPathChosen;
-
-          if (arraysEqual(planChoices, this.state.SafePath)) {
-            planPathChosen = this.state.tutSafePathProb[
-              this.state.trialNum - 1
-            ];
-          } else if (arraysEqual(planChoices, this.state.RiskyPath1)) {
-            planPathChosen = this.state.tutRiskyPathProb1[
-              this.state.trialNum - 1
-            ];
-          } else if (arraysEqual(planChoices, this.state.RiskyPath2)) {
-            planPathChosen = this.state.tutRiskyPathProb2[
-              this.state.trialNum - 1
-            ];
-          }
-
-          this.setState({
-            planCor: 1,
-            planFeedback: "Correct order! No coins lost!",
-            coins: coins,
-            planPathChosen: planPathChosen,
-            planCurrentChoice: 3, //keep the number on screen
-          });
-        } else {
-          coins = coins - 1;
-          this.setState({
-            planCor: 0,
-            planFeedback: "No such order! You lose 1 coin!",
-            coins: coins,
-            planPathChosen: null, //failed to choose correct path
-            planCurrentChoice: 3,
-          });
-        }
-
-        setTimeout(
-          function () {
-            this.playStateOne();
-          }.bind(this),
-          1000
-        );
-      }
-    }
-  }
-
-  planStart() {
-    let text = (
-      <div className={styles.main}>
-        <div className={styles.counter}>
-          <img
-            className={styles.counter}
-            src={this.state.img_counter}
-            alt="counter"
-          />
-          {this.state.trialNum}/{this.state.trialTotal}
-        </div>
-        <div className={styles.coins}>
-          <img
-            className={styles.counter}
-            src={this.state.img_coin}
-            alt="coin"
-          />
-          {this.state.coins}
-        </div>
-        <p>
-          <span className={styles.centerTwo}>
-            Choose the room images of the spaceship{" "}
-            <strong>you believe you will end up in</strong> in order.
-          </span>
-          <br />
-          <span className={styles.centerThree}>
-            Which is <strong>Room {this.state.planCurrentChoice}</strong>?
-          </span>
-          <br />
-          <span className={styles.centerTwo}>
-            1 -{" "}
-            <img
-              className={this.state.statePlan1Style}
-              src={this.state.statePlan1}
-              alt="state1"
-            />
-            &nbsp; &nbsp; 2 -{" "}
-            <img
-              className={this.state.statePlan2Style}
-              src={this.state.statePlan2}
-              alt="state2"
-            />
-            &nbsp; &nbsp; 3 -{" "}
-            <img
-              className={this.state.statePlan3Style}
-              src={this.state.statePlan3}
-              alt="state3"
-            />
-            <br />
-            <br />4 -{" "}
-            <img
-              className={this.state.statePlan4Style}
-              src={this.state.statePlan4}
-              alt="state4"
-            />
-            &nbsp; &nbsp; 5 -{" "}
-            <img
-              className={this.state.statePlan5Style}
-              src={this.state.statePlan5}
-              alt="state5"
-            />
-            &nbsp; &nbsp; 6 -{" "}
-            <img
-              className={this.state.statePlan6Style}
-              src={this.state.statePlan6}
-              alt="state6"
-            />
-          </span>
-          <br />
-          <span className={styles.centerTwo}>{this.state.planFeedback}</span>
-        </p>
-      </div>
-    );
-
-    return <div>{text}</div>;
-  }
+  /////////////////////////////////////////////////////////////////////////////////
 
   missionThree() {
     var trialTime = Math.round(performance.now());
 
     this.setState({
-      pathPlay: false,
-      planPlay: false,
+      playCueScreen: false,
+      playPlanScreen: false,
+      // playTransScreen: false,
+      playPathFull: false,
+      playPathShort: false,
+      playPathOutcomeShort: false,
       trialNum: 0,
       trialTime: trialTime,
       trialRT: 0,
@@ -882,26 +531,8 @@ class TutorTask extends React.Component {
     );
   }
 
-  missionCont() {
-    var trialTime = Math.round(performance.now());
-
-    this.setState({
-      instructScreen: false,
-      taskScreen: true,
-      pathPlay: false,
-      planPlay: false,
-      trialTime: trialTime,
-    });
-
-    setTimeout(
-      function () {
-        this.setTrialVar();
-      }.bind(this),
-      0
-    );
-  }
-
   setTrialVar() {
+    document.removeEventListener("keyup", this._handleNextTrialKey);
     // decide Left/Right position for shuttle option (I should save this later)
     var trialTime = Math.round(performance.now());
     var trialNum = this.state.trialNum + 1;
@@ -1233,6 +864,13 @@ class TutorTask extends React.Component {
 
     // console.log("text: " + tutForcedChoiceText1);
     // console.log("text: " + tutForcedChoiceText2);
+    if (trialNum === 1) {
+      this.setState({
+        instructScreen: false,
+        taskScreen: true,
+      });
+    }
+
     this.setState({
       Shuttle1Word: Shuttle1Word,
       Shuttle1: Shuttle1,
@@ -1259,8 +897,12 @@ class TutorTask extends React.Component {
       tutForcedChoiceText2: tutForcedChoiceText2,
       choice1Fade: choice1Fade,
       choice2Fade: choice2Fade,
-      pathPlay: false,
-      planPlay: false,
+      playCueScreen: true,
+      playPlanScreen: false,
+      // playTransScreen: false,
+      playPathFull: false,
+      playPathShort: false,
+      playPathOutcomeShort: false,
       trialNum: trialNum,
       trialTime: trialTime,
       pathProbBoth: pathProbBoth,
@@ -1279,13 +921,6 @@ class TutorTask extends React.Component {
       planPathChosen: null,
       planFeedback: "Press the [number key] to select the room.",
     });
-
-    if (trialNum === 1) {
-      this.setState({
-        instructScreen: false,
-        taskScreen: true,
-      });
-    }
   }
 
   taskStart(trialNum) {
@@ -1359,6 +994,698 @@ class TutorTask extends React.Component {
     return <div>{text}</div>;
   }
 
+  // function to play choice feedback, and then go play path
+  taskCheck(pressed, time_pressed) {
+    var trialRT = time_pressed - this.state.trialTime;
+    var keyChoice = pressed;
+    var choice1Fade = this.state.choice1Fade;
+    var choice2Fade = this.state.choice2Fade;
+    var trialNum = this.state.trialNum;
+    var pathRoute = this.state.pathRoute;
+    var pathProb;
+
+    var pathTrans;
+    var outcome;
+    var pathIndx;
+    var ShuttlePos = this.state.ShuttlePos; //[0,1] means safe/risky vs [0,1] means risky, safe
+    var pathProbEnd;
+    // if choose left
+    if (keyChoice === 1) {
+      choice1Fade = styles.shuttleChoice;
+      choice2Fade = styles.shuttleChoiceFade;
+
+      if (ShuttlePos[0] === 0) {
+        //I choose the safe choice
+        pathRoute = this.state.SafePath;
+        outcome = this.state.tutSafePathOutcome[trialNum - 1];
+        pathIndx = 1;
+        pathProb = 1;
+        pathProbEnd = 1;
+      } else if (ShuttlePos[0] === 1) {
+        //I choose the risky choice
+        //Then Let's roll on the probability
+        pathProb = this.state.tutRiskyPathProb2[trialNum - 1]; //this is the smaller prob
+        pathTrans = pathToGo(pathProb); // 0 (Risk1) or 1 (Risk2)
+        pathIndx = 2;
+
+        if (pathTrans === 0) {
+          pathRoute = this.state.RiskyPath1;
+          outcome = this.state.tutRiskyPathOutcome1[trialNum - 1];
+          pathProbEnd = this.state.tutRiskyPathProb1[trialNum - 1];
+        } else if (pathTrans === 1) {
+          pathRoute = this.state.RiskyPath2;
+          outcome = this.state.tutRiskyPathOutcome2[trialNum - 1];
+          pathProbEnd = this.state.tutRiskyPathProb2[trialNum - 1];
+        }
+      }
+      //if choose right
+    } else if (keyChoice === 2) {
+      choice1Fade = styles.shuttleChoiceFade;
+      choice2Fade = styles.shuttleChoice;
+
+      if (ShuttlePos[1] === 0) {
+        //I choose the safe choice
+        pathRoute = this.state.SafePath;
+        outcome = this.state.tutSafePathOutcome[trialNum - 1];
+        pathIndx = 1;
+        pathProb = 1;
+        pathProbEnd = 1;
+      } else if (ShuttlePos[1] === 1) {
+        //I choose the risky choice
+        //Then Let's roll on the probability
+        pathProb = this.state.tutRiskyPathProb2[trialNum - 1]; //this is the smaller prob
+        pathTrans = pathToGo(pathProb); // 0 (Risk1) or 1 (Risk2)
+        pathIndx = 2;
+
+        if (pathTrans === 0) {
+          pathRoute = this.state.RiskyPath1;
+          outcome = this.state.tutRiskyPathOutcome1[trialNum - 1];
+          pathProbEnd = this.state.tutRiskyPathProb1[trialNum - 1];
+        } else if (pathTrans === 1) {
+          pathRoute = this.state.RiskyPath2;
+          outcome = this.state.tutRiskyPathOutcome2[trialNum - 1];
+          pathProbEnd = this.state.tutRiskyPathProb2[trialNum - 1];
+        }
+      }
+    } else {
+      //if neither left or right, then nothing happens
+      console.log("Choice not made.");
+    }
+
+    if (
+      trialNum <= this.state.trialForced &&
+      pathIndx !== this.state.tutForceChoice[trialNum - 1]
+    ) {
+      //if the trial the forced, keyChoice has to be the same as the dictated asnwer, else it wil not move on
+    } else {
+      // free choice trials
+
+      this.setState({
+        trialRT: trialRT,
+        keyChoice: keyChoice,
+        choice1Fade: choice1Fade,
+        choice2Fade: choice2Fade,
+        pathProb: pathProb,
+        pathProbEnd: pathProbEnd,
+
+        pathRoute: pathRoute,
+        outcome: outcome,
+        pathIndx: pathIndx,
+      });
+
+      if (this.state.tutPlanChoice[trialNum - 1] === 1) {
+        //if it is a planning choice trial, then go to the planning screen
+        var planTime = Math.round(performance.now()) + 500;
+
+        this.setState({
+          planTime: planTime,
+        });
+
+        setTimeout(
+          function () {
+            this.selectPlanStates();
+          }.bind(this),
+          500
+        );
+      } else {
+        //if it is not a planning trial, go to outcomes
+        // if tutShowPath, then play the full route
+        // setTimeout(
+        //   function () {
+        //     this.transShip();
+        //   }.bind(this),
+        //   500
+        // );
+
+        if (this.state.tutShowPath[this.state.trialNum - 1] === 1) {
+          setTimeout(
+            function () {
+              this.playStateOne();
+            }.bind(this),
+            500
+          );
+        } else if (this.state.tutShowPath[this.state.trialNum - 1] === 0) {
+          //if dont show the route, go to a jitter fixation
+          setTimeout(
+            function () {
+              this.jitterFix();
+            }.bind(this),
+            500
+          );
+        }
+
+        //
+      }
+    }
+  }
+
+  selectPlanStates() {
+    //if choose safe option, then state shown is 100% path and a random other path
+    //if choose risky option, then state shown is between the risky paths
+    var path1;
+    var path2;
+
+    if (this.state.pathIndx === 1) {
+      var rand = getRandomInt(1, 2);
+      //safe choice
+      if (rand === 1) {
+        path1 = this.state.SafePath;
+        path2 = this.state.RiskyPath1;
+      } else {
+        path1 = this.state.SafePath;
+        path2 = this.state.RiskyPath2;
+      }
+    } else if (this.state.pathIndx === 2) {
+      path1 = this.state.RiskyPath1;
+      path2 = this.state.RiskyPath2;
+    }
+
+    var bothPath = shuffle(path1.concat(path2));
+
+    this.setState({
+      playCueScreen: false,
+      playPlanScreen: true,
+      playTransScreen: false,
+      playPathFull: false,
+      playPathShort: false,
+      playPathOutcomeShort: false,
+      bothPath: bothPath, //[0,2,8,1,6,7]
+      statePlan1: this.state.statePic[bothPath[0]],
+      statePlan2: this.state.statePic[bothPath[1]],
+      statePlan3: this.state.statePic[bothPath[2]],
+      statePlan4: this.state.statePic[bothPath[3]],
+      statePlan5: this.state.statePic[bothPath[4]],
+      statePlan6: this.state.statePic[bothPath[5]],
+    });
+  }
+
+  planStart() {
+    let text = (
+      <div className={styles.main}>
+        <div className={styles.counter}>
+          <img
+            className={styles.counter}
+            src={this.state.img_counter}
+            alt="counter"
+          />
+          {this.state.trialNum}/{this.state.trialTotal}
+        </div>
+        <div className={styles.coins}>
+          <img
+            className={styles.counter}
+            src={this.state.img_coin}
+            alt="coin"
+          />
+          {this.state.coins}
+        </div>
+        <p>
+          <span className={styles.centerTwo}>
+            Choose the room images of the spaceship{" "}
+            <strong>you believe you will end up in</strong> in order.
+          </span>
+          <br />
+          <span className={styles.centerThree}>
+            Which is <strong>Room {this.state.planCurrentChoice}</strong>?
+          </span>
+          <br />
+          <span className={styles.centerTwo}>
+            1 -{" "}
+            <img
+              className={this.state.statePlan1Style}
+              src={this.state.statePlan1}
+              alt="state1"
+            />
+            &nbsp; &nbsp; 2 -{" "}
+            <img
+              className={this.state.statePlan2Style}
+              src={this.state.statePlan2}
+              alt="state2"
+            />
+            &nbsp; &nbsp; 3 -{" "}
+            <img
+              className={this.state.statePlan3Style}
+              src={this.state.statePlan3}
+              alt="state3"
+            />
+            <br />
+            <br />4 -{" "}
+            <img
+              className={this.state.statePlan4Style}
+              src={this.state.statePlan4}
+              alt="state4"
+            />
+            &nbsp; &nbsp; 5 -{" "}
+            <img
+              className={this.state.statePlan5Style}
+              src={this.state.statePlan5}
+              alt="state5"
+            />
+            &nbsp; &nbsp; 6 -{" "}
+            <img
+              className={this.state.statePlan6Style}
+              src={this.state.statePlan6}
+              alt="state6"
+            />
+          </span>
+          <br />
+          <span className={styles.centerTwo}>{this.state.planFeedback}</span>
+        </p>
+      </div>
+    );
+
+    return <div>{text}</div>;
+  }
+
+  planCheck(pressed, time_pressed) {
+    var trialRT = time_pressed - this.state.planTime;
+    var keyChoice = pressed;
+    var keyChoiceAll = this.state.keyChoiceAll; //havent made this array yet
+
+    // console.log("keyChoice: " + keyChoice);
+    // console.log("keyChoiceAll: " + keyChoiceAll);
+
+    if (inArray(keyChoice, keyChoiceAll)) {
+      // if the key choice has already been chosen before, do nothing
+    } else {
+      var planCurrentChoice = this.state.planCurrentChoice + 1;
+      var statePlan1Style = this.state.statePlan1Style;
+      var statePlan2Style = this.state.statePlan2Style;
+      var statePlan3Style = this.state.statePlan3Style;
+      var statePlan4Style = this.state.statePlan4Style;
+      var statePlan5Style = this.state.statePlan5Style;
+      var statePlan6Style = this.state.statePlan6Style;
+      var planChoices = this.state.planChoices;
+      var planChoicesWords = this.state.planChoicesWords;
+      var planRT = this.state.planRT;
+      var coins = this.state.coins;
+
+      keyChoiceAll[planCurrentChoice - 2] = keyChoice;
+
+      if (keyChoice === 1) {
+        statePlan1Style = styles.statePlanChosen;
+      } else if (keyChoice === 2) {
+        statePlan2Style = styles.statePlanChosen;
+      } else if (keyChoice === 3) {
+        statePlan3Style = styles.statePlanChosen;
+      } else if (keyChoice === 4) {
+        statePlan4Style = styles.statePlanChosen;
+      } else if (keyChoice === 5) {
+        statePlan5Style = styles.statePlanChosen;
+      } else if (keyChoice === 6) {
+        statePlan6Style = styles.statePlanChosen;
+      }
+
+      planChoices[planCurrentChoice - 2] = this.state.bothPath[keyChoice - 1];
+      planChoicesWords[planCurrentChoice - 2] = this.state.stateWord[
+        this.state.bothPath[keyChoice - 1]
+      ];
+      planRT[planCurrentChoice - 2] = trialRT;
+
+      var planTime = Math.round(performance.now());
+
+      this.setState({
+        playCueScreen: false,
+        playPlanScreen: true,
+        playTransScreen: false,
+        playPathFull: false,
+        playPathShort: false,
+        playPathOutcomeShort: false,
+        statePlan1Style: statePlan1Style,
+        statePlan2Style: statePlan2Style,
+        statePlan3Style: statePlan3Style,
+        statePlan4Style: statePlan4Style,
+        statePlan5Style: statePlan5Style,
+        statePlan6Style: statePlan6Style,
+        planCurrentChoice: planCurrentChoice,
+        planChoices: planChoices,
+        planChoicesWords: planChoicesWords,
+        planRT: planRT,
+        planTime: planTime,
+        keyChoiceAll: keyChoiceAll,
+      });
+
+      //finish choosing 3 choices
+      if (planCurrentChoice === 4) {
+        // check if correct?
+        // the order has to be right!
+        var samePathOne = arraysEqual(planChoices, this.state.pathOne);
+        var samePathTwo = arraysEqual(planChoices, this.state.pathTwo);
+        var samePathThree = arraysEqual(planChoices, this.state.pathThree);
+
+        if (
+          samePathOne === true ||
+          samePathTwo === true ||
+          samePathThree === true
+        ) {
+          // if correct, which path did they think they were gonna go?
+          var planPathChosen;
+
+          if (arraysEqual(planChoices, this.state.SafePath)) {
+            planPathChosen = this.state.tutSafePathProb[
+              this.state.trialNum - 1
+            ];
+          } else if (arraysEqual(planChoices, this.state.RiskyPath1)) {
+            planPathChosen = this.state.tutRiskyPathProb1[
+              this.state.trialNum - 1
+            ];
+          } else if (arraysEqual(planChoices, this.state.RiskyPath2)) {
+            planPathChosen = this.state.tutRiskyPathProb2[
+              this.state.trialNum - 1
+            ];
+          }
+
+          this.setState({
+            planCor: 1,
+            planFeedback: "Correct order! No coins lost!",
+            coins: coins,
+            planPathChosen: planPathChosen,
+            planCurrentChoice: 3, //keep the number on screen
+          });
+        } else {
+          coins = coins - 1;
+          this.setState({
+            planCor: 0,
+            planFeedback: "No such order! You lose 1 coin!",
+            coins: coins,
+            planPathChosen: null, //failed to choose correct path
+            planCurrentChoice: 3,
+          });
+        }
+
+        if (this.state.tutShowPath[this.state.trialNum - 1] === 1) {
+          setTimeout(
+            function () {
+              this.playStateOne();
+            }.bind(this),
+            1000
+          );
+        } else if (this.state.tutShowPath[this.state.trialNum - 1] === 0) {
+          //if dont show the route, go to a jitter fixation
+          setTimeout(
+            function () {
+              this.jitterFix();
+            }.bind(this),
+            1000
+          );
+        }
+
+        // setTimeout(
+        //   function () {
+        //     this.transShip();
+        //   }.bind(this),
+        //   2000
+        // );
+
+        //
+      }
+    }
+  }
+  //
+  // transShip() {
+  //   var pathRoutePic1 = this.state.pathRoute[0]; //[0,1,2] or [3,4,5] or [6,7,8]
+  //   var pathNum;
+  //   var whichShip;
+  //
+  //   if (pathRoutePic1 === 0) {
+  //     pathNum = 1;
+  //     whichShip = "A";
+  //   } else if (pathRoutePic1 === 3) {
+  //     pathNum = 2;
+  //     whichShip = "B";
+  //   } else if (pathRoutePic1 === 6) {
+  //     pathNum = 3;
+  //     whichShip = "C";
+  //   }
+  //
+  //   this.setState({
+  //     playCueScreen: false,
+  //     playPlanScreen: false,
+  //     playTransScreen: true,
+  //     playPathFull: false,
+  //     playPathShort: false,
+  //     playPathOutcomeShort: false,
+  //     stateNum: " ",
+  //     stateShown: this.state.img_fix,
+  //     pathNum: pathNum,
+  //     whichShip: whichShip,
+  //     outcomeValue: null,
+  //     tutOutcome1: [],
+  //     tutOutcome2: [],
+  //     tutOutcome3: [],
+  //     tutOutcomeValue: null,
+  //   });
+  //
+  //   if (this.state.tutShowPath[this.state.trialNum - 1] === 1) {
+  //     setTimeout(
+  //       function () {
+  //         this.playStateOne();
+  //       }.bind(this),
+  //       1000
+  //     );
+  //   } else if (this.state.tutShowPath[this.state.trialNum - 1] === 0) {
+  //     //if dont show the route, go to a jitter fixation
+  //     setTimeout(
+  //       function () {
+  //         this.jitterFix();
+  //       }.bind(this),
+  //       1000
+  //     );
+  //   }
+  // }
+
+  // transStart() {
+  //   let text = (
+  //     <div className={styles.main}>
+  //       <div className={styles.counter}>
+  //         <img
+  //           className={styles.counter}
+  //           src={this.state.img_counter}
+  //           alt="counter"
+  //         />
+  //         {this.state.trialNum}/{this.state.trialTotal}
+  //       </div>
+  //       <div className={styles.coins}>
+  //         <img
+  //           className={styles.counter}
+  //           src={this.state.img_coin}
+  //           alt="coin"
+  //         />
+  //         {this.state.coins}
+  //       </div>
+  //       <p>
+  //         <br />
+  //         <br />
+  //         <br />
+  //         <br />
+  //         <br />
+  //         <br />
+  //         <span className={styles.center}>
+  //           You entered Spaceship {this.state.whichShip}!
+  //         </span>
+  //         <br />
+  //         <span className={styles.centerThree}>
+  //           {this.state.tutOutcome1} {this.state.tutOutcomeValue}
+  //           &nbsp;
+  //           {this.state.tutOutcome2}
+  //         </span>
+  //         <br />
+  //         <span className={styles.centerThree}>{this.state.tutOutcome3}</span>
+  //         <br />
+  //       </p>
+  //     </div>
+  //   );
+  //
+  //   return <div>{text}</div>;
+  // }
+
+  jitterFix() {
+    var pathRoutePic1 = this.state.pathRoute[0]; //[0,1,2] or [3,4,5] or [6,7,8]
+    var pathNum;
+    var whichShip;
+
+    if (pathRoutePic1 === 0) {
+      pathNum = 1;
+      whichShip = "A";
+    } else if (pathRoutePic1 === 3) {
+      pathNum = 2;
+      whichShip = "B";
+    } else if (pathRoutePic1 === 6) {
+      pathNum = 3;
+      whichShip = "C";
+    }
+
+    this.setState({
+      playCueScreen: false,
+      playPlanScreen: false,
+      playPathFull: false,
+      playPathShort: true,
+      playPathOutcomeShort: false,
+      stateShown: this.state.img_fix,
+      stateNum: " ",
+      pathNum: pathNum,
+      whichShip: whichShip,
+      outcomeValue: null,
+      tutOutcome1: [],
+      tutOutcome2: [],
+      tutOutcome3: [],
+      tutOutcomeValue: null,
+    });
+
+    var jitterPos = this.state.jitter;
+    var jitterTime = jitterPos[Math.floor(Math.random() * jitterPos.length)]; //random jitter time
+
+    setTimeout(
+      function () {
+        this.playOutcomeShort();
+      }.bind(this),
+      jitterTime
+    );
+  }
+
+  playOutcomeShort() {
+    document.addEventListener("keyup", this._handleNextTrialKey);
+    var outcome = this.state.outcome;
+    var coins = this.state.coins + outcome;
+    var tutOutcomeValue = this.state.tutOutcomeValue;
+    var outcomeWord;
+    var outcomeIndx;
+    var outcomeValue;
+
+    if (outcome > 0) {
+      outcomeIndx = 0;
+      outcomeWord = this.state.outcomeWord[0];
+      outcomeValue = outcome / this.state.outcomeVal[0];
+      tutOutcomeValue = outcomeValue;
+    } else if (outcome < 0) {
+      outcomeIndx = 1;
+      outcomeWord = this.state.outcomeWord[1];
+      outcomeValue = outcome / this.state.outcomeVal[1];
+      tutOutcomeValue = outcomeValue;
+    } else if (outcome === 0) {
+      outcomeIndx = 2;
+      outcomeWord = this.state.outcomeWord[2];
+      outcomeValue = this.state.neuVal;
+      tutOutcomeValue = outcome;
+    }
+
+    this.setState({
+      playPathOutcomeShort: true,
+      playPathShort: false,
+      stateNum: "Coins you receive:",
+      outcomeValue: outcomeValue,
+      tutOutcome1: [],
+      tutOutcomeValue: tutOutcomeValue,
+      tutOutcome2: [],
+      coins: coins,
+      tutOutcomeWord: outcomeWord,
+      tutOutcomeIndx: outcomeIndx,
+      tutOutcome3: "[Press the SPACEBAR to continue to the next journey]",
+    });
+
+    setTimeout(
+      function () {
+        this.tutSave();
+      }.bind(this),
+      0
+    );
+  }
+
+  //just the jitter!
+  pathShortStart() {
+    let text = (
+      <div className={styles.main}>
+        <div className={styles.counter}>
+          <img
+            className={styles.counter}
+            src={this.state.img_counter}
+            alt="counter"
+          />
+          {this.state.trialNum}/{this.state.trialTotal}
+        </div>
+        <div className={styles.coins}>
+          <img
+            className={styles.counter}
+            src={this.state.img_coin}
+            alt="coin"
+          />
+          {this.state.coins}
+        </div>
+        <p>
+          <span className={styles.center}>&nbsp;</span>
+          <span className={styles.centerTwo}>&nbsp;</span>
+          <br />
+          <span className={styles.centerThree}>
+            <img
+              className={styles.stateLarge}
+              src={this.state.stateShown}
+              alt="state"
+            />
+          </span>
+          <span className={styles.centerThree}>
+            {this.state.tutOutcome1} {this.state.tutOutcomeValue}
+            &nbsp;
+            {this.state.tutOutcome2}
+          </span>
+          <br />
+          <span className={styles.centerThree}>{this.state.tutOutcome3}</span>
+          <br />
+        </p>
+      </div>
+    );
+
+    return <div>{text}</div>;
+  }
+
+  pathShortOutcomeStart() {
+    let text = (
+      <div className={styles.main}>
+        <div className={styles.counter}>
+          <img
+            className={styles.counter}
+            src={this.state.img_counter}
+            alt="counter"
+          />
+          {this.state.trialNum}/{this.state.trialTotal}
+        </div>
+        <div className={styles.coins}>
+          <img
+            className={styles.counter}
+            src={this.state.img_coin}
+            alt="coin"
+          />
+          {this.state.coins}
+        </div>
+        <p>
+          <span className={styles.center}>
+            Spaceship {this.state.whichShip}
+          </span>
+          <span className={styles.centerTwo}>{this.state.stateNum}</span>
+          <br />
+          <span className={styles.centerThree}>
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br /> <br />
+            <br />
+            <span className={styles.outcomeValue}>{this.state.outcome}</span>
+          </span>
+          <span className={styles.centerThree}>
+            {this.state.tutOutcome1}
+            &nbsp;
+            {this.state.tutOutcome2}
+          </span>
+          <br />
+          <span className={styles.centerThree}>{this.state.tutOutcome3}</span>
+          <br />
+        </p>
+      </div>
+    );
+
+    return <div>{text}</div>;
+  }
+
   playStateOne() {
     var pathRoutePic1 = this.state.pathRoute[0]; //[0,1,2] or [3,4,5] or [6,7,8]
     var pathNum;
@@ -1390,20 +1717,18 @@ class TutorTask extends React.Component {
       ];
     }
 
-    var statePic;
-
-    if (this.state.trialNum <= this.state.trialForced) {
-      statePic = this.state.statePic[pathRoutePic1];
-    } else {
-      statePic = this.state.stateHolder[0];
-    }
+    var statePic = this.state.statePic[pathRoutePic1];
 
     console.log(pathRoutePic1);
     console.log(statePic);
 
     this.setState({
-      pathPlay: true,
-      planPlay: false,
+      playCueScreen: false,
+      playPlanScreen: false,
+      // playTransScreen: false,
+      playPathFull: true,
+      playPathShort: false,
+      playPathOutcomeShort: false,
       stateNum: "Room 1",
       stateShown: statePic,
       pathNum: pathNum,
@@ -1412,6 +1737,7 @@ class TutorTask extends React.Component {
       outcomeValue: null,
       tutOutcome1: [],
       tutOutcome2: [],
+      tutOutcome3: [],
       tutOutcomeValue: null,
     });
 
@@ -1454,12 +1780,7 @@ class TutorTask extends React.Component {
 
   playStateTwo() {
     var pathRoutePic2 = this.state.pathRoute[1]; //[0,1,2] or [3,4,5] or [6,7,8]
-    var statePic;
-    if (this.state.trialNum <= this.state.trialForced) {
-      statePic = this.state.statePic[pathRoutePic2];
-    } else {
-      statePic = this.state.stateHolder[1];
-    }
+    var statePic = this.state.statePic[pathRoutePic2];
 
     this.setState({
       stateNum: "Room 2",
@@ -1476,12 +1797,7 @@ class TutorTask extends React.Component {
 
   playStateThree() {
     var pathRoutePic3 = this.state.pathRoute[2]; //[0,1,2] or [3,4,5] or [6,7,8]
-    var statePic;
-    if (this.state.trialNum <= this.state.trialForced) {
-      statePic = this.state.statePic[pathRoutePic3];
-    } else {
-      statePic = this.state.stateHolder[0];
-    }
+    var statePic = this.state.statePic[pathRoutePic3];
 
     this.setState({
       stateNum: "Room 3",
@@ -1496,7 +1812,60 @@ class TutorTask extends React.Component {
     );
   }
 
+  //normal path play
+  pathStart() {
+    let text = (
+      <div className={styles.main}>
+        <div className={styles.counter}>
+          <img
+            className={styles.counter}
+            src={this.state.img_counter}
+            alt="counter"
+          />
+          {this.state.trialNum}/{this.state.trialTotal}
+        </div>
+        <div className={styles.coins}>
+          <img
+            className={styles.counter}
+            src={this.state.img_coin}
+            alt="coin"
+          />
+          {this.state.coins}
+        </div>
+        <p>
+          <span className={styles.center}>
+            Spaceship {this.state.whichShip}
+          </span>
+          <span className={styles.centerTwo}>{this.state.stateNum}</span>
+          <br />
+          <span className={styles.centerThree}>
+            <span className={styles.outcomeValue}>
+              {this.state.outcomeValue}
+            </span>
+            <img
+              className={styles.stateLarge}
+              src={this.state.stateShown}
+              alt="state"
+            />
+          </span>
+          <br />
+          <span className={styles.centerThree}>
+            {this.state.tutOutcome1} {this.state.tutOutcomeValue}
+            &nbsp;
+            {this.state.tutOutcome2}
+          </span>
+          <br />
+          <span className={styles.centerThree}>{this.state.tutOutcome3}</span>
+          <br />
+        </p>
+      </div>
+    );
+
+    return <div>{text}</div>;
+  }
+
   playOutcome() {
+    document.addEventListener("keyup", this._handleNextTrialKey);
     var outcome = this.state.outcome;
     var outcomePic;
     var outcomeValue = this.state.outcomeValue;
@@ -1510,11 +1879,8 @@ class TutorTask extends React.Component {
     if (outcome > 0) {
       outcomeIndx = 0;
       outcomeWord = this.state.outcomeWord[0];
-      if (this.state.trialNum <= this.state.trialForced) {
-        outcomePic = this.state.outcomePic[0];
-      } else {
-        outcomePic = this.state.stateHolder[1];
-      }
+
+      outcomePic = this.state.outcomePic[0];
 
       outcomeValue = outcome / this.state.outcomeVal[0];
       tutOutcomeValue = outcomeValue;
@@ -1522,30 +1888,21 @@ class TutorTask extends React.Component {
     } else if (outcome < 0) {
       outcomeIndx = 1;
       outcomeWord = this.state.outcomeWord[1];
-      if (this.state.trialNum <= this.state.trialForced) {
-        outcomePic = this.state.outcomePic[1];
-      } else {
-        outcomePic = this.state.stateHolder[1];
-      }
-
+      outcomePic = this.state.outcomePic[1];
       outcomeValue = outcome / this.state.outcomeVal[1];
       tutOutcomeValue = outcomeValue;
       tutOutcome1 = "You lose";
     } else if (outcome === 0) {
       outcomeIndx = 2;
       outcomeWord = this.state.outcomeWord[2];
-      if (this.state.trialNum <= this.state.trialForced) {
-        outcomePic = this.state.outcomePic[2];
-      } else {
-        outcomePic = this.state.stateHolder[1];
-      }
+      outcomePic = this.state.outcomePic[2];
       outcomeValue = this.state.neuVal;
       tutOutcomeValue = outcome;
       tutOutcome1 = "You gain/lose";
     }
 
     this.setState({
-      stateNum: "You find:",
+      stateNum: "You receive:",
       stateShown: outcomePic,
       outcomeValue: outcomeValue,
       tutOutcome1: tutOutcome1,
@@ -1554,6 +1911,7 @@ class TutorTask extends React.Component {
       coins: coins,
       tutOutcomeWord: outcomeWord,
       tutOutcomeIndx: outcomeIndx,
+      tutOutcome3: "[Press the SPACEBAR to continue to the next journey]",
     });
 
     setTimeout(
@@ -1668,38 +2026,75 @@ class TutorTask extends React.Component {
     } catch (e) {
       console.log("Cant post?");
     }
+  }
 
-    if (this.state.trialNum === this.state.trialForced) {
-      //send back to instructions, this is the end of the forced choice
-      setTimeout(
-        function () {
-          this.interMiss();
-        }.bind(this),
-        this.state.outcomeDur
-      );
-    } else {
-      setTimeout(
-        function () {
-          this.setTrialVar();
-        }.bind(this),
-        this.state.outcomeDur
-      );
+  handleNextTrial(pressed, time_pressed) {
+    var whichButton = pressed;
+    if (whichButton === 10) {
+      if (this.state.trialNum === 3 || this.state.trialNum === 6) {
+        //send back to instructions, this is the end of the forced choice
+        setTimeout(
+          function () {
+            this.interMiss();
+          }.bind(this),
+          0
+        );
+      } else {
+        setTimeout(
+          function () {
+            this.setTrialVar();
+          }.bind(this),
+          0
+        );
+      }
     }
   }
 
   interMiss() {
+    document.removeEventListener("keyup", this._handleNextTrialKey);
+    if (this.state.trialNum === 3) {
+      this.setState({
+        instructScreen: true,
+        taskScreen: false,
+        instructScreenText: 9,
+      });
+    } else if (this.state.trialNum === 6) {
+      this.setState({
+        instructScreen: true,
+        taskScreen: false,
+        instructScreenText: 10,
+      });
+    }
+  }
+
+  missionCont() {
+    var trialTime = Math.round(performance.now());
+
     this.setState({
-      instructScreen: true,
-      taskScreen: false,
-      instructScreenText: 9,
+      instructScreen: false,
+      taskScreen: true,
+      playCueScreen: false,
+      playPlanScreen: false,
+      // playTransScreen: false,
+      playPathFull: false,
+      playPathShort: false,
+      playPathOutcomeShort: false,
+      trialTime: trialTime,
     });
+
+    setTimeout(
+      function () {
+        this.setTrialVar();
+      }.bind(this),
+      0
+    );
   }
 
   passMission() {
     this.setState({
       instructScreen: true,
       taskScreen: false,
-      instructScreenText: 10,
+      instructScreenText: 11,
     });
   }
 
@@ -1783,8 +2178,10 @@ class TutorTask extends React.Component {
       tutRiskyPathProb1: this.state.tutRiskyPathProb1,
       tutRiskyPathProb2: this.state.tutRiskyPathProb2,
       tutOptChoice: this.state.tutOptChoice,
+      tutOutcomeStruct: this.state.tutOutcomeStruct,
       tutForceChoice: this.state.tutForceChoice,
       tutPlanChoice: this.state.tutPlanChoice,
+      tutShowPath: this.state.tutShowPath,
 
       taskSafePathOutcome: null,
       taskRiskyPathOutcome1: null,
@@ -1793,8 +2190,10 @@ class TutorTask extends React.Component {
       taskRiskyPathProb1: null,
       taskRiskyPathProb2: null,
       taskOptChoice: null,
+      taskOutcomeStruct: null,
       taskForceChoice: null,
       taskPlanChoice: null,
+      taskShowPath: null,
     };
 
     try {
@@ -2008,7 +2407,10 @@ class TutorTask extends React.Component {
               <p>
                 <span className={styles.center}>MISSION PRACTICE</span>
                 Together, these two sets of clues give us enough information to
-                choose which shuttle to take to find the outcome room you want.
+                choose
+                <br />
+                which shuttle to take to find the outcome room you want.
+                <br />
                 <br />
                 For instance:
                 <br /> <br />
@@ -2046,9 +2448,10 @@ class TutorTask extends React.Component {
                 </span>
                 <br />
                 You should recall the room order of each spaceship to help
-                decide which shuttle you should take to bring you to the
+                decide which shuttle
                 <br />
-                spaceship with the outcome room that you want.
+                you should take to bring you to the spaceship with the outcome
+                room that you want.
                 <br />
                 <span className={styles.centerTwo}>
                   [<strong>← BACK</strong>] [<strong>NEXT →</strong>]
@@ -2349,18 +2752,22 @@ class TutorTask extends React.Component {
                 <span className={styles.center}>MISSION PRACTICE</span>
                 <br />
                 Your mission is to use the clues shown at the start of each
-                shuttle journey to figure out which spaceship will be the best
-                to board.
+                shuttle journey
+                <br />
+                to figure out which spaceship will be the best to board.
                 <br />
                 <br />
                 You must do this <strong>in your head</strong> by remembering
-                the order of the connecting rooms of the spaceships and the
-                possible outcome rooms.
+                the order of the
+                <br />
+                connecting rooms of the spaceships and the possible outcome
+                rooms.
                 <br />
                 <br />
                 You will need to decide whether it is worth risking the
-                unreliable shuttle, or if you would be better off going with the
-                reliable shuttle,
+                unreliable shuttle,
+                <br />
+                or if you would be better off going with the reliable shuttle,
                 <br />
                 to get to the spaceship and find the outcome room that you want.
                 <br />
@@ -2376,9 +2783,7 @@ class TutorTask extends React.Component {
                 shuttle.
                 <br />
                 <br />
-                After that, both shuttles will be available, and the&nbsp;
-                <strong>images will be hidden</strong> so you will have to use
-                your <strong>memory</strong>.
+                After that, both shuttles will be available.
                 <br />
                 <span className={styles.centerTwo}>
                   Press the [<strong>SPACEBAR</strong>] to begin.
@@ -2398,14 +2803,14 @@ class TutorTask extends React.Component {
               <p>
                 <span className={styles.center}>MISSION PRACTICE</span>
                 <br />
-                Great! For the remaining 6 shuttle journeys, you are free to
-                choose the shuttle to gain as many coins as possible.
+                Great! For the next shuttle journeys, you are free to choose the
+                shuttle to gain as many coins as possible.
                 <br />
                 <br />
                 Once you have chosen your shuttle, we will also ask you to
-                select the connecting room images in its correct order (Room 1
-                to 2 to 3) <br />
-                of the{" "}
+                select the connecting room images in its correct order
+                <br />
+                (Room 1 to 2 to 3) of the{" "}
                 <strong>spaceship that you believe you will end up in</strong>.
                 <br />
                 <br />
@@ -2417,11 +2822,30 @@ class TutorTask extends React.Component {
                 you will have a penalty of <strong>losing 1 coin</strong>.
                 <br />
                 <br />
-                Remember: for the rest of the shuttle journeys, all images will
-                be hidden during the playthrough.
+                <span className={styles.centerTwo}>
+                  Press the [<strong>SPACEBAR</strong>] to begin.
+                </span>
+              </p>
+            </div>
+          );
+        } else if (this.state.instructScreenText === 10) {
+          document.addEventListener("keyup", this._handleInstructKey);
+          document.removeEventListener("keyup", this._handleTaskKey);
+          text = (
+            <div className={styles.main}>
+              <p>
+                <span className={styles.center}>MISSION PRACTICE</span>
+                <br />
+                For the last 3 shuttle journeys, no{" "}
+                <strong>images will be shown</strong> after selecting the room
+                order.
                 <br />
                 <br />
-                You will have to use your memory.
+                We will only tell you the outcome of your journey.
+                <br />
+                <br />
+                As such, you will have to use your <strong>memory</strong> in
+                recalling the room order of the spaceships.
                 <br />
                 <br />
                 <span className={styles.centerTwo}>
@@ -2430,7 +2854,7 @@ class TutorTask extends React.Component {
               </p>
             </div>
           );
-        } else if (this.state.instructScreenText === 10) {
+        } else if (this.state.instructScreenText === 11) {
           document.addEventListener("keyup", this._handleInstructKey);
           document.removeEventListener("keyup", this._handleTaskKey);
           text = (
@@ -2465,72 +2889,77 @@ class TutorTask extends React.Component {
 
           if (this.state.trialNum <= this.state.trialTotal) {
             if (
-              this.state.pathPlay === false &&
-              this.state.planPlay === false
+              this.state.playCueScreen === true &&
+              this.state.playPlanScreen === false &&
+              // this.state.playTransScreen === false &&
+              this.state.playPathFull === false &&
+              this.state.playPathShort === false &&
+              this.state.playPathOutcomeShort === false
             ) {
+              //cueScreen
               document.addEventListener("keyup", this._handleTaskKey);
               text = <div>{this.taskStart(this.state.trialNum)}</div>;
-            }
-            // the planning screen
-            else if (
-              this.state.pathPlay === false &&
-              this.state.planPlay === true
+            } else if (
+              this.state.playCueScreen === false &&
+              this.state.playPlanScreen === true &&
+              // this.state.playTransScreen === false &&
+              this.state.playPathFull === false &&
+              this.state.playPathShort === false &&
+              this.state.playPathOutcomeShort === false
             ) {
+              // the planning screen
               document.addEventListener("keyup", this._handlePlanKey);
               document.removeEventListener("keyup", this._handleTaskKey);
               text = <div>{this.planStart()}</div>;
+            }
+
+            // else if (
+            //   this.state.playCueScreen === false &&
+            //   this.state.playPlanScreen === false &&
+            //   // this.state.playTransScreen === true &&
+            //   this.state.playPathFull === false &&
+            //   this.state.playPathShort === false &&
+            //   this.state.playPathOutcomeShort === false
+            // ) {
+            //   // the transition screen
+            //   document.removeEventListener("keyup", this._handlePlanKey);
+            //   document.removeEventListener("keyup", this._handleTaskKey);
+            //   text = <div>{this.transStart()}</div>;
+            // }
+            else if (
+              this.state.playCueScreen === false &&
+              this.state.playPlanScreen === false &&
+              // this.state.playTransScreen === false &&
+              this.state.playPathFull === true &&
+              this.state.playPathShort === false &&
+              this.state.playPathOutcomeShort === false
+            ) {
+              // the path route with pics
+              document.removeEventListener("keyup", this._handlePlanKey);
+              document.removeEventListener("keyup", this._handleTaskKey);
+              text = <div>{this.pathStart()}</div>;
             } else if (
-              this.state.pathPlay === true &&
-              this.state.planPlay === false
+              this.state.playCueScreen === false &&
+              this.state.playPlanScreen === false &&
+              // this.state.playTransScreen === false &&
+              this.state.playPathFull === false &&
+              this.state.playPathShort === true &&
+              this.state.playPathOutcomeShort === false
             ) {
               document.removeEventListener("keyup", this._handlePlanKey);
               document.removeEventListener("keyup", this._handleTaskKey);
-              text = (
-                <div className={styles.main}>
-                  <div className={styles.counter}>
-                    <img
-                      className={styles.counter}
-                      src={this.state.img_counter}
-                      alt="counter"
-                    />
-                    {this.state.trialNum}/{this.state.trialTotal}
-                  </div>
-                  <div className={styles.coins}>
-                    <img
-                      className={styles.counter}
-                      src={this.state.img_coin}
-                      alt="coin"
-                    />
-                    {this.state.coins}
-                  </div>
-                  <p>
-                    <span className={styles.center}>
-                      Spaceship {this.state.whichShip}
-                    </span>
-                    <span className={styles.centerTwo}>
-                      {this.state.stateNum}
-                    </span>
-                    <br />
-                    <span className={styles.centerThree}>
-                      <span className={styles.outcomeValue}>
-                        {this.state.outcomeValue}
-                      </span>
-                      <img
-                        className={styles.stateLarge}
-                        src={this.state.stateShown}
-                        alt="state"
-                      />
-                    </span>
-                    <br />
-                    <span className={styles.centerThree}>
-                      {this.state.tutOutcome1} {this.state.tutOutcomeValue}
-                      &nbsp;
-                      {this.state.tutOutcome2}
-                    </span>
-                    <br />
-                  </p>
-                </div>
-              );
+              text = <div>{this.pathShortStart()}</div>;
+            } else if (
+              this.state.playCueScreen === false &&
+              this.state.playPlanScreen === false &&
+              // this.state.playTransScreen === false &&
+              this.state.playPathFull === false &&
+              this.state.playPathShort === false &&
+              this.state.playPathOutcomeShort === true
+            ) {
+              // document.removeEventListener("keyup", this._handlePlanKey);
+              // document.removeEventListener("keyup", this._handleTaskKey);
+              text = <div>{this.pathShortOutcomeStart()}</div>;
             }
             //
           } else {
