@@ -445,6 +445,7 @@ class PathTask extends React.Component {
         trialRT: trialRT,
         pathChoice: pathChoice,
         pathPlay: true,
+        stateShown: this.state.img_fix,
       });
 
       setTimeout(

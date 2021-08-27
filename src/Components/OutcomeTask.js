@@ -521,7 +521,7 @@ class OutcomeTask extends React.Component {
             />
           </span>
           <span className={styles.centerTwo}>
-            <br />[<strong>1</strong>]: {ansOne}{" "}
+            [<strong>1</strong>]: {ansOne}{" "}
             <img
               className={styles.coin}
               src={this.state.img_coinSmall}
@@ -705,10 +705,6 @@ class OutcomeTask extends React.Component {
       trialTime: trialTime,
       trialNum: trialNum,
       trialKeypress: 0,
-      // trialPicIndx: null,
-      // trialPicNum: null,
-      // trialPicValue: null,
-      // trialPicAns: null,
       trialCor: null,
     });
   }

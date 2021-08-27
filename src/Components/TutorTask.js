@@ -210,9 +210,10 @@ class TutorTask extends React.Component {
     this.handleNextTrial = this.handleNextTrial.bind(this);
     this.taskStart = this.taskStart.bind(this);
     this.planStart = this.planStart.bind(this);
-    // this.transStart = this.transStart.bind(this);
     this.pathStart = this.pathStart.bind(this);
     this.pathShortStart = this.pathShortStart.bind(this);
+    this.planCheck = this.planCheck.bind(this);
+    this.testCheck = this.testCheck.bind(this);
 
     /* prevents page from going down when space bar is hit .*/
     window.addEventListener("keydown", function (e) {
@@ -522,13 +523,6 @@ class TutorTask extends React.Component {
       trialKeypress: 0,
       trialScore: 0,
     });
-
-    setTimeout(
-      function () {
-        this.setTrialVar();
-      }.bind(this),
-      0
-    );
   }
 
   setTrialVar() {
@@ -862,8 +856,6 @@ class TutorTask extends React.Component {
       OutcomeVal3 = SafeVal;
     }
 
-    // console.log("text: " + tutForcedChoiceText1);
-    // console.log("text: " + tutForcedChoiceText2);
     if (trialNum === 1) {
       this.setState({
         instructScreen: false,
@@ -899,7 +891,6 @@ class TutorTask extends React.Component {
       choice2Fade: choice2Fade,
       playCueScreen: true,
       playPlanScreen: false,
-      // playTransScreen: false,
       playPathFull: false,
       playPathShort: false,
       playPathOutcomeShort: false,
@@ -1571,7 +1562,7 @@ class TutorTask extends React.Component {
     this.setState({
       playPathOutcomeShort: true,
       playPathShort: false,
-      stateNum: "Coins you receive:",
+      stateNum: "You receive:",
       outcomeValue: outcomeValue,
       tutOutcome1: [],
       tutOutcomeValue: tutOutcomeValue,
@@ -1661,15 +1652,21 @@ class TutorTask extends React.Component {
           </span>
           <span className={styles.centerTwo}>{this.state.stateNum}</span>
           <br />
+          <br />
+          <br />
+          <br />
+          <br /> <br />
+          <br /> <br />
           <span className={styles.centerThree}>
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br /> <br />
-            <br />
-            <span className={styles.outcomeValue}>{this.state.outcome}</span>
+            <span className={styles.outcomeValue}>
+              {this.state.outcome}
+              &nbsp;
+              <img
+                className={styles.stateSmall}
+                src={this.state.img_coin}
+                alt="state"
+              />
+            </span>
           </span>
           <span className={styles.centerThree}>
             {this.state.tutOutcome1}
@@ -2102,7 +2099,7 @@ class TutorTask extends React.Component {
     document.removeEventListener("keyup", this._handleInstructKey);
     document.removeEventListener("keyup", this._handleDebugKey);
     this.props.history.push({
-      pathname: `/ExptTask`,
+      pathname: `/QuizTask`,
       state: {
         userID: this.state.userID,
         date: this.state.date,
@@ -2891,7 +2888,6 @@ class TutorTask extends React.Component {
             if (
               this.state.playCueScreen === true &&
               this.state.playPlanScreen === false &&
-              // this.state.playTransScreen === false &&
               this.state.playPathFull === false &&
               this.state.playPathShort === false &&
               this.state.playPathOutcomeShort === false
@@ -2902,7 +2898,6 @@ class TutorTask extends React.Component {
             } else if (
               this.state.playCueScreen === false &&
               this.state.playPlanScreen === true &&
-              // this.state.playTransScreen === false &&
               this.state.playPathFull === false &&
               this.state.playPathShort === false &&
               this.state.playPathOutcomeShort === false
@@ -2911,25 +2906,9 @@ class TutorTask extends React.Component {
               document.addEventListener("keyup", this._handlePlanKey);
               document.removeEventListener("keyup", this._handleTaskKey);
               text = <div>{this.planStart()}</div>;
-            }
-
-            // else if (
-            //   this.state.playCueScreen === false &&
-            //   this.state.playPlanScreen === false &&
-            //   // this.state.playTransScreen === true &&
-            //   this.state.playPathFull === false &&
-            //   this.state.playPathShort === false &&
-            //   this.state.playPathOutcomeShort === false
-            // ) {
-            //   // the transition screen
-            //   document.removeEventListener("keyup", this._handlePlanKey);
-            //   document.removeEventListener("keyup", this._handleTaskKey);
-            //   text = <div>{this.transStart()}</div>;
-            // }
-            else if (
+            } else if (
               this.state.playCueScreen === false &&
               this.state.playPlanScreen === false &&
-              // this.state.playTransScreen === false &&
               this.state.playPathFull === true &&
               this.state.playPathShort === false &&
               this.state.playPathOutcomeShort === false
@@ -2941,7 +2920,6 @@ class TutorTask extends React.Component {
             } else if (
               this.state.playCueScreen === false &&
               this.state.playPlanScreen === false &&
-              // this.state.playTransScreen === false &&
               this.state.playPathFull === false &&
               this.state.playPathShort === true &&
               this.state.playPathOutcomeShort === false
@@ -2952,13 +2930,10 @@ class TutorTask extends React.Component {
             } else if (
               this.state.playCueScreen === false &&
               this.state.playPlanScreen === false &&
-              // this.state.playTransScreen === false &&
               this.state.playPathFull === false &&
               this.state.playPathShort === false &&
               this.state.playPathOutcomeShort === true
             ) {
-              // document.removeEventListener("keyup", this._handlePlanKey);
-              // document.removeEventListener("keyup", this._handleTaskKey);
               text = <div>{this.pathShortOutcomeStart()}</div>;
             }
             //

@@ -3,8 +3,6 @@ import * as Quest from "survey-react";
 import "../../node_modules/survey-react/survey.css";
 import { DATABASE_URL } from "./config";
 
-import astrodude from "./img/astro_1.png";
-
 import styles from "./style/taskStyle.module.css";
 
 import "./style/questStyle.css";
@@ -70,7 +68,16 @@ class Questionnaires extends Component {
       qnText7: [],
       bonus: bonus,
       img_astrodude1: img_astrodude1,
+      debug: false,
     };
+
+    this.handleDebugKeyLocal = this.handleDebugKeyLocal.bind(this);
+    /* prevents page from going down when space bar is hit .*/
+    window.addEventListener("keydown", function (e) {
+      if (e.keyCode === 32 && e.target === document.body) {
+        e.preventDefault();
+      }
+    });
   }
 
   //Define a callback methods on survey complete
@@ -129,6 +136,32 @@ class Questionnaires extends Component {
     var qnTime = Math.round(performance.now()) - 10;
     this.setState({ qnTime: qnTime });
   }
+
+  handleDebugKeyLocal(pressed) {
+    var whichButton = pressed;
+
+    if (whichButton === 10) {
+      setTimeout(
+        function () {
+          this.redirectToTarget();
+        }.bind(this),
+        0
+      );
+    }
+  }
+
+  _handleDebugKey = (event) => {
+    var pressed;
+
+    switch (event.keyCode) {
+      case 32:
+        //    this is SPACEBAR
+        pressed = 10;
+        this.handleDebugKeyLocal(pressed);
+        break;
+      default:
+    }
+  };
 
   timerCallback(survey) {
     var page = survey.pages.indexOf(survey.currentPage);
@@ -697,9 +730,473 @@ class Questionnaires extends Component {
 
   render() {
     let text;
-    if (this.state.currentquiz === false) {
-      document.addEventListener("keyup", this._handleBeginKey);
-      //intructions
+    if (this.state.debug === false) {
+      if (this.state.currentquiz === false) {
+        document.addEventListener("keyup", this._handleBeginKey);
+        //intructions
+        text = (
+          <div className={styles.spacebg}>
+            <span className={styles.astro1}>
+              <img src={this.state.img_astrodude1} alt="astrodude" />
+            </span>
+            <div className={styles.textblock}>
+              <div className={styles.main}>
+                <span className={styles.likeP}>
+                  <span className={styles.center}>QUESTIONNAIRES</span>
+                  <br />
+                  Congratulations on reaching our destination!
+                  <br />
+                  <br />
+                  For the last section, we would like you to:
+                  <ul>
+                    <li>
+                      Provide some demographic information (age and gender)
+                    </li>
+                    <li>Complete {this.state.qnTotal} questionnaires</li>
+                    <li>Complete a short IQ quiz</li>
+                  </ul>
+                  Do read the instructions for each quiz, which will be
+                  positioned at the top of each page, carefully.
+                  <br />
+                  <br />
+                  <span className={styles.centerTwo}>
+                    Press [<strong>SPACEBAR</strong>] to begin.
+                  </span>
+                </span>
+              </div>
+            </div>
+          </div>
+        );
+      } else {
+        //the quiz
+
+        Quest.StylesManager.applyTheme("default");
+        //  this makes the quiz have grey stripes and lengthens the questions for better visibility
+        var myCss = {
+          matrix: {
+            // root: "table table-striped",
+            root: "table sv_q_matrix",
+          },
+        };
+
+        var json = {
+          title: null,
+          showProgressBar: "top",
+          pages: [
+            {
+              questions: [
+                {
+                  type: "dropdown",
+                  name: "age",
+                  title: "What is your age?",
+                  isRequired: true,
+                  colCount: 0,
+                  choices: [
+                    "18",
+                    "19",
+                    "20",
+                    "21",
+                    "22",
+                    "23",
+                    "24",
+                    "25",
+                    "26",
+                    "27",
+                    "28",
+                    "29",
+                    "30",
+                    "31",
+                    "32",
+                    "33",
+                    "34",
+                    "35",
+                    "36",
+                    "37",
+                    "38",
+                    "39",
+                    "40",
+                    "41",
+                    "42",
+                    "43",
+                    "44",
+                    "45",
+                    "46",
+                    "47",
+                    "48",
+                    "49",
+                    "50",
+                    "51",
+                    "52",
+                    "53",
+                    "54",
+                    "55",
+                  ],
+                },
+                {
+                  type: "dropdown",
+                  name: "gender",
+                  title: "What is your gender?",
+                  isRequired: true,
+                  colCount: 0,
+                  choices: ["Female", "Male", "Other"],
+                },
+              ],
+            },
+            {
+              questions: [this.state.qnText1],
+            },
+
+            {
+              questions: [this.state.qnText2],
+            },
+
+            {
+              questions: [this.state.qnText3],
+            },
+
+            {
+              questions: [this.state.qnText4],
+            },
+
+            {
+              questions: [this.state.qnText5],
+            },
+            {
+              questions: [this.state.qnText6],
+            },
+            {
+              questions: [this.state.qnText7],
+            },
+            {
+              questions: [
+                {
+                  type: "radiogroup",
+                  name: "IQ_1",
+                  isRequired: true,
+                  title:
+                    "What number is one fifth of one fourth of one ninth of 900?",
+                  //colCount: 4,
+                  choices: [
+                    { value: 1, text: "2" },
+                    { value: 2, text: "3" },
+                    { value: 3, text: "4" },
+                    { value: 4, text: "5" },
+                    { value: 5, text: "6" },
+                    { value: 6, text: "7" },
+                  ],
+                },
+
+                {
+                  type: "radiogroup",
+                  name: "IQ_2",
+                  isRequired: true,
+                  title:
+                    "Zach is taller than Matt and Richard is shorter than Zach. Which of the following statements would be the most accurate?",
+                  choices: [
+                    { value: 1, text: "Richard is taller than Matt" },
+                    { value: 2, text: "Richard is shorter than Matt" },
+                    { value: 3, text: "Richard is as tall as Matt" },
+                    { value: 4, text: "It's impossible to tell" },
+                  ],
+                },
+
+                {
+                  type: "radiogroup",
+                  name: "IQ_3",
+                  isRequired: true,
+                  title:
+                    "Joshua is 12 years old and his sister is three times as old as he. When Joshua is 23 years old, how old will his sister be?",
+                  choices: [
+                    { value: 1, text: "25" },
+                    { value: 2, text: "39" },
+                    { value: 3, text: "44" },
+                    { value: 4, text: "47" },
+                    { value: 5, text: "53" },
+                  ],
+                },
+
+                {
+                  type: "radiogroup",
+                  name: "IQ_4",
+                  isRequired: true,
+                  title:
+                    "If the day after tomorrow is two days before Thursday then what day is it today?",
+                  choices: [
+                    { value: 1, text: "Friday" },
+                    { value: 2, text: "Monday" },
+                    { value: 3, text: "Wednesday" },
+                    { value: 4, text: "Saturday" },
+                    { value: 5, text: "Tuesday" },
+                    { value: 6, text: "Sunday" },
+                  ],
+                },
+
+                {
+                  type: "radiogroup",
+                  name: "IQ_5",
+                  isRequired: true,
+                  title:
+                    "In the following alphanumeric series, what letter comes next? K N P S U ...?",
+                  choices: [
+                    { value: 1, text: "S" },
+                    { value: 2, text: "T" },
+                    { value: 3, text: "U" },
+                    { value: 4, text: "V" },
+                    { value: 5, text: "W" },
+                    { value: 6, text: "X" },
+                  ],
+                },
+
+                {
+                  type: "radiogroup",
+                  name: "IQ_6",
+                  isRequired: true,
+                  title:
+                    "In the following alphanumeric series, what letter comes next? V Q M J H ...?",
+                  choices: [
+                    { value: 1, text: "E" },
+                    { value: 2, text: "F" },
+                    { value: 3, text: "G" },
+                    { value: 4, text: "H" },
+                    { value: 5, text: "I" },
+                    { value: 6, text: "J" },
+                  ],
+                },
+
+                {
+                  type: "radiogroup",
+                  name: "IQ_7",
+                  isRequired: true,
+                  title:
+                    "In the following alphanumeric series, what letter comes next? I J L O S ...?",
+                  choices: [
+                    { value: 1, text: "T" },
+                    { value: 2, text: "U" },
+                    { value: 3, text: "V" },
+                    { value: 4, text: "X" },
+                    { value: 5, text: "Y" },
+                    { value: 6, text: "Z" },
+                  ],
+                },
+
+                {
+                  type: "radiogroup",
+                  name: "IQ_8",
+                  isRequired: true,
+                  title:
+                    "In the following alphanumeric series, what letter comes next? Q S N P L ...?",
+                  choices: [
+                    { value: 1, text: "J" },
+                    { value: 2, text: "H" },
+                    { value: 3, text: "I" },
+                    { value: 4, text: "N" },
+                    { value: 5, text: "M" },
+                    { value: 6, text: "L" },
+                  ],
+                },
+              ],
+            },
+
+            // IQ images
+            {
+              questions: [
+                {
+                  type: "html",
+                  name: "info",
+                  html:
+                    "<table><body></br></br></br></br><img src='/icar/mx45_q.jpg' width='230px'/></br></br></br> </td><img src='/icar/mx45_a.jpg' width='460px'/></body></table>",
+                },
+                {
+                  type: "radiogroup",
+                  name: "IQimage_1",
+                  isRequired: true,
+                  title: "Which figure fits into the missing slot?",
+                  choices: [
+                    { value: 1, text: "A" },
+                    { value: 2, text: "B" },
+                    { value: 3, text: "C" },
+                    { value: 4, text: "D" },
+                    { value: 5, text: "E" },
+                    { value: 6, text: "F" },
+                  ],
+                },
+
+                {
+                  type: "html",
+                  name: "info",
+                  html:
+                    "<table><body></br></br></br></br><img src='/icar/mx46_q.jpg' width='230px'/></br></br></br> </td><img src='/icar/mx46_a.jpg' width='460px'/></body></table>",
+                },
+                {
+                  type: "radiogroup",
+                  name: "IQimage_2",
+                  isRequired: true,
+                  title: "Which figure fits into the missing slot?",
+                  choices: [
+                    { value: 1, text: "A" },
+                    { value: 2, text: "B" },
+                    { value: 3, text: "C" },
+                    { value: 4, text: "D" },
+                    { value: 5, text: "E" },
+                    { value: 6, text: "F" },
+                  ],
+                },
+
+                {
+                  type: "html",
+                  name: "info",
+                  html:
+                    "<table><body></br></br></br></br><img src='/icar/mx47_q.jpg' width='230px'/></br></br></br> </td><img src='/icar/mx47_a.jpg' width='460px'/></body></table>",
+                },
+                {
+                  type: "radiogroup",
+                  name: "IQimage_3",
+                  isRequired: true,
+                  title: "Which figure fits into the missing slot?",
+                  choices: [
+                    { value: 1, text: "A" },
+                    { value: 2, text: "B" },
+                    { value: 3, text: "C" },
+                    { value: 4, text: "D" },
+                    { value: 5, text: "E" },
+                    { value: 6, text: "F" },
+                  ],
+                },
+
+                {
+                  type: "html",
+                  name: "info",
+                  html:
+                    "<table><body></br></br></br></br><img src='/icar/mx55_q.jpg' width='230px'/></br></br></br> </td><img src='/icar/mx55_a.jpg' width='460px'/></body></table>",
+                },
+                {
+                  type: "radiogroup",
+                  name: "IQimage_4",
+                  isRequired: true,
+                  title: "Which figure fits into the missing slot?",
+                  choices: [
+                    { value: 1, text: "A" },
+                    { value: 2, text: "B" },
+                    { value: 3, text: "C" },
+                    { value: 4, text: "D" },
+                    { value: 5, text: "E" },
+                    { value: 6, text: "F" },
+                  ],
+                },
+
+                {
+                  type: "html",
+                  name: "info",
+                  html:
+                    "<table><body></br></br></br></br><img src='/icar/rsd3_q.jpg' width='550px'/></body></table>",
+                },
+                {
+                  type: "radiogroup",
+                  name: "IQimage_5",
+                  isRequired: true,
+                  title:
+                    "All the cubes above have a different image on each side. Select the choice that represents a rotation of the cube labeled X.",
+                  choices: [
+                    { value: 1, text: "A" },
+                    { value: 2, text: "B" },
+                    { value: 3, text: "C" },
+                    { value: 4, text: "D" },
+                    { value: 5, text: "E" },
+                    { value: 6, text: "F" },
+                    { value: 7, text: "G" },
+                    { value: 8, text: "H" },
+                  ],
+                },
+
+                {
+                  type: "html",
+                  name: "info",
+                  html:
+                    "<table><body></br></br></br></br><img src='/icar/rsd4_q.jpg' width='550px'/></body></table>",
+                },
+                {
+                  type: "radiogroup",
+                  name: "IQimage_6",
+                  isRequired: true,
+                  title:
+                    "All the cubes above have a different image on each side. Select the choice that represents a rotation of the cube labeled X.",
+                  choices: [
+                    { value: 1, text: "A" },
+                    { value: 2, text: "B" },
+                    { value: 3, text: "C" },
+                    { value: 4, text: "D" },
+                    { value: 5, text: "E" },
+                    { value: 6, text: "F" },
+                    { value: 7, text: "G" },
+                    { value: 8, text: "H" },
+                  ],
+                },
+
+                {
+                  type: "html",
+                  name: "info",
+                  html:
+                    "<table><body></br></br></br></br><img src='/icar/rsd6_q.jpg' width='550px'/></body></table>",
+                },
+                {
+                  type: "radiogroup",
+                  name: "IQimage_7",
+                  isRequired: true,
+                  title:
+                    "All the cubes above have a different image on each side. Select the choice that represents a rotation of the cube labeled X.",
+                  choices: [
+                    { value: 1, text: "A" },
+                    { value: 2, text: "B" },
+                    { value: 3, text: "C" },
+                    { value: 4, text: "D" },
+                    { value: 5, text: "E" },
+                    { value: 6, text: "F" },
+                    { value: 7, text: "G" },
+                    { value: 8, text: "H" },
+                  ],
+                },
+
+                {
+                  type: "html",
+                  name: "info",
+                  html:
+                    "<table><body></br></br></br></br><img src='/icar/rsd8_q.jpg' width='550px'/></body></table>",
+                },
+                {
+                  type: "radiogroup",
+                  name: "IQimage_8",
+                  isRequired: true,
+                  title:
+                    "All the cubes above have a different image on each side. Select the choice that represents a rotation of the cube labeled X.",
+                  choices: [
+                    { value: 1, text: "A" },
+                    { value: 2, text: "B" },
+                    { value: 3, text: "C" },
+                    { value: 4, text: "D" },
+                    { value: 5, text: "E" },
+                    { value: 6, text: "F" },
+                    { value: 7, text: "G" },
+                    { value: 8, text: "H" },
+                  ],
+                },
+              ],
+            },
+          ],
+        };
+
+        text = (
+          <div className="placeMiddle">
+            <Quest.Survey
+              json={json}
+              css={myCss}
+              onComplete={this.onComplete.bind(this)}
+              onCurrentPageChanged={this.timerCallback.bind(this)}
+            />
+          </div>
+        );
+      }
+    } else if (this.state.debug === true) {
+      document.addEventListener("keyup", this._handleDebugKey);
       text = (
         <div className={styles.spacebg}>
           <span className={styles.astro1}>
@@ -708,454 +1205,14 @@ class Questionnaires extends Component {
           <div className={styles.textblock}>
             <div className={styles.main}>
               <span className={styles.likeP}>
-                <span className={styles.center}>QUESTIONNAIRES</span>
-                <br />
-                Congratulations on reaching our destination!
-                <br />
-                <br />
-                For the last section, we would like you to:
-                <ul>
-                  <li>Provide some demographic information (age and gender)</li>
-                  <li>Complete {this.state.qnTotal} questionnaires</li>
-                  <li>Complete a short IQ quiz</li>
-                </ul>
-                Do read the instructions for each quiz, which will be positioned
-                at the top of each page, carefully.
-                <br />
+                <span className={styles.center}>DEBUG MODE</span>
                 <br />
                 <span className={styles.centerTwo}>
-                  Press [<strong>SPACEBAR</strong>] to begin.
+                  Press the [<strong>SPACEBAR</strong>] to skip to next section.
                 </span>
               </span>
             </div>
           </div>
-        </div>
-      );
-    } else {
-      //the quiz
-
-      Quest.StylesManager.applyTheme("default");
-      //  this makes the quiz have grey stripes and lengthens the questions for better visibility
-      var myCss = {
-        matrix: {
-          // root: "table table-striped",
-          root: "table sv_q_matrix",
-        },
-      };
-
-      var json = {
-        title: null,
-        showProgressBar: "top",
-        pages: [
-          {
-            questions: [
-              {
-                type: "dropdown",
-                name: "age",
-                title: "What is your age?",
-                isRequired: true,
-                colCount: 0,
-                choices: [
-                  "18",
-                  "19",
-                  "20",
-                  "21",
-                  "22",
-                  "23",
-                  "24",
-                  "25",
-                  "26",
-                  "27",
-                  "28",
-                  "29",
-                  "30",
-                  "31",
-                  "32",
-                  "33",
-                  "34",
-                  "35",
-                  "36",
-                  "37",
-                  "38",
-                  "39",
-                  "40",
-                  "41",
-                  "42",
-                  "43",
-                  "44",
-                  "45",
-                  "46",
-                  "47",
-                  "48",
-                  "49",
-                  "50",
-                  "51",
-                  "52",
-                  "53",
-                  "54",
-                  "55",
-                ],
-              },
-              {
-                type: "dropdown",
-                name: "gender",
-                title: "What is your gender?",
-                isRequired: true,
-                colCount: 0,
-                choices: ["Female", "Male", "Other"],
-              },
-            ],
-          },
-          {
-            questions: [this.state.qnText1],
-          },
-
-          {
-            questions: [this.state.qnText2],
-          },
-
-          {
-            questions: [this.state.qnText3],
-          },
-
-          {
-            questions: [this.state.qnText4],
-          },
-
-          {
-            questions: [this.state.qnText5],
-          },
-          {
-            questions: [this.state.qnText6],
-          },
-          {
-            questions: [this.state.qnText7],
-          },
-          {
-            questions: [
-              {
-                type: "radiogroup",
-                name: "IQ_1",
-                isRequired: true,
-                title:
-                  "What number is one fifth of one fourth of one ninth of 900?",
-                //colCount: 4,
-                choices: [
-                  { value: 1, text: "2" },
-                  { value: 2, text: "3" },
-                  { value: 3, text: "4" },
-                  { value: 4, text: "5" },
-                  { value: 5, text: "6" },
-                  { value: 6, text: "7" },
-                ],
-              },
-
-              {
-                type: "radiogroup",
-                name: "IQ_2",
-                isRequired: true,
-                title:
-                  "Zach is taller than Matt and Richard is shorter than Zach. Which of the following statements would be the most accurate?",
-                choices: [
-                  { value: 1, text: "Richard is taller than Matt" },
-                  { value: 2, text: "Richard is shorter than Matt" },
-                  { value: 3, text: "Richard is as tall as Matt" },
-                  { value: 4, text: "It's impossible to tell" },
-                ],
-              },
-
-              {
-                type: "radiogroup",
-                name: "IQ_3",
-                isRequired: true,
-                title:
-                  "Joshua is 12 years old and his sister is three times as old as he. When Joshua is 23 years old, how old will his sister be?",
-                choices: [
-                  { value: 1, text: "25" },
-                  { value: 2, text: "39" },
-                  { value: 3, text: "44" },
-                  { value: 4, text: "47" },
-                  { value: 5, text: "53" },
-                ],
-              },
-
-              {
-                type: "radiogroup",
-                name: "IQ_4",
-                isRequired: true,
-                title:
-                  "If the day after tomorrow is two days before Thursday then what day is it today?",
-                choices: [
-                  { value: 1, text: "Friday" },
-                  { value: 2, text: "Monday" },
-                  { value: 3, text: "Wednesday" },
-                  { value: 4, text: "Saturday" },
-                  { value: 5, text: "Tuesday" },
-                  { value: 6, text: "Sunday" },
-                ],
-              },
-
-              {
-                type: "radiogroup",
-                name: "IQ_5",
-                isRequired: true,
-                title:
-                  "In the following alphanumeric series, what letter comes next? K N P S U ...?",
-                choices: [
-                  { value: 1, text: "S" },
-                  { value: 2, text: "T" },
-                  { value: 3, text: "U" },
-                  { value: 4, text: "V" },
-                  { value: 5, text: "W" },
-                  { value: 6, text: "X" },
-                ],
-              },
-
-              {
-                type: "radiogroup",
-                name: "IQ_6",
-                isRequired: true,
-                title:
-                  "In the following alphanumeric series, what letter comes next? V Q M J H ...?",
-                choices: [
-                  { value: 1, text: "E" },
-                  { value: 2, text: "F" },
-                  { value: 3, text: "G" },
-                  { value: 4, text: "H" },
-                  { value: 5, text: "I" },
-                  { value: 6, text: "J" },
-                ],
-              },
-
-              {
-                type: "radiogroup",
-                name: "IQ_7",
-                isRequired: true,
-                title:
-                  "In the following alphanumeric series, what letter comes next? I J L O S ...?",
-                choices: [
-                  { value: 1, text: "T" },
-                  { value: 2, text: "U" },
-                  { value: 3, text: "V" },
-                  { value: 4, text: "X" },
-                  { value: 5, text: "Y" },
-                  { value: 6, text: "Z" },
-                ],
-              },
-
-              {
-                type: "radiogroup",
-                name: "IQ_8",
-                isRequired: true,
-                title:
-                  "In the following alphanumeric series, what letter comes next? Q S N P L ...?",
-                choices: [
-                  { value: 1, text: "J" },
-                  { value: 2, text: "H" },
-                  { value: 3, text: "I" },
-                  { value: 4, text: "N" },
-                  { value: 5, text: "M" },
-                  { value: 6, text: "L" },
-                ],
-              },
-            ],
-          },
-
-          // IQ images
-          {
-            questions: [
-              {
-                type: "html",
-                name: "info",
-                html:
-                  "<table><body></br></br></br></br><img src='/icar/mx45_q.jpg' width='230px'/></br></br></br> </td><img src='/icar/mx45_a.jpg' width='460px'/></body></table>",
-              },
-              {
-                type: "radiogroup",
-                name: "IQimage_1",
-                isRequired: true,
-                title: "Which figure fits into the missing slot?",
-                choices: [
-                  { value: 1, text: "A" },
-                  { value: 2, text: "B" },
-                  { value: 3, text: "C" },
-                  { value: 4, text: "D" },
-                  { value: 5, text: "E" },
-                  { value: 6, text: "F" },
-                ],
-              },
-
-              {
-                type: "html",
-                name: "info",
-                html:
-                  "<table><body></br></br></br></br><img src='/icar/mx46_q.jpg' width='230px'/></br></br></br> </td><img src='/icar/mx46_a.jpg' width='460px'/></body></table>",
-              },
-              {
-                type: "radiogroup",
-                name: "IQimage_2",
-                isRequired: true,
-                title: "Which figure fits into the missing slot?",
-                choices: [
-                  { value: 1, text: "A" },
-                  { value: 2, text: "B" },
-                  { value: 3, text: "C" },
-                  { value: 4, text: "D" },
-                  { value: 5, text: "E" },
-                  { value: 6, text: "F" },
-                ],
-              },
-
-              {
-                type: "html",
-                name: "info",
-                html:
-                  "<table><body></br></br></br></br><img src='/icar/mx47_q.jpg' width='230px'/></br></br></br> </td><img src='/icar/mx47_a.jpg' width='460px'/></body></table>",
-              },
-              {
-                type: "radiogroup",
-                name: "IQimage_3",
-                isRequired: true,
-                title: "Which figure fits into the missing slot?",
-                choices: [
-                  { value: 1, text: "A" },
-                  { value: 2, text: "B" },
-                  { value: 3, text: "C" },
-                  { value: 4, text: "D" },
-                  { value: 5, text: "E" },
-                  { value: 6, text: "F" },
-                ],
-              },
-
-              {
-                type: "html",
-                name: "info",
-                html:
-                  "<table><body></br></br></br></br><img src='/icar/mx55_q.jpg' width='230px'/></br></br></br> </td><img src='/icar/mx55_a.jpg' width='460px'/></body></table>",
-              },
-              {
-                type: "radiogroup",
-                name: "IQimage_4",
-                isRequired: true,
-                title: "Which figure fits into the missing slot?",
-                choices: [
-                  { value: 1, text: "A" },
-                  { value: 2, text: "B" },
-                  { value: 3, text: "C" },
-                  { value: 4, text: "D" },
-                  { value: 5, text: "E" },
-                  { value: 6, text: "F" },
-                ],
-              },
-
-              {
-                type: "html",
-                name: "info",
-                html:
-                  "<table><body></br></br></br></br><img src='/icar/rsd3_q.jpg' width='550px'/></body></table>",
-              },
-              {
-                type: "radiogroup",
-                name: "IQimage_5",
-                isRequired: true,
-                title:
-                  "All the cubes above have a different image on each side. Select the choice that represents a rotation of the cube labeled X.",
-                choices: [
-                  { value: 1, text: "A" },
-                  { value: 2, text: "B" },
-                  { value: 3, text: "C" },
-                  { value: 4, text: "D" },
-                  { value: 5, text: "E" },
-                  { value: 6, text: "F" },
-                  { value: 7, text: "G" },
-                  { value: 8, text: "H" },
-                ],
-              },
-
-              {
-                type: "html",
-                name: "info",
-                html:
-                  "<table><body></br></br></br></br><img src='/icar/rsd4_q.jpg' width='550px'/></body></table>",
-              },
-              {
-                type: "radiogroup",
-                name: "IQimage_6",
-                isRequired: true,
-                title:
-                  "All the cubes above have a different image on each side. Select the choice that represents a rotation of the cube labeled X.",
-                choices: [
-                  { value: 1, text: "A" },
-                  { value: 2, text: "B" },
-                  { value: 3, text: "C" },
-                  { value: 4, text: "D" },
-                  { value: 5, text: "E" },
-                  { value: 6, text: "F" },
-                  { value: 7, text: "G" },
-                  { value: 8, text: "H" },
-                ],
-              },
-
-              {
-                type: "html",
-                name: "info",
-                html:
-                  "<table><body></br></br></br></br><img src='/icar/rsd6_q.jpg' width='550px'/></body></table>",
-              },
-              {
-                type: "radiogroup",
-                name: "IQimage_7",
-                isRequired: true,
-                title:
-                  "All the cubes above have a different image on each side. Select the choice that represents a rotation of the cube labeled X.",
-                choices: [
-                  { value: 1, text: "A" },
-                  { value: 2, text: "B" },
-                  { value: 3, text: "C" },
-                  { value: 4, text: "D" },
-                  { value: 5, text: "E" },
-                  { value: 6, text: "F" },
-                  { value: 7, text: "G" },
-                  { value: 8, text: "H" },
-                ],
-              },
-
-              {
-                type: "html",
-                name: "info",
-                html:
-                  "<table><body></br></br></br></br><img src='/icar/rsd8_q.jpg' width='550px'/></body></table>",
-              },
-              {
-                type: "radiogroup",
-                name: "IQimage_8",
-                isRequired: true,
-                title:
-                  "All the cubes above have a different image on each side. Select the choice that represents a rotation of the cube labeled X.",
-                choices: [
-                  { value: 1, text: "A" },
-                  { value: 2, text: "B" },
-                  { value: 3, text: "C" },
-                  { value: 4, text: "D" },
-                  { value: 5, text: "E" },
-                  { value: 6, text: "F" },
-                  { value: 7, text: "G" },
-                  { value: 8, text: "H" },
-                ],
-              },
-            ],
-          },
-        ],
-      };
-
-      text = (
-        <div className="placeMiddle">
-          <Quest.Survey
-            json={json}
-            css={myCss}
-            onComplete={this.onComplete.bind(this)}
-            onCurrentPageChanged={this.timerCallback.bind(this)}
-          />
         </div>
       );
     }

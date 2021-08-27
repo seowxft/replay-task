@@ -106,10 +106,12 @@ var paths = [1, 2, 3];
 var forcedPaths = [1, 2, 3];
 shuffle(forcedPaths);
 
-var trialBlockTotal = 2; //the full length is 8
+var trialBlockTotal = 6; //the full length is 6
 var trialForced = 3;
+var trialFree = 14;
 var trialForcedTotal = trialForced * trialBlockTotal;
-var trialTotal = 28 + trialForcedTotal; //usually its 102 +
+var trialFreeTotal = trialFree * trialBlockTotal;
+var trialTotal = trialFreeTotal + trialForcedTotal;
 
 var trialInBlock = trialTotal / trialBlockTotal;
 
@@ -249,9 +251,10 @@ class ExptTask extends React.Component {
     this.handleNextTrial = this.handleNextTrial.bind(this);
     this.taskStart = this.taskStart.bind(this);
     this.planStart = this.planStart.bind(this);
-    // this.transStart = this.transStart.bind(this);
     this.pathStart = this.pathStart.bind(this);
     this.pathShortStart = this.pathShortStart.bind(this);
+    this.planCheck = this.planCheck.bind(this);
+    this.taskCheck = this.taskCheck.bind(this);
 
     /* prevents page from going down when space bar is hit .*/
     window.addEventListener("keydown", function (e) {
@@ -838,13 +841,6 @@ class ExptTask extends React.Component {
           });
         }
 
-        // setTimeout(
-        //   function () {
-        //     this.transShip();
-        //   }.bind(this),
-        //   1500
-        // );
-
         if (this.state.taskShowPath[this.state.trialNum - 1] === 1) {
           setTimeout(
             function () {
@@ -943,103 +939,6 @@ class ExptTask extends React.Component {
     return <div>{text}</div>;
   }
 
-  // transShip() {
-  //   var pathRoutePic1 = this.state.pathRoute[0]; //[0,1,2] or [3,4,5] or [6,7,8]
-  //   var pathNum;
-  //   var whichShip;
-  //
-  //   if (pathRoutePic1 === 0) {
-  //     pathNum = 1;
-  //     whichShip = "A";
-  //   } else if (pathRoutePic1 === 3) {
-  //     pathNum = 2;
-  //     whichShip = "B";
-  //   } else if (pathRoutePic1 === 6) {
-  //     pathNum = 3;
-  //     whichShip = "C";
-  //   }
-  //
-  //   this.setState({
-  //     playCueScreen: false,
-  //     playPlanScreen: false,
-  //     // playTransScreen: true,
-  //     playPathFull: false,
-  //     playPathShort: false,
-  //     playPathOutcomeShort: false,
-  //     stateNum: " ",
-  //     stateShown: this.state.img_fix,
-  //     pathNum: pathNum,
-  //     whichShip: whichShip,
-  //     outcomeValue: null,
-  //     taskOutcome1: [],
-  //     taskOutcome2: [],
-  //     taskOutcome3: [],
-  //     taskOutcomeValue: null,
-  //   });
-  //
-  //   if (this.state.taskShowPath[this.state.trialNum - 1] === 1) {
-  //     setTimeout(
-  //       function () {
-  //         this.playStateOne();
-  //       }.bind(this),
-  //       1000
-  //     );
-  //   } else if (this.state.taskShowPath[this.state.trialNum - 1] === 0) {
-  //     //if dont show the route, go to a jitter fixation
-  //     setTimeout(
-  //       function () {
-  //         this.jitterFix();
-  //       }.bind(this),
-  //       1000
-  //     );
-  //   }
-  // }
-  //
-  // transStart() {
-  //   let text = (
-  //     <div className={styles.main}>
-  //       <div className={styles.counter}>
-  //         <img
-  //           className={styles.counter}
-  //           src={this.state.img_counter}
-  //           alt="counter"
-  //         />
-  //         {this.state.trialNum}/{this.state.trialTotal}
-  //       </div>
-  //       <div className={styles.coins}>
-  //         <img
-  //           className={styles.counter}
-  //           src={this.state.img_coin}
-  //           alt="coin"
-  //         />
-  //         {this.state.coins}
-  //       </div>
-  //       <p>
-  //         <br />
-  //         <br />
-  //         <br />
-  //         <br />
-  //         <br />
-  //         <br />
-  //         <span className={styles.center}>
-  //           You entered Spaceship {this.state.whichShip}!
-  //         </span>
-  //         <br />
-  //         <span className={styles.centerThree}>
-  //           {this.state.taskOutcome1} {this.state.taskOutcomeValue}
-  //           &nbsp;
-  //           {this.state.taskOutcome2}
-  //         </span>
-  //         <br />
-  //         <span className={styles.centerThree}>{this.state.taskOutcome3}</span>
-  //         <br />
-  //       </p>
-  //     </div>
-  //   );
-  //
-  //   return <div>{text}</div>;
-  // }
-
   jitterFix() {
     if (this.state.pathRoute !== null) {
       document.removeEventListener("keyup", this._handleTaskKey);
@@ -1126,10 +1025,10 @@ class ExptTask extends React.Component {
     this.setState({
       playPathOutcomeShort: true,
       playPathShort: false,
-      stateNum: "Coins you receive:",
+      stateNum: "You receive:",
       outcomeValue: outcomeValue,
       taskOutcome1: [],
-      taskOutcomeValue: taskOutcomeValue,
+      taskOutcomeValue: taskOutcomeValue, // this is what is displayed...
       taskOutcome2: [],
       coins: coins,
       taskOutcomeWord: outcomeWord,
@@ -1177,7 +1076,7 @@ class ExptTask extends React.Component {
             />
           </span>
           <span className={styles.centerThree}>
-            {this.state.taskOutcome1} {this.state.taskOutcomeValue}
+            {this.state.taskOutcome1}
             &nbsp;
             {this.state.taskOutcome2}
           </span>
@@ -1216,15 +1115,21 @@ class ExptTask extends React.Component {
           </span>
           <span className={styles.centerTwo}>{this.state.stateNum}</span>
           <br />
+          <br />
+          <br />
+          <br />
+          <br /> <br />
+          <br /> <br />
           <span className={styles.centerThree}>
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br /> <br />
-            <br />
-            <span className={styles.outcomeValue}>{this.state.outcome}</span>
+            <span className={styles.outcomeValue}>
+              {this.state.outcome}
+              &nbsp;
+              <img
+                className={styles.stateSmall}
+                src={this.state.img_coin}
+                alt="state"
+              />
+            </span>
           </span>
           <span className={styles.centerThree}>
             {this.state.taskOutcome1}
@@ -2246,7 +2151,7 @@ class ExptTask extends React.Component {
       trialOutcomeIndx: this.state.taskOutcomeIndx,
       trialOutcomeValence: trialOutcomeValence, //1, -1 or 0
       trialOutcomeMag: this.state.outcomeValue, //i can see what number 0 is
-      trialOutcomeValue: this.state.taskOutcomeValue, //actual value
+      trialOutcomeValue: this.state.outcome, //actual value
       trialOptimalChoice: this.state.taskOptChoice[this.state.trialNum - 1],
       trialCoins: this.state.coins,
     };
@@ -2543,7 +2448,7 @@ class ExptTask extends React.Component {
             <div className={styles.main}>
               <span className={styles.likeP}>
                 <span className={styles.center}>MISSION START</span>
-                As a refresher, the outcome rooms you can find:
+                As a last refresher, the outcome rooms you can find:
                 <span className={styles.centerTwo}>
                   <img
                     className={styles.stateSmall}
@@ -2779,22 +2684,7 @@ class ExptTask extends React.Component {
               document.addEventListener("keyup", this._handlePlanKey);
               document.removeEventListener("keyup", this._handleTaskKey);
               text = <div>{this.planStart()}</div>;
-            }
-
-            // else if (
-            //   this.state.playCueScreen === false &&
-            //   this.state.playPlanScreen === false &&
-            //   // this.state.playTransScreen === true &&
-            //   this.state.playPathFull === false &&
-            //   this.state.playPathShort === false &&
-            //   this.state.playPathOutcomeShort === false
-            // ) {
-            //   // the transition screen
-            //   document.removeEventListener("keyup", this._handlePlanKey);
-            //   document.removeEventListener("keyup", this._handleTaskKey);
-            //   text = <div>{this.transStart()}</div>;
-            // }
-            else if (
+            } else if (
               this.state.playCueScreen === false &&
               this.state.playPlanScreen === false &&
               // this.state.playTransScreen === false &&

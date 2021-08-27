@@ -259,6 +259,27 @@ class StartPage extends React.Component {
       new Image().src = image;
     });
 
+    // let imagesPreload = [
+    //   img_fix,
+    //   img_astrodude1,
+    //   img_astrodude2,
+    //   img_astrodude3,
+    //   img_counter,
+    //   img_coinSmall,
+    //   img_coin,
+    //   img_pathInstruct1,
+    //   stateHolder,
+    //   statePic,
+    //   outcomePic,
+    //   shuttlePic,
+    // ];
+
+    // imagesPreload.forEach((image) => {
+    //   const newImage = new Image();
+    //   newImage.src = image;
+    //   window[image] = newImage;
+    // });
+
     this.setState({
       img_fix: img_fix,
       img_astrodude1: img_astrodude1,
