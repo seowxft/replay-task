@@ -87,6 +87,17 @@ class Questionnaires extends Component {
     // //Write survey results into database
     // var page = survey.currentPage;
     // var RT_valueName = "Pg_" + (survey.pages.indexOf(page) + 1);
+
+    //last page
+    var quizText = "IQ_image";
+    var valueName = "PgFinish_" + quizText;
+    var valueName2 = "PgRT_" + quizText;
+
+    var qnTime = Math.round(performance.now());
+    var qnRT = qnTime - this.state.qnTime;
+    survey.setValue(valueName, qnTime);
+    survey.setValue(valueName2, qnRT);
+
     var qnEnd = Math.round(performance.now());
     var userID = this.state.userID;
     survey.setValue("userID", userID);
@@ -111,7 +122,7 @@ class Questionnaires extends Component {
       saveString: saveString,
     });
 
-    console.log(saveString);
+    //console.log(saveString);
     // console.log("userID: " + userID);
     // console.log("Survey results: " + JSON.stringify(survey.data));
 
@@ -174,13 +185,13 @@ class Questionnaires extends Component {
     } else if (page === 1) {
       quizText = "demo";
     } else if (page === 9) {
-      quizText = "IQ_1";
+      quizText = "IQ_text";
     } else if (page === 10) {
-      quizText = "IQ_2";
+      quizText = "IQ_image";
     } else {
       quizText = this.state.quizLabel[page - 2];
     }
-    console.log("Page: " + page);
+    //  console.log("Page: " + page);
 
     var valueName = "PgFinish_" + quizText;
     var valueName2 = "PgRT_" + quizText;
@@ -190,8 +201,8 @@ class Questionnaires extends Component {
     survey.setValue(valueName, qnTime);
     survey.setValue(valueName2, qnRT);
 
-    var tempString = JSON.stringify(survey.data);
-    console.log(tempString);
+    //var tempString = JSON.stringify(survey.data);
+    //console.log(tempString);
 
     setTimeout(
       function () {
@@ -709,7 +720,7 @@ class Questionnaires extends Component {
       quizLabel: quizLabel,
     });
 
-    console.log("quizLabel " + quizLabel);
+    //  console.log("quizLabel " + quizLabel);
   }
 
   handleBegin(key_pressed) {
