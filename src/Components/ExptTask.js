@@ -275,6 +275,9 @@ class ExptTask extends React.Component {
 
     var randNum = "struct_" + getRandomInt(1, 5);
     var StructToRender = require("./taskStruct/" + randNum + ".json");
+    var maxCoinsStruct = require("./taskStruct/maxCoins.json");
+
+    var maxCoins = maxCoinsStruct[randNum - 1];
 
     var taskSafePathOutcome = StructToRender[0];
     var taskRiskyPathOutcome1 = StructToRender[1];
@@ -319,6 +322,8 @@ class ExptTask extends React.Component {
       taskForceChoice: taskForceChoice,
       taskPlanChoice: taskPlanChoice,
       taskShowPath: taskShowPath,
+
+      maxCoins: maxCoins,
     });
 
     //send the outcomeTask conditions?
@@ -2246,11 +2251,13 @@ class ExptTask extends React.Component {
   // There is a default of 2 pounds bonus - for their time?
   calBonus() {
     var coins = this.state.coins;
-    var bonus = (coins / (0.4 * this.state.trialTotal)) * 2;
+    var bonus = (coins / this.state.maxCoins) * 2;
 
     // if you earn negative then no bonus at all?
     if (bonus < 0) {
       bonus = 2;
+    } else if (bonus > 4) {
+      bonus = 4; //2 dec pl
     } else {
       bonus = roundTo(bonus, 2) + 2; //2 dec pl
     }
@@ -2279,6 +2286,8 @@ class ExptTask extends React.Component {
       taskSessionTry: this.state.taskSessionTry,
       taskCoins: this.state.coins,
       taskBonus: this.state.bonus,
+      structNum: this.state.structNum,
+      maxCoins: this.state.maxCoins,
     };
 
     try {

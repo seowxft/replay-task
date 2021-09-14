@@ -251,7 +251,7 @@ class Questionnaires extends Component {
         {
           value: "OCIR_5",
           text:
-            "I find it difficult to touch an object when I know it has been touched by strangers or certain people. (Please make sure to scroll down within the questionnaire box.)",
+            "I find it difficult to touch an object when I know it has been touched by strangers or certain people.",
         },
         {
           value: "OCIR_6",
