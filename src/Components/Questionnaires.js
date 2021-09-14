@@ -72,6 +72,8 @@ class Questionnaires extends Component {
     };
 
     this.handleDebugKeyLocal = this.handleDebugKeyLocal.bind(this);
+    this.handleBegin = this.handleBegin.bind(this);
+
     /* prevents page from going down when space bar is hit .*/
     window.addEventListener("keydown", function (e) {
       if (e.keyCode === 32 && e.target === document.body) {
@@ -109,6 +111,7 @@ class Questionnaires extends Component {
       saveString: saveString,
     });
 
+    console.log(saveString);
     // console.log("userID: " + userID);
     // console.log("Survey results: " + JSON.stringify(survey.data));
 
@@ -167,23 +170,28 @@ class Questionnaires extends Component {
     var page = survey.pages.indexOf(survey.currentPage);
     let quizText;
     if (page === 0) {
+      quizText = "intro";
+    } else if (page === 1) {
       quizText = "demo";
-    }
-    if (page === 8) {
+    } else if (page === 9) {
       quizText = "IQ_1";
-    }
-    if (page === 9) {
+    } else if (page === 10) {
       quizText = "IQ_2";
     } else {
-      quizText = this.state.quizLabel[page - 1];
+      quizText = this.state.quizLabel[page - 2];
     }
+    console.log("Page: " + page);
 
     var valueName = "PgFinish_" + quizText;
     var valueName2 = "PgRT_" + quizText;
+
     var qnTime = Math.round(performance.now());
     var qnRT = qnTime - this.state.qnTime;
     survey.setValue(valueName, qnTime);
     survey.setValue(valueName2, qnRT);
+
+    var tempString = JSON.stringify(survey.data);
+    console.log(tempString);
 
     setTimeout(
       function () {
@@ -700,6 +708,8 @@ class Questionnaires extends Component {
       qnText7: allQuizText[6],
       quizLabel: quizLabel,
     });
+
+    console.log("quizLabel " + quizLabel);
   }
 
   handleBegin(key_pressed) {
@@ -769,7 +779,7 @@ class Questionnaires extends Component {
         );
       } else {
         //the quiz
-
+        document.removeEventListener("keyup", this._handleBeginKey);
         Quest.StylesManager.applyTheme("default");
         //  this makes the quiz have grey stripes and lengthens the questions for better visibility
         var myCss = {

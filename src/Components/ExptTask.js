@@ -273,11 +273,12 @@ class ExptTask extends React.Component {
     //taskStruct 0-2: values, 3-5: probability, 6-8: EVs, 9: risky EV, 10: safe - risky EV, 11: optimal answer (1:safe, 2: risky)
     // 12 -outcome structure, 13 - forced choice?, 14 - planning trial, 15 - play long path?
 
-    var randNum = "struct_" + getRandomInt(1, 5);
+    var randNumTemp = getRandomInt(1, 5);
+    var randNum = "struct_" + randNumTemp;
     var StructToRender = require("./taskStruct/" + randNum + ".json");
     var maxCoinsStruct = require("./taskStruct/maxCoins.json");
 
-    var maxCoins = maxCoinsStruct[randNum - 1];
+    var maxCoins = maxCoinsStruct[randNumTemp - 1];
 
     var taskSafePathOutcome = StructToRender[0];
     var taskRiskyPathOutcome1 = StructToRender[1];
@@ -2270,7 +2271,7 @@ class ExptTask extends React.Component {
       function () {
         this.saveBonus();
       }.bind(this),
-      0
+      10
     );
   }
 
