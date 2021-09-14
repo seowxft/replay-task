@@ -213,7 +213,6 @@ class TutorTask extends React.Component {
     this.pathStart = this.pathStart.bind(this);
     this.pathShortStart = this.pathShortStart.bind(this);
     this.planCheck = this.planCheck.bind(this);
-    this.testCheck = this.testCheck.bind(this);
 
     /* prevents page from going down when space bar is hit .*/
     window.addEventListener("keydown", function (e) {
@@ -513,16 +512,23 @@ class TutorTask extends React.Component {
     this.setState({
       playCueScreen: false,
       playPlanScreen: false,
-      // playTransScreen: false,
       playPathFull: false,
       playPathShort: false,
       playPathOutcomeShort: false,
+
       trialNum: 0,
       trialTime: trialTime,
       trialRT: 0,
       trialKeypress: 0,
       trialScore: 0,
     });
+
+    setTimeout(
+      function () {
+        this.setTrialVar();
+      }.bind(this),
+      10
+    );
   }
 
   setTrialVar() {
@@ -2083,7 +2089,7 @@ class TutorTask extends React.Component {
       function () {
         this.setTrialVar();
       }.bind(this),
-      0
+      10
     );
   }
 
@@ -2575,7 +2581,7 @@ class TutorTask extends React.Component {
         } else if (this.state.instructScreenText === 7) {
           text = (
             <div className={styles.main}>
-              <p>
+              <span className={styles.likeP}>
                 <span className={styles.center}>MISSION PRACTICE</span>
                 <span className={styles.centerThree}>
                   <span className={styles.cueScreen}>
@@ -2739,7 +2745,7 @@ class TutorTask extends React.Component {
                 <span className={styles.centerTwo}>
                   [<strong>← BACK</strong>] [<strong>NEXT →</strong>]
                 </span>
-              </p>
+              </span>
             </div>
           );
         } else if (this.state.instructScreenText === 8) {

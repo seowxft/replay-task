@@ -865,7 +865,7 @@ class OutcomeTask extends React.Component {
                 while one of these rooms will cause us to{" "}
                 <strong>lose coins</strong>.
                 <br /> <br />
-                The more coins you find, the higher your bonus will be,
+                The more coins you earn, the higher your bonus will be,
                 <br />
                 up to a maximum of <strong>£4</strong>!
                 <br /> <br />
@@ -966,7 +966,7 @@ class OutcomeTask extends React.Component {
                 <br />
                 This room is undesirable, and we will be fined coins.
                 <br /> <br />
-                In other words, if we find a 2 next to a{" "}
+                In other words, if we see a 2 next to a{" "}
                 {this.state.outcomeWord[1]}, we lose 2{" "}
                 <img
                   className={styles.coin}
@@ -999,7 +999,7 @@ class OutcomeTask extends React.Component {
                 <br />
                 This room is neutral, and we will not gain or lose coins.
                 <br /> <br />
-                In other words, even if we find a 5 next to a{" "}
+                In other words, even if we see a 5 next to a{" "}
                 {this.state.outcomeWord[2]}, we earn/lose 0{" "}
                 <img
                   className={styles.coin}
