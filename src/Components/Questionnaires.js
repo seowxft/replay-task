@@ -650,11 +650,11 @@ class Questionnaires extends Component {
       title:
         "Please mark for each statement below an appropriate answer to show how much you WORRY about the following: (Please make sure to scroll down within the questionnaire box.)",
       columns: [
-        { value: 1, text: "Not at all" },
-        { value: 2, text: "A little" },
-        { value: 3, text: "Moderately" },
-        { value: 4, text: "Quite a lot" },
-        { value: 5, text: "Extremely" },
+        { value: 0, text: "Not at all" },
+        { value: 1, text: "A little" },
+        { value: 2, text: "Moderately" },
+        { value: 3, text: "Quite a lot" },
+        { value: 4, text: "Extremely" },
       ],
       rows: [
         {
