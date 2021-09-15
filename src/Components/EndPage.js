@@ -1,39 +1,7 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
 import { DATABASE_URL } from "./config";
-
-// import astrodude from "./img/astro_1.png";
-//
-// import shuttle1 from "./img/shuttle_green.png";
-// import shuttle2 from "./img/shuttle_blue.png";
-
 import styles from "./style/taskStyle.module.css";
-
-/////////////////////////////////////////////////////////////////////
-// function shuffle(array) {
-//   var currentIndex = array.length,
-//     temporaryValue,
-//     randomIndex;
-//
-//   // While there remain elements to shuffle...
-//   while (0 !== currentIndex) {
-//     // Pick a remaining element...
-//     randomIndex = Math.floor(Math.random() * currentIndex);
-//     currentIndex -= 1;
-//
-//     // And swap it with the current element.
-//     temporaryValue = array[currentIndex];
-//     array[currentIndex] = array[randomIndex];
-//     array[randomIndex] = temporaryValue;
-//   }
-//
-//   return array;
-// }
-//
-// /////////////////////////////////////////////////////////////////////
-// var shuttle = [shuttle1, shuttle2];
-//
-// shuffle(shuttle);
 
 /////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////
@@ -74,7 +42,7 @@ class EndPage extends React.Component {
       this.setState({ instructScreenText: curText - 1 });
     } else if (whichButton === 5 && curText < 3) {
       this.setState({ instructScreenText: curText + 1 });
-    } else if (whichButton === 11 && curText === 3) {
+    } else if (whichButton === 10 && curText === 3) {
       setTimeout(
         function () {
           this.redirectToEnd();
