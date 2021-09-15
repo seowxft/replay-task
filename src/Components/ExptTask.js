@@ -106,7 +106,7 @@ var paths = [1, 2, 3];
 var forcedPaths = [1, 2, 3];
 shuffle(forcedPaths);
 
-var trialBlockTotal = 1; //the full length is 6
+var trialBlockTotal = 6; //the full length is 6
 var trialForced = 3;
 var trialFree = 14;
 var trialForcedTotal = trialForced * trialBlockTotal;

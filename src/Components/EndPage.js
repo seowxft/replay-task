@@ -57,7 +57,7 @@ class EndPage extends React.Component {
       feedback: [],
       img_astrodude1: img_astrodude1,
       placeholder:
-        "Were the task instructions clear? Did you encounter any problems?",
+        "Were the task instructions clear? Did you encounter any problems? Was the task too challenging?",
       bonus: bonus,
     };
 
@@ -74,6 +74,13 @@ class EndPage extends React.Component {
       this.setState({ instructScreenText: curText - 1 });
     } else if (whichButton === 5 && curText < 3) {
       this.setState({ instructScreenText: curText + 1 });
+    } else if (whichButton === 11 && curText === 3) {
+      setTimeout(
+        function () {
+          this.redirectToEnd();
+        }.bind(this),
+        0
+      );
     }
   }
 
@@ -158,6 +165,13 @@ class EndPage extends React.Component {
     this.setState = (state, callback) => {
       return;
     };
+  }
+
+  redirectToEnd() {
+    alert("You will now be redirected to the validation page.");
+    document.removeEventListener("keyup", this._handleInstructKey);
+    window.location =
+      "https://app.prolific.co/submissions/complete?cc=62A39CE8"; //this will the prolific validation code
   }
 
   render() {

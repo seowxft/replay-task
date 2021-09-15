@@ -634,7 +634,7 @@ class OutcomeTask extends React.Component {
       taskOutcomeStruct: null,
     };
 
-    console.log(saveString);
+    //  console.log(saveString);
 
     try {
       fetch(`${DATABASE_URL}/cond_data/` + userID, {

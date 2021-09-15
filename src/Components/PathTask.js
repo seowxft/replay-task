@@ -738,7 +738,7 @@ class PathTask extends React.Component {
   setTrialVar() {
     // document.removeEventListener("keyup", this._handleInstructKey);
 
-    console.log("Set Trial Var.");
+    //  console.log("Set Trial Var.");
     var whichPath = this.state.trialtestPath[this.state.trialTestNum - 1];
     // I save these to state.props so that I dont re-run the functions in the later parts
     var whichQn = this.state.whichQn;
