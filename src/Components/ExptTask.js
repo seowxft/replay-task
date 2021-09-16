@@ -951,16 +951,32 @@ class ExptTask extends React.Component {
       var pathRoutePic1 = this.state.pathRoute[0]; //[0,1,2] or [3,4,5] or [6,7,8]
       var pathNum;
       var whichShip;
+      var pathPicWord;
 
       if (pathRoutePic1 === 0) {
         pathNum = 1;
         whichShip = "A";
+        pathPicWord = [
+          this.state.stateWord[0],
+          this.state.stateWord[1],
+          this.state.stateWord[2],
+        ];
       } else if (pathRoutePic1 === 3) {
         pathNum = 2;
         whichShip = "B";
+        pathPicWord = [
+          this.state.stateWord[3],
+          this.state.stateWord[4],
+          this.state.stateWord[5],
+        ];
       } else if (pathRoutePic1 === 6) {
         pathNum = 3;
         whichShip = "C";
+        pathPicWord = [
+          this.state.stateWord[6],
+          this.state.stateWord[7],
+          this.state.stateWord[8],
+        ];
       }
 
       this.setState({
@@ -975,6 +991,7 @@ class ExptTask extends React.Component {
 
         pathNum: pathNum,
         whichShip: whichShip,
+        taskPathPicWord: pathPicWord,
         stateShown: this.state.img_fix,
         outcomeValue: null,
         taskOutcome1: [],
@@ -1178,28 +1195,28 @@ class ExptTask extends React.Component {
     );
   }
 
-  missionCont() {
-    var trialTime = Math.round(performance.now());
-
-    this.setState({
-      instructScreen: false,
-      taskScreen: true,
-      playCueScreen: false,
-      playPlanScreen: false,
-      // playTransScreen: false,
-      playPathFull: false,
-      playPathShort: false,
-      playPathOutcomeShort: false,
-      trialTime: trialTime,
-    });
-
-    setTimeout(
-      function () {
-        this.setTrialVar();
-      }.bind(this),
-      0
-    );
-  }
+  // missionCont() {
+  //   var trialTime = Math.round(performance.now());
+  //
+  //   this.setState({
+  //     instructScreen: false,
+  //     taskScreen: true,
+  //     playCueScreen: false,
+  //     playPlanScreen: false,
+  //     // playTransScreen: false,
+  //     playPathFull: false,
+  //     playPathShort: false,
+  //     playPathOutcomeShort: false,
+  //     trialTime: trialTime,
+  //   });
+  //
+  //   setTimeout(
+  //     function () {
+  //       this.setTrialVar();
+  //     }.bind(this),
+  //     0
+  //   );
+  // }
 
   setTrialVar() {
     // disable the task key
@@ -1813,6 +1830,7 @@ class ExptTask extends React.Component {
       var pathNum;
       var whichShip;
       var pathPicWord;
+
       if (pathRoutePic1 === 0) {
         pathNum = 1;
         whichShip = "A";

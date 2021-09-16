@@ -1500,15 +1500,31 @@ class TutorTask extends React.Component {
     var pathNum;
     var whichShip;
 
+    var pathPicWord;
     if (pathRoutePic1 === 0) {
       pathNum = 1;
       whichShip = "A";
+      pathPicWord = [
+        this.state.stateWord[0],
+        this.state.stateWord[1],
+        this.state.stateWord[2],
+      ];
     } else if (pathRoutePic1 === 3) {
       pathNum = 2;
       whichShip = "B";
+      pathPicWord = [
+        this.state.stateWord[3],
+        this.state.stateWord[4],
+        this.state.stateWord[5],
+      ];
     } else if (pathRoutePic1 === 6) {
       pathNum = 3;
       whichShip = "C";
+      pathPicWord = [
+        this.state.stateWord[6],
+        this.state.stateWord[7],
+        this.state.stateWord[8],
+      ];
     }
 
     this.setState({
@@ -1518,6 +1534,7 @@ class TutorTask extends React.Component {
       playPathShort: true,
       playPathOutcomeShort: false,
       stateShown: this.state.img_fix,
+      tutPathPicWord: pathPicWord,
       stateNum: " ",
       pathNum: pathNum,
       whichShip: whichShip,
@@ -2071,7 +2088,7 @@ class TutorTask extends React.Component {
   }
 
   missionCont() {
-    var trialTime = Math.round(performance.now());
+    // var trialTime = Math.round(performance.now());
 
     this.setState({
       instructScreen: false,
@@ -2082,7 +2099,7 @@ class TutorTask extends React.Component {
       playPathFull: false,
       playPathShort: false,
       playPathOutcomeShort: false,
-      trialTime: trialTime,
+      // trialTime: trialTime,
     });
 
     setTimeout(
