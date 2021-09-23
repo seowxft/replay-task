@@ -544,150 +544,152 @@ class ExptTask extends React.Component {
 
   // function to play choice feedback, and then go play path
   taskCheck(pressed, time_pressed) {
-    var trialRT = time_pressed - this.state.trialTime;
-    var keyChoice = pressed;
-    var choice1Fade = this.state.choice1Fade;
-    var choice2Fade = this.state.choice2Fade;
-    var trialNum = this.state.trialNum;
-    var pathRoute = this.state.pathRoute;
-    var pathProb;
-    var pathTrans;
-    var outcome;
-    var pathIndx;
-    var ShuttlePos = this.state.ShuttlePos; //[0,1] means safe/risky vs [0,1] means risky, safe
-    var pathProbEnd;
-
-    // if choose left
-    if (keyChoice === 1) {
-      choice1Fade = styles.shuttleChoice;
-      choice2Fade = styles.shuttleChoiceFade;
-      if (ShuttlePos[0] === 0) {
-        //I choose the safe choice
-        pathRoute = this.state.SafePath;
-        outcome = this.state.taskSafePathOutcome[trialNum - 1];
-        pathIndx = 1;
-        pathProb = 1;
-        pathProbEnd = 1;
-        pathTrans = null;
-      } else if (ShuttlePos[0] === 1) {
-        //I choose the risky choice
-        //Then Let's roll on the probability
-        pathProb = this.state.taskRiskyPathProb2[trialNum - 1]; //this is the smaller prob
-        pathTrans = pathToGo(pathProb); // 0 (Risk1) or 1 (Risk2)
-        pathIndx = 2;
-
-        if (pathTrans === 0) {
-          pathRoute = this.state.RiskyPath1;
-          outcome = this.state.taskRiskyPathOutcome1[trialNum - 1];
-          pathProbEnd = this.state.taskRiskyPathProb1[trialNum - 1];
-        } else if (pathTrans === 1) {
-          pathRoute = this.state.RiskyPath2;
-          outcome = this.state.taskRiskyPathOutcome2[trialNum - 1];
-          pathProbEnd = this.state.taskRiskyPathProb2[trialNum - 1];
-        } else {
-          pathRoute = "error";
-          outcome = "error";
-          pathProbEnd = "error";
-        }
-      }
-
-      //if choose right
-    } else if (keyChoice === 2) {
-      choice1Fade = styles.shuttleChoiceFade;
-      choice2Fade = styles.shuttleChoice;
-      if (ShuttlePos[1] === 0) {
-        //I choose the safe choice
-        pathRoute = this.state.SafePath;
-        outcome = this.state.taskSafePathOutcome[trialNum - 1];
-        pathIndx = 1;
-        pathProb = 1;
-        pathProbEnd = 1;
-        pathTrans = null;
-      } else if (ShuttlePos[1] === 1) {
-        //I choose the risky choice
-        //Then Let's roll on the probability
-        pathProb = this.state.taskRiskyPathProb2[trialNum - 1]; //this is the smaller prob
-        pathTrans = pathToGo(pathProb); // 0 (Risk1) or 1 (Risk2)
-        pathIndx = 2;
-        if (pathTrans === 0) {
-          pathRoute = this.state.RiskyPath1;
-          outcome = this.state.taskRiskyPathOutcome1[trialNum - 1];
-          pathProbEnd = this.state.taskRiskyPathProb1[trialNum - 1];
-        } else if (pathTrans === 1) {
-          pathRoute = this.state.RiskyPath2;
-          outcome = this.state.taskRiskyPathOutcome2[trialNum - 1];
-          pathProbEnd = this.state.taskRiskyPathProb2[trialNum - 1];
-        } else {
-          pathRoute = "error";
-          outcome = "error";
-          pathProbEnd = "error";
-        }
-      }
-    } else {
-      //if neither left or right, then nothing happens
-      console.log("Choice not made.");
-    }
-
-    if (
-      (this.state.trialNumInBlock <= this.state.trialForced &&
-        pathIndx !== this.state.taskForceChoice[trialNum - 1]) ||
-      outcome === null
-    ) {
-      //if the trial the forced, keyChoice has to be the same as the dictated asnwer, else it wil not move on
-    } else {
-      // free choice trials
-
+    if (this.state.taskPressed === false) {
       this.setState({
-        trialRT: trialRT,
-        keyChoice: keyChoice,
-        choice1Fade: choice1Fade,
-        choice2Fade: choice2Fade,
-        pathProb: pathProb,
-        pathRoute: pathRoute,
-        outcome: outcome,
-        pathIndx: pathIndx,
-        pathProbEnd: pathProbEnd,
+        taskPressed: true,
       });
 
-      if (this.state.taskPlanChoice[trialNum - 1] === 1) {
-        //if it is a planning choice trial, then go to the planning screen
-        var planTime = Math.round(performance.now()) + 500;
+      var trialRT = time_pressed - this.state.trialTime;
+      var keyChoice = pressed;
+      var choice1Fade = this.state.choice1Fade;
+      var choice2Fade = this.state.choice2Fade;
+      var trialNum = this.state.trialNum;
+      var pathRoute = this.state.pathRoute;
+      var pathProb;
+      var pathTrans;
+      var outcome;
+      var pathIndx;
+      var ShuttlePos = this.state.ShuttlePos; //[0,1] means safe/risky vs [0,1] means risky, safe
+      var pathProbEnd;
+
+      // if choose left
+      if (keyChoice === 1) {
+        choice1Fade = styles.shuttleChoice;
+        choice2Fade = styles.shuttleChoiceFade;
+        if (ShuttlePos[0] === 0) {
+          //I choose the safe choice
+          pathRoute = this.state.SafePath;
+          outcome = this.state.taskSafePathOutcome[trialNum - 1];
+          pathIndx = 1;
+          pathProb = 1;
+          pathProbEnd = 1;
+          pathTrans = null;
+        } else if (ShuttlePos[0] === 1) {
+          //I choose the risky choice
+          //Then Let's roll on the probability
+          pathProb = this.state.taskRiskyPathProb2[trialNum - 1]; //this is the smaller prob
+          pathTrans = pathToGo(pathProb); // 0 (Risk1) or 1 (Risk2)
+          pathIndx = 2;
+
+          if (pathTrans === 0) {
+            pathRoute = this.state.RiskyPath1;
+            outcome = this.state.taskRiskyPathOutcome1[trialNum - 1];
+            pathProbEnd = this.state.taskRiskyPathProb1[trialNum - 1];
+          } else if (pathTrans === 1) {
+            pathRoute = this.state.RiskyPath2;
+            outcome = this.state.taskRiskyPathOutcome2[trialNum - 1];
+            pathProbEnd = this.state.taskRiskyPathProb2[trialNum - 1];
+          } else {
+            pathRoute = "error";
+            outcome = "error";
+            pathProbEnd = "error";
+          }
+        }
+
+        //if choose right
+      } else if (keyChoice === 2) {
+        choice1Fade = styles.shuttleChoiceFade;
+        choice2Fade = styles.shuttleChoice;
+        if (ShuttlePos[1] === 0) {
+          //I choose the safe choice
+          pathRoute = this.state.SafePath;
+          outcome = this.state.taskSafePathOutcome[trialNum - 1];
+          pathIndx = 1;
+          pathProb = 1;
+          pathProbEnd = 1;
+          pathTrans = null;
+        } else if (ShuttlePos[1] === 1) {
+          //I choose the risky choice
+          //Then Let's roll on the probability
+          pathProb = this.state.taskRiskyPathProb2[trialNum - 1]; //this is the smaller prob
+          pathTrans = pathToGo(pathProb); // 0 (Risk1) or 1 (Risk2)
+          pathIndx = 2;
+          if (pathTrans === 0) {
+            pathRoute = this.state.RiskyPath1;
+            outcome = this.state.taskRiskyPathOutcome1[trialNum - 1];
+            pathProbEnd = this.state.taskRiskyPathProb1[trialNum - 1];
+          } else if (pathTrans === 1) {
+            pathRoute = this.state.RiskyPath2;
+            outcome = this.state.taskRiskyPathOutcome2[trialNum - 1];
+            pathProbEnd = this.state.taskRiskyPathProb2[trialNum - 1];
+          } else {
+            pathRoute = "error";
+            outcome = "error";
+            pathProbEnd = "error";
+          }
+        }
+      } else {
+        //if neither left or right, then nothing happens
+        console.log("Choice not made.");
+      }
+
+      if (
+        (this.state.trialNumInBlock <= this.state.trialForced &&
+          pathIndx !== this.state.taskForceChoice[trialNum - 1]) ||
+        outcome === null
+      ) {
+        //if the trial the forced, keyChoice has to be the same as the dictated asnwer, else it wil not move on
+      } else {
+        // free choice trials
 
         this.setState({
-          planTime: planTime,
+          trialRT: trialRT,
+          keyChoice: keyChoice,
+          choice1Fade: choice1Fade,
+          choice2Fade: choice2Fade,
+          pathProb: pathProb,
+          pathRoute: pathRoute,
+          outcome: outcome,
+          pathIndx: pathIndx,
+          pathProbEnd: pathProbEnd,
         });
 
-        setTimeout(
-          function () {
-            this.selectPlanStates();
-          }.bind(this),
-          500
-        );
-      } else {
-        // setTimeout(
-        //   function () {
-        //     this.transShip();
-        //   }.bind(this),
-        //   500
-        // );
+        if (this.state.taskPlanChoice[trialNum - 1] === 1) {
+          //if it is a planning choice trial, then go to the planning screen
+          var planTime = Math.round(performance.now()) + 500;
 
-        if (this.state.taskShowPath[this.state.trialNum - 1] === 1) {
+          this.setState({
+            planTime: planTime,
+          });
+
           setTimeout(
             function () {
-              this.playStateOne();
+              this.selectPlanStates();
             }.bind(this),
             500
           );
-        } else if (this.state.taskShowPath[this.state.trialNum - 1] === 0) {
-          //if dont show the route, go to a jitter fixation
-          setTimeout(
-            function () {
-              this.jitterFix();
-            }.bind(this),
-            500
-          );
+        } else {
+          if (this.state.taskShowPath[this.state.trialNum - 1] === 1) {
+            setTimeout(
+              function () {
+                this.playStateOne();
+              }.bind(this),
+              500
+            );
+          } else if (this.state.taskShowPath[this.state.trialNum - 1] === 0) {
+            //if dont show the route, go to a jitter fixation
+            setTimeout(
+              function () {
+                this.jitterFix();
+              }.bind(this),
+              500
+            );
+          }
         }
       }
+    } else {
+      // if taskPressed == true, don't cal the trial again
+      console.log("XTRA PRESSES NOT COUNTED!!");
     }
   }
 
@@ -1637,6 +1639,8 @@ class ExptTask extends React.Component {
       keyChoiceAll: [],
       planPathChosen: null,
       planFeedback: "Press the [number key] to select the room.",
+
+      taskPressed: false,
     });
 
     if (trialNum === 1) {
