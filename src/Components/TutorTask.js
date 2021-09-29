@@ -916,6 +916,8 @@ class TutorTask extends React.Component {
       planChoicesWords: [],
       keyChoiceAll: [],
       planPathChosen: null,
+      planPathIndxChosen: null,
+      planPathChosenProb: null,
       planFeedback: "Press the [number key] to select the room.",
     });
   }
@@ -1335,30 +1337,41 @@ class TutorTask extends React.Component {
         var samePathTwo = arraysEqual(planChoices, this.state.pathTwo);
         var samePathThree = arraysEqual(planChoices, this.state.pathThree);
 
+        var planPathChosen;
+        if (samePathOne === true) {
+          planPathChosen = 1;
+        } else if (samePathTwo === true) {
+          planPathChosen = 2;
+        } else if (samePathTwo === true) {
+          planPathChosen = 3;
+        } else {
+          planPathChosen = 0;
+        }
+
         if (
           samePathOne === true ||
           samePathTwo === true ||
           samePathThree === true
         ) {
           // if correct, which path did they think they were gonna go?
-          var planPathChosen;
+          var planPathIndxChosen;
           var planPathChosenProb;
 
           if (arraysEqual(planChoices, this.state.SafePath)) {
             planPathChosenProb = this.state.tutSafePathProb[
               this.state.trialNum - 1
             ];
-            planPathChosen = 1;
+            planPathIndxChosen = 1;
           } else if (arraysEqual(planChoices, this.state.RiskyPath1)) {
             planPathChosenProb = this.state.tutRiskyPathProb1[
               this.state.trialNum - 1
             ];
-            planPathChosen = 2;
+            planPathIndxChosen = 2;
           } else if (arraysEqual(planChoices, this.state.RiskyPath2)) {
             planPathChosenProb = this.state.tutRiskyPathProb2[
               this.state.trialNum - 1
             ];
-            planPathChosen = 3;
+            planPathIndxChosen = 3;
           }
 
           this.setState({
@@ -1366,6 +1379,7 @@ class TutorTask extends React.Component {
             planFeedback: "Correct order! No coins lost!",
             coins: coins,
             planPathChosen: planPathChosen,
+            planPathIndxChosen: planPathIndxChosen,
             planPathChosenProb: planPathChosenProb,
             planCurrentChoice: 3, //keep the number on screen
           });
@@ -1377,6 +1391,7 @@ class TutorTask extends React.Component {
             coins: coins,
             planPathChosen: null, //failed to choose correct path
             planPathChosenProb: null,
+            planPathIndxChosen: null,
             planCurrentChoice: 3,
           });
         }
@@ -2027,6 +2042,7 @@ class TutorTask extends React.Component {
       trialPlanChoice: this.state.planChoices,
       trialPlanChoiceWords: this.state.planChoicesWords,
       trialPlanPathChosen: this.state.planPathChosen,
+      trialPlanPathIndxChosen: this.state.planPathIndxChosen,
       trialPlanPathChosenProb: this.state.planPathChosenProb,
       trialPlanCor: this.state.planCor,
 
