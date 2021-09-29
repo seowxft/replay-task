@@ -559,6 +559,7 @@ class ExptTask extends React.Component {
       var pathTrans;
       var outcome;
       var pathIndx;
+      var shuttleChoice;
       var ShuttlePos = this.state.ShuttlePos; //[0,1] means safe/risky vs [0,1] means risky, safe
       var pathProbEnd;
 
@@ -570,6 +571,7 @@ class ExptTask extends React.Component {
           //I choose the safe choice
           pathRoute = this.state.SafePath;
           outcome = this.state.taskSafePathOutcome[trialNum - 1];
+          shuttleChoice = 1;
           pathIndx = 1;
           pathProb = 1;
           pathProbEnd = 1;
@@ -579,13 +581,15 @@ class ExptTask extends React.Component {
           //Then Let's roll on the probability
           pathProb = this.state.taskRiskyPathProb2[trialNum - 1]; //this is the smaller prob
           pathTrans = pathToGo(pathProb); // 0 (Risk1) or 1 (Risk2)
-          pathIndx = 2;
+          shuttleChoice = 2;
 
           if (pathTrans === 0) {
+            pathIndx = 2;
             pathRoute = this.state.RiskyPath1;
             outcome = this.state.taskRiskyPathOutcome1[trialNum - 1];
             pathProbEnd = this.state.taskRiskyPathProb1[trialNum - 1];
           } else if (pathTrans === 1) {
+            pathIndx = 3;
             pathRoute = this.state.RiskyPath2;
             outcome = this.state.taskRiskyPathOutcome2[trialNum - 1];
             pathProbEnd = this.state.taskRiskyPathProb2[trialNum - 1];
@@ -604,6 +608,7 @@ class ExptTask extends React.Component {
           //I choose the safe choice
           pathRoute = this.state.SafePath;
           outcome = this.state.taskSafePathOutcome[trialNum - 1];
+          shuttleChoice = 1;
           pathIndx = 1;
           pathProb = 1;
           pathProbEnd = 1;
@@ -613,12 +618,14 @@ class ExptTask extends React.Component {
           //Then Let's roll on the probability
           pathProb = this.state.taskRiskyPathProb2[trialNum - 1]; //this is the smaller prob
           pathTrans = pathToGo(pathProb); // 0 (Risk1) or 1 (Risk2)
-          pathIndx = 2;
+          shuttleChoice = 2;
           if (pathTrans === 0) {
+            pathIndx = 2;
             pathRoute = this.state.RiskyPath1;
             outcome = this.state.taskRiskyPathOutcome1[trialNum - 1];
             pathProbEnd = this.state.taskRiskyPathProb1[trialNum - 1];
           } else if (pathTrans === 1) {
+            pathIndx = 3;
             pathRoute = this.state.RiskyPath2;
             outcome = this.state.taskRiskyPathOutcome2[trialNum - 1];
             pathProbEnd = this.state.taskRiskyPathProb2[trialNum - 1];
@@ -635,10 +642,13 @@ class ExptTask extends React.Component {
 
       if (
         (this.state.trialNumInBlock <= this.state.trialForced &&
-          pathIndx !== this.state.taskForceChoice[trialNum - 1]) ||
+          shuttleChoice !== this.state.taskForceChoice[trialNum - 1]) ||
         outcome === null
       ) {
         //if the trial the forced, keyChoice has to be the same as the dictated asnwer, else it wil not move on
+        this.setState({
+          taskPressed: false,
+        });
       } else {
         // free choice trials
 
@@ -651,6 +661,7 @@ class ExptTask extends React.Component {
           pathRoute: pathRoute,
           outcome: outcome,
           pathIndx: pathIndx,
+          shuttleChoice: shuttleChoice,
           pathProbEnd: pathProbEnd,
         });
 
@@ -699,7 +710,7 @@ class ExptTask extends React.Component {
     var path1;
     var path2;
 
-    if (this.state.pathIndx === 1) {
+    if (this.state.shuttleChoice === 1) {
       var rand = getRandomInt(1, 2);
       //safe choice
       if (rand === 1) {
@@ -709,7 +720,7 @@ class ExptTask extends React.Component {
         path1 = this.state.SafePath;
         path2 = this.state.RiskyPath2;
       }
-    } else if (this.state.pathIndx === 2) {
+    } else if (this.state.shuttleChoice === 2) {
       path1 = this.state.RiskyPath1;
       path2 = this.state.RiskyPath2;
     }
@@ -1722,6 +1733,7 @@ class ExptTask extends React.Component {
       pathProb: null,
       pathRoute: null,
       outcome: null,
+      shuttleChoice: null,
       pathIndx: null,
       pathProbEnd: null,
       pathNum: null,
@@ -2170,11 +2182,12 @@ class ExptTask extends React.Component {
       trialPathProb: this.state.pathProbBoth, //this is whether they chose 100 or 50/50, etc
       trialRT: this.state.trialRT,
       trialKeypress: this.state.keyChoice, //press left or right
-      trialGambleChoice: this.state.pathIndx, //press 1- safe or 2 -risky
+      trialGambleChoice: this.state.shuttleChoice, //press 1- safe or 2 -risky
       trialPathProbChosen: this.state.pathProbEnd, //this is whether they chose 100 or 50/50, etc
       trialPath: this.state.pathNum, //this should be which path
       trialPathPicWord: this.state.taskPathPicWord,
-      trialPathIndx: this.state.pathRoute,
+      trialPathIndx: this.state.pathIndx, //press 1- safe, 2- risky1, 3- risky2
+      trialPathRoute: this.state.pathRoute,
       trialOutcomePicWord: this.state.taskOutcomeWord,
       trialOutcomeIndx: this.state.taskOutcomeIndx,
       trialOutcomeValence: trialOutcomeValence, //1, -1 or 0

@@ -1000,7 +1000,7 @@ class TutorTask extends React.Component {
     var trialNum = this.state.trialNum;
     var pathRoute = this.state.pathRoute;
     var pathProb;
-
+    var shuttleChoice;
     var pathTrans;
     var outcome;
     var pathIndx;
@@ -1016,6 +1016,7 @@ class TutorTask extends React.Component {
         pathRoute = this.state.SafePath;
         outcome = this.state.tutSafePathOutcome[trialNum - 1];
         pathIndx = 1;
+        shuttleChoice = 1;
         pathProb = 1;
         pathProbEnd = 1;
       } else if (ShuttlePos[0] === 1) {
@@ -1023,13 +1024,15 @@ class TutorTask extends React.Component {
         //Then Let's roll on the probability
         pathProb = this.state.tutRiskyPathProb2[trialNum - 1]; //this is the smaller prob
         pathTrans = pathToGo(pathProb); // 0 (Risk1) or 1 (Risk2)
-        pathIndx = 2;
+        shuttleChoice = 2;
 
         if (pathTrans === 0) {
+          pathIndx = 2;
           pathRoute = this.state.RiskyPath1;
           outcome = this.state.tutRiskyPathOutcome1[trialNum - 1];
           pathProbEnd = this.state.tutRiskyPathProb1[trialNum - 1];
         } else if (pathTrans === 1) {
+          pathIndx = 3;
           pathRoute = this.state.RiskyPath2;
           outcome = this.state.tutRiskyPathOutcome2[trialNum - 1];
           pathProbEnd = this.state.tutRiskyPathProb2[trialNum - 1];
@@ -1045,6 +1048,7 @@ class TutorTask extends React.Component {
         pathRoute = this.state.SafePath;
         outcome = this.state.tutSafePathOutcome[trialNum - 1];
         pathIndx = 1;
+        shuttleChoice = 1;
         pathProb = 1;
         pathProbEnd = 1;
       } else if (ShuttlePos[1] === 1) {
@@ -1052,13 +1056,15 @@ class TutorTask extends React.Component {
         //Then Let's roll on the probability
         pathProb = this.state.tutRiskyPathProb2[trialNum - 1]; //this is the smaller prob
         pathTrans = pathToGo(pathProb); // 0 (Risk1) or 1 (Risk2)
-        pathIndx = 2;
+        shuttleChoice = 2;
 
         if (pathTrans === 0) {
+          pathIndx = 2;
           pathRoute = this.state.RiskyPath1;
           outcome = this.state.tutRiskyPathOutcome1[trialNum - 1];
           pathProbEnd = this.state.tutRiskyPathProb1[trialNum - 1];
         } else if (pathTrans === 1) {
+          pathIndx = 3;
           pathRoute = this.state.RiskyPath2;
           outcome = this.state.tutRiskyPathOutcome2[trialNum - 1];
           pathProbEnd = this.state.tutRiskyPathProb2[trialNum - 1];
@@ -1071,7 +1077,7 @@ class TutorTask extends React.Component {
 
     if (
       trialNum <= this.state.trialForced &&
-      pathIndx !== this.state.tutForceChoice[trialNum - 1]
+      shuttleChoice !== this.state.tutForceChoice[trialNum - 1]
     ) {
       //if the trial the forced, keyChoice has to be the same as the dictated asnwer, else it wil not move on
     } else {
@@ -1084,7 +1090,7 @@ class TutorTask extends React.Component {
         choice2Fade: choice2Fade,
         pathProb: pathProb,
         pathProbEnd: pathProbEnd,
-
+        shuttleChoice: shuttleChoice,
         pathRoute: pathRoute,
         outcome: outcome,
         pathIndx: pathIndx,
@@ -1142,7 +1148,7 @@ class TutorTask extends React.Component {
     var path1;
     var path2;
 
-    if (this.state.pathIndx === 1) {
+    if (this.state.shuttleChoice === 1) {
       var rand = getRandomInt(1, 2);
       //safe choice
       if (rand === 1) {
@@ -1152,7 +1158,7 @@ class TutorTask extends React.Component {
         path1 = this.state.SafePath;
         path2 = this.state.RiskyPath2;
       }
-    } else if (this.state.pathIndx === 2) {
+    } else if (this.state.shuttleChoice === 2) {
       path1 = this.state.RiskyPath1;
       path2 = this.state.RiskyPath2;
     }
@@ -2020,11 +2026,12 @@ class TutorTask extends React.Component {
       trialPathProb: this.state.pathProbBoth, //this is whether they chose 100 or 50/50, etc
       trialRT: this.state.trialRT,
       trialKeypress: this.state.keyChoice, //press left or right
-      trialGambleChoice: this.state.pathIndx, //press 1- safe or 2 -risky
+      trialGambleChoice: this.state.shuttleChoice, //press 1- safe or 2 -risky
       trialPathProbChosen: this.state.pathProbEnd, //this is whether they chose 100 or 50/50, etc
       trialPath: this.state.pathNum, //this should be which path it went
       trialPathPicWord: this.state.tutPathPicWord,
-      trialPathIndx: this.state.pathRoute,
+      trialPathIndx: this.state.pathIndx,
+      trialPathRoute: this.state.pathRoute,
       trialOutcomePicWord: this.state.tutOutcomeWord,
       trialOutcomeIndx: this.state.tutOutcomeIndx,
       trialOutcomeValence: trialOutcomeValence, //1, -1 or 0
