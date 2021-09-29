@@ -1342,19 +1342,23 @@ class TutorTask extends React.Component {
         ) {
           // if correct, which path did they think they were gonna go?
           var planPathChosen;
+          var planPathChosenProb;
 
           if (arraysEqual(planChoices, this.state.SafePath)) {
-            planPathChosen = this.state.tutSafePathProb[
+            planPathChosenProb = this.state.tutSafePathProb[
               this.state.trialNum - 1
             ];
+            planPathChosen = 1;
           } else if (arraysEqual(planChoices, this.state.RiskyPath1)) {
-            planPathChosen = this.state.tutRiskyPathProb1[
+            planPathChosenProb = this.state.tutRiskyPathProb1[
               this.state.trialNum - 1
             ];
+            planPathChosen = 2;
           } else if (arraysEqual(planChoices, this.state.RiskyPath2)) {
-            planPathChosen = this.state.tutRiskyPathProb2[
+            planPathChosenProb = this.state.tutRiskyPathProb2[
               this.state.trialNum - 1
             ];
+            planPathChosen = 3;
           }
 
           this.setState({
@@ -1362,6 +1366,7 @@ class TutorTask extends React.Component {
             planFeedback: "Correct order! No coins lost!",
             coins: coins,
             planPathChosen: planPathChosen,
+            planPathChosenProb: planPathChosenProb,
             planCurrentChoice: 3, //keep the number on screen
           });
         } else {
@@ -1371,6 +1376,7 @@ class TutorTask extends React.Component {
             planFeedback: "No such order! You lose 1 coin!",
             coins: coins,
             planPathChosen: null, //failed to choose correct path
+            planPathChosenProb: null,
             planCurrentChoice: 3,
           });
         }
@@ -2021,6 +2027,7 @@ class TutorTask extends React.Component {
       trialPlanChoice: this.state.planChoices,
       trialPlanChoiceWords: this.state.planChoicesWords,
       trialPlanPathChosen: this.state.planPathChosen,
+      trialPlanPathChosenProb: this.state.planPathChosenProb,
       trialPlanCor: this.state.planCor,
 
       trialPathProb: this.state.pathProbBoth, //this is whether they chose 100 or 50/50, etc
