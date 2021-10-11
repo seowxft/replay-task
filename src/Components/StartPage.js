@@ -20,18 +20,18 @@ import img_coin from "./img/coin.png";
 import img_pathInstruct1 from "./img/PathInstruct1.png";
 import img_stateHolder1 from "./img/quest_holder1.png";
 import img_stateHolder2 from "./img/quest_holder2.png";
-import img_state1 from "./states/baby.jpg";
-import img_state2 from "./states/backpack.jpg";
-import img_state3 from "./states/bicycle.jpg";
-import img_state4 from "./states/bowtie.jpg";
-import img_state5 from "./states/hourglass.jpg";
-import img_state6 from "./states/house.jpg";
-import img_state7 from "./states/lamp.jpg";
-import img_state8 from "./states/toothbrush.jpg";
-import img_state9 from "./states/zebra.jpg";
-import img_state10 from "./states/car.jpg";
-import img_state11 from "./states/cat.jpg";
-import img_state12 from "./states/cupcake.jpg";
+import img_state1 from "./states/battery.jpg";
+import img_state2 from "./states/bottle.jpg";
+import img_state3 from "./states/box.jpg";
+import img_state4 from "./states/camera.jpg";
+import img_state5 from "./states/candy.jpg";
+import img_state6 from "./states/clock.jpg";
+import img_state7 from "./states/robot.jpg";
+import img_state8 from "./states/rubik.jpg";
+import img_state9 from "./states/safe.jpg";
+import img_state10 from "./states/umbrella.jpg";
+import img_state11 from "./states/tree.jpg";
+import img_state12 from "./states/vase.jpg";
 
 /////////
 var isArray =
@@ -72,18 +72,18 @@ function shuffleSame() {
 
 ////////////////
 var stateWord = [
-  "baby",
-  "backpack",
-  "bicycle",
-  "bowtie",
-  "hourglass",
-  "house",
-  "lamp",
-  "toothbrush",
-  "zebra",
-  "car",
-  "cat",
-  "cupcake",
+  "battery",
+  "bottle",
+  "box",
+  "camera",
+  "candy",
+  "clock",
+  "robot",
+  "rubik",
+  "safe",
+  "umbrella",
+  "tree",
+  "vase",
 ];
 
 var statePic = [
