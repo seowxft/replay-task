@@ -635,7 +635,7 @@ class StartPage extends React.Component {
               type: "html",
               name: "info",
               html:
-                "<p>If you complete everything the study will take around 3 hours and you will receive at least £50 for the inconvenience of taking part. We will also reimburse travel costs - please do not forget to bring receipts.<br/><br/>We may contact you up to three years after this assessment to invite you to take part in future studies. Remember that you are free to withdraw from the study at any time.</p>",
+                "<p>If you complete everything the study will take around 5.5 hours and you will receive at least £8.50/hr for the inconvenience of taking part. We will also reimburse travel costs - please do not forget to bring receipts.<br/><br/>We may contact you up to three years after this assessment to invite you to take part in future studies. Remember that you are free to withdraw from the study at any time.</p>",
             },
             {
               type: "html",
