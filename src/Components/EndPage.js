@@ -43,12 +43,12 @@ class EndPage extends React.Component {
     } else if (whichButton === 5 && curText < 3) {
       this.setState({ instructScreenText: curText + 1 });
     } else if (whichButton === 10 && curText === 3) {
-      setTimeout(
-        function () {
-          this.redirectToEnd();
-        }.bind(this),
-        0
-      );
+      // setTimeout(
+      //   function () {
+      //     this.redirectToEnd();
+      //   }.bind(this),
+      //   0
+      // );
     }
   }
 
@@ -267,9 +267,7 @@ class EndPage extends React.Component {
                 </form>
               </span>
               <span className={styles.centerTwo}>
-                If you are ready to return to Prolific, press [
-                <strong>SPACEBAR</strong>] and follow the pop-up to complete the
-                session.
+                You have finished the task! You may close the tab.
               </span>
               &nbsp;
               <span className={styles.centerTwo}>

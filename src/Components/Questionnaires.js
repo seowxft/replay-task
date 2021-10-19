@@ -447,7 +447,7 @@ class Questionnaires extends Component {
       rows: [
         { value: "BIS_1", text: "I plan tasks carefully." },
         { value: "BIS_2", text: "I do things without thinking." },
-        { value: "BIS_3", text: "I make-up my mind quickly." },
+        { value: "BIS_3", text: "I make up my mind quickly." },
         { value: "BIS_4", text: "I am happy-go-lucky." },
         { value: "BIS_5", text: "I don’t 'pay attention'." },
         { value: "BIS_6", text: "I have 'racing' thoughts." },
@@ -659,7 +659,7 @@ class Questionnaires extends Component {
       rows: [
         {
           value: "WDQSF_1",
-          text: "I worry that I'll never achive my ambitions.",
+          text: "I worry that I'll never achieve my ambitions.",
         },
         {
           value: "WDQSF_2",

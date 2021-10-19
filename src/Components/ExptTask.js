@@ -2367,7 +2367,7 @@ class ExptTask extends React.Component {
     document.removeEventListener("keyup", this._handleInstructKey);
     document.removeEventListener("keyup", this._handleDebugKey);
     this.props.history.push({
-      pathname: `/Questionnaires`,
+      pathname: `/EndPage`,
       state: {
         userID: this.state.userID,
         date: this.state.date,

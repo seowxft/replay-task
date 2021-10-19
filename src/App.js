@@ -7,7 +7,6 @@ import PathTask from "./Components/PathTask";
 import TutorTask from "./Components/TutorTask";
 import QuizTask from "./Components/QuizTask";
 import ExptTask from "./Components/ExptTask";
-import Questionnaires from "./Components/Questionnaires";
 import EndPage from "./Components/EndPage";
 
 import "./App.css";
@@ -22,7 +21,6 @@ function App() {
         <Route path="/TutorTask" component={TutorTask} exact />
         <Route path="/QuizTask" component={QuizTask} exact />
         <Route path="/ExptTask" component={ExptTask} exact />
-        <Route path="/Questionnaires" component={Questionnaires} exact />
         <Route path="/EndPage" component={EndPage} exact />
       </Switch>
     </BrowserRouter>

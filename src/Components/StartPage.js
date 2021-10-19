@@ -169,9 +169,7 @@ class StartPage extends React.Component {
     let url = this.props.location.search;
     let params = queryString.parse(url);
     const prolific_id =
-      params["PROLIFIC_PID"] === undefined
-        ? "undefined"
-        : params["PROLIFIC_PID"];
+      params["USER_PID"] === undefined ? "undefined" : params["USER_PID"];
     console.log(prolific_id);
 
     // Set state
