@@ -550,6 +550,7 @@ class StartPage extends React.Component {
       ],
     };
 
+    //NHS version
     var json2 = {
       title: null,
       pages: [
@@ -857,7 +858,7 @@ class StartPage extends React.Component {
           <br />
           <br />
           <Consent.Survey
-            json={json1}
+            json={json2}
             showCompletedPage={false}
             onComplete={this.redirectToTarget}
           />
