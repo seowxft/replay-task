@@ -586,7 +586,7 @@ class StartPage extends React.Component {
               type: "html",
               name: "info",
               html:
-                "<p>We hope to have 500 people in this study. We want people in the study who do and do not experience difficulties such as problems with mood, emotion and behaviour. At the moment we are looking for people who are:<ul><li>Aged 18-55 years</li><li>Have normal or corrected-to-normal vision</li><li>No past or present psychiatric disorders if in healthy control cohort</li><li>No current or past history of serious neurological disorders or trauma including epilepsy</li><li>Not currently or recently (within 12 months) participating in a clinical trial of an investigational medical product (CTIMP)</li><li>No learning disability requiring specialist educational support and/or medical treatment</il><li>Able to understand written and spoken English</li><li>Not in prision or on probation</li><li>Is willing and able to give informed consent</li></p>",
+                "<p>We hope to have 500 people in this study. We want people in the study who do and do not experience difficulties such as problems with mood, emotion and behaviour. At the moment we are looking for people who are:<ul><li>Aged 18-55 years</li><li>Have normal or corrected-to-normal vision</li><li><strong>If in healthy control cohort</strong>: No past or present psychiatric disorders</li><li><strong>If in OCD cohort</strong>: Diagnosed with obsessive-compulsive disorder (OCD)</li><li>Not suffering from autism spectrum disorder, psychosis, schizophrenia, addiction, substance abuse, bipolar, hoarding, tic or Tourette disorder</li><li>Not suffering from any ear-related conditions: Tinnitus, ear inflammation, hearing sensitivity, hearing loss, use of hearing aids/li><li>Not taking anti psychotic medication</li><li>Free of metal implants or dental braces</li><li>Not pregnant</li><li>Not colour blind</li><li>No serious learning disabilities</li></p>",
             },
 
             {
@@ -769,7 +769,7 @@ class StartPage extends React.Component {
               type: "checkbox",
               name: "checkbox1",
               title:
-                "I have read and understood the information sheet version [number] dated [date] related to the CNNP Study. I have had sufficient time and opportunity to consider this information, ask questions and have had these answered satisfactorily by a member of the research team.",
+                "I have read and understood the information sheet version v5.0 dated 19/05/2021 related to the CNNP Study. I have had sufficient time and opportunity to consider this information, ask questions and have had these answered satisfactorily by a member of the research team.",
               isRequired: true,
               choices: ["Yes"],
             },
@@ -777,7 +777,7 @@ class StartPage extends React.Component {
               type: "checkbox",
               name: "checkbox2",
               title:
-                "I understand that my participation is voluntary and that I am/my child is free to withdraw at any time without giving a reason, without my medical care or legal rights being affected.",
+                "I understand that my participation is voluntary and that I am is free to withdraw at any time without giving a reason, without my medical care or legal rights being affected.",
               isRequired: true,
               choices: ["Yes"],
             },
@@ -817,7 +817,7 @@ class StartPage extends React.Component {
               type: "checkbox",
               name: "checkbox7",
               title:
-                "I understand that information related to my/my child’s participation in this study may be accessed by responsible individuals from the sponsor for quality control purposes. I give permission for these individuals to have access to this data.",
+                "I understand that information related to my participation in this study may be accessed by responsible individuals from the sponsor for quality control purposes. I give permission for these individuals to have access to this data.",
               isRequired: true,
               choices: ["Yes"],
             },
