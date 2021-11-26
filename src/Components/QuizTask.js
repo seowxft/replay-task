@@ -314,11 +314,11 @@ class QuizTask extends React.Component {
     var curText = this.state.instructScreenText;
     var whichButton = key_pressed;
 
-    if (whichButton === 4 && curText > 1 && curText <= 4) {
+    if (whichButton === 4 && curText > 1 && curText <= 14) {
       this.setState({ instructScreenText: curText - 1 });
-    } else if (whichButton === 5 && curText < 4) {
+    } else if (whichButton === 5 && curText < 14) {
       this.setState({ instructScreenText: curText + 1 });
-    } else if (curText === 4 && whichButton === 10) {
+    } else if (curText === 14 && whichButton === 10) {
       //start task
       setTimeout(
         function () {
@@ -326,7 +326,7 @@ class QuizTask extends React.Component {
         }.bind(this),
         0
       );
-    } else if (curText === 5 && whichButton === 10) {
+    } else if (curText === 15 && whichButton === 10) {
       // restart
       setTimeout(
         function () {
@@ -334,7 +334,7 @@ class QuizTask extends React.Component {
         }.bind(this),
         0
       );
-    } else if (curText === 6 && whichButton === 10) {
+    } else if (curText === 16 && whichButton === 10) {
       // to main mission
       setTimeout(
         function () {
@@ -1195,7 +1195,7 @@ class QuizTask extends React.Component {
         testScreen: false,
         playOutcomeQuizScreen: true,
         playPlanQuizScreen: false,
-        instructScreenText: 6,
+        instructScreenText: 16,
       });
     } else {
       this.setState({
@@ -1203,7 +1203,7 @@ class QuizTask extends React.Component {
         testScreen: false,
         playOutcomeQuizScreen: true,
         playPlanQuizScreen: false,
-        instructScreenText: 5,
+        instructScreenText: 15,
       });
     }
   }
@@ -1287,7 +1287,7 @@ class QuizTask extends React.Component {
                 As a refresher, the outcome rooms you can find:
                 <span className={styles.centerTwo}>
                   <img
-                    className={styles.stateSmall}
+                    className={styles.state}
                     src={this.state.outcomePic[0]}
                     alt="outcome1"
                   />
@@ -1298,26 +1298,6 @@ class QuizTask extends React.Component {
                     alt="coin"
                   />{" "}
                   (gain)
-                  <br />
-                  <img
-                    className={styles.stateSmall}
-                    src={this.state.outcomePic[1]}
-                    alt="outcome2"
-                  />
-                  &nbsp;&nbsp; = &nbsp;-{" "}
-                  <img
-                    className={styles.coin}
-                    src={this.state.img_coin}
-                    alt="coin"
-                  />{" "}
-                  (lose)
-                  <br />
-                  <img
-                    className={styles.stateSmall}
-                    src={this.state.outcomePic[2]}
-                    alt="outcome3"
-                  />
-                  &nbsp;&nbsp; = &nbsp;none
                 </span>
                 <span className={styles.centerTwo}>
                   [<strong>← BACK</strong>] [<strong>NEXT →</strong>]
@@ -1330,61 +1310,226 @@ class QuizTask extends React.Component {
             <div className={styles.main}>
               <span className={styles.likeP}>
                 <span className={styles.center}>QUIZ START</span>
-                And the connecting room order of the spaceships are:
+                As a refresher, the outcome rooms you can find:
                 <span className={styles.centerTwo}>
-                  <span className={styles.spaceshipSmall}>Spaceship A</span>
                   <img
-                    className={styles.stateSmall}
+                    className={styles.state}
+                    src={this.state.outcomePic[1]}
+                    alt="outcome2"
+                  />
+                  &nbsp;&nbsp; = &nbsp;-{" "}
+                  <img
+                    className={styles.coin}
+                    src={this.state.img_coin}
+                    alt="coin"
+                  />{" "}
+                  (lose)
+                </span>
+                <span className={styles.centerTwo}>
+                  [<strong>← BACK</strong>] [<strong>NEXT →</strong>]
+                </span>
+              </span>
+            </div>
+          );
+        } else if (this.state.instructScreenText === 4) {
+          text = (
+            <div className={styles.main}>
+              <span className={styles.likeP}>
+                <span className={styles.center}>QUIZ START</span>
+                As a refresher, the outcome rooms you can find:
+                <span className={styles.centerTwo}>
+                  <img
+                    className={styles.state}
+                    src={this.state.outcomePic[2]}
+                    alt="outcome3"
+                  />
+                  &nbsp;&nbsp; = &nbsp;none
+                </span>
+                <span className={styles.centerTwo}>
+                  [<strong>← BACK</strong>] [<strong>NEXT →</strong>]
+                </span>
+              </span>
+            </div>
+          );
+        } else if (this.state.instructScreenText === 5) {
+          text = (
+            <div className={styles.main}>
+              <span className={styles.likeP}>
+                <span className={styles.center}>QUIZ START</span>
+                And the connecting room order of the spaceships are:
+                <span className={styles.centerTwo}>Spaceship A</span>
+                <span className={styles.centerTwo}>Room 1</span>
+                <span className={styles.centerTwo}>
+                  <img
+                    className={styles.state}
                     src={this.state.statePic[0]}
                     alt="statePic1"
                   />
-                  &nbsp;&nbsp;&nbsp;&nbsp;→&nbsp;&nbsp;&nbsp;&nbsp;
+                </span>
+                <span className={styles.centerTwo}>
+                  [<strong>← BACK</strong>] [<strong>NEXT →</strong>]
+                </span>
+              </span>
+            </div>
+          );
+        } else if (this.state.instructScreenText === 6) {
+          text = (
+            <div className={styles.main}>
+              <span className={styles.likeP}>
+                <span className={styles.center}>QUIZ START</span>
+                And the connecting room order of the spaceships are:
+                <span className={styles.centerTwo}>Spaceship A</span>
+                <span className={styles.centerTwo}>Room 2</span>
+                <span className={styles.centerTwo}>
                   <img
-                    className={styles.stateSmall}
+                    className={styles.state}
                     src={this.state.statePic[1]}
                     alt="statePic2"
                   />
-                  &nbsp;&nbsp;&nbsp;&nbsp;→&nbsp;&nbsp;&nbsp;&nbsp;
+                </span>
+                <span className={styles.centerTwo}>
+                  [<strong>← BACK</strong>] [<strong>NEXT →</strong>]
+                </span>
+              </span>
+            </div>
+          );
+        } else if (this.state.instructScreenText === 7) {
+          text = (
+            <div className={styles.main}>
+              <span className={styles.likeP}>
+                <span className={styles.center}>QUIZ START</span>
+                And the connecting room order of the spaceships are:
+                <span className={styles.centerTwo}>Spaceship A</span>
+                <span className={styles.centerTwo}>Room 3</span>
+                <span className={styles.centerTwo}>
                   <img
-                    className={styles.stateSmall}
+                    className={styles.state}
                     src={this.state.statePic[2]}
                     alt="statePic3"
                   />
-                  <br /> <br />
-                  <span className={styles.spaceshipSmall}>Spaceship B</span>
+                </span>
+                <span className={styles.centerTwo}>
+                  [<strong>← BACK</strong>] [<strong>NEXT →</strong>]
+                </span>
+              </span>
+            </div>
+          );
+        } else if (this.state.instructScreenText === 8) {
+          text = (
+            <div className={styles.main}>
+              <span className={styles.likeP}>
+                <span className={styles.center}>QUIZ START</span>
+                And the connecting room order of the spaceships are:
+                <span className={styles.centerTwo}>Spaceship B</span>
+                <span className={styles.centerTwo}>Room 1</span>
+                <span className={styles.centerTwo}>
                   <img
-                    className={styles.stateSmall}
+                    className={styles.state}
                     src={this.state.statePic[3]}
                     alt="statePic4"
                   />
-                  &nbsp;&nbsp;&nbsp;&nbsp;→&nbsp;&nbsp;&nbsp;&nbsp;
+                </span>
+                <span className={styles.centerTwo}>
+                  [<strong>← BACK</strong>] [<strong>NEXT →</strong>]
+                </span>
+              </span>
+            </div>
+          );
+        } else if (this.state.instructScreenText === 9) {
+          text = (
+            <div className={styles.main}>
+              <span className={styles.likeP}>
+                <span className={styles.center}>QUIZ START</span>
+                And the connecting room order of the spaceships are:
+                <span className={styles.centerTwo}>Spaceship B</span>
+                <span className={styles.centerTwo}>Room 2</span>
+                <span className={styles.centerTwo}>
                   <img
-                    className={styles.stateSmall}
+                    className={styles.state}
                     src={this.state.statePic[4]}
                     alt="statePic5"
                   />
-                  &nbsp;&nbsp;&nbsp;&nbsp;→&nbsp;&nbsp;&nbsp;&nbsp;
+                </span>
+                <span className={styles.centerTwo}>
+                  [<strong>← BACK</strong>] [<strong>NEXT →</strong>]
+                </span>
+              </span>
+            </div>
+          );
+        } else if (this.state.instructScreenText === 10) {
+          text = (
+            <div className={styles.main}>
+              <span className={styles.likeP}>
+                <span className={styles.center}>QUIZ START</span>
+                And the connecting room order of the spaceships are:
+                <span className={styles.centerTwo}>Spaceship B</span>
+                <span className={styles.centerTwo}>Room 3</span>
+                <span className={styles.centerTwo}>
                   <img
-                    className={styles.stateSmall}
+                    className={styles.state}
                     src={this.state.statePic[5]}
                     alt="statePic6"
                   />
-                  <br /> <br />
-                  <span className={styles.spaceshipSmall}>Spaceship C</span>
+                </span>
+                <span className={styles.centerTwo}>
+                  [<strong>← BACK</strong>] [<strong>NEXT →</strong>]
+                </span>
+              </span>
+            </div>
+          );
+        } else if (this.state.instructScreenText === 11) {
+          text = (
+            <div className={styles.main}>
+              <span className={styles.likeP}>
+                <span className={styles.center}>QUIZ START</span>
+                And the connecting room order of the spaceships are:
+                <span className={styles.centerTwo}>Spaceship C</span>
+                <span className={styles.centerTwo}>Room 1</span>
+                <span className={styles.centerTwo}>
                   <img
-                    className={styles.stateSmall}
+                    className={styles.state}
                     src={this.state.statePic[6]}
                     alt="statePic7"
                   />
-                  &nbsp;&nbsp;&nbsp;&nbsp;→&nbsp;&nbsp;&nbsp;&nbsp;
+                </span>
+                <span className={styles.centerTwo}>
+                  [<strong>← BACK</strong>] [<strong>NEXT →</strong>]
+                </span>
+              </span>
+            </div>
+          );
+        } else if (this.state.instructScreenText === 12) {
+          text = (
+            <div className={styles.main}>
+              <span className={styles.likeP}>
+                <span className={styles.center}>QUIZ START</span>
+                And the connecting room order of the spaceships are:
+                <span className={styles.centerTwo}>Spaceship C</span>
+                <span className={styles.centerTwo}>Room 2</span>
+                <span className={styles.centerTwo}>
                   <img
-                    className={styles.stateSmall}
+                    className={styles.state}
                     src={this.state.statePic[7]}
                     alt="statePic8"
                   />
-                  &nbsp;&nbsp;&nbsp;&nbsp;→&nbsp;&nbsp;&nbsp;&nbsp;
+                </span>
+                <span className={styles.centerTwo}>
+                  [<strong>← BACK</strong>] [<strong>NEXT →</strong>]
+                </span>
+              </span>
+            </div>
+          );
+        } else if (this.state.instructScreenText === 13) {
+          text = (
+            <div className={styles.main}>
+              <span className={styles.likeP}>
+                <span className={styles.center}>QUIZ START</span>
+                And the connecting room order of the spaceships are:
+                <span className={styles.centerTwo}>Spaceship C</span>
+                <span className={styles.centerTwo}>Room 3</span>
+                <span className={styles.centerTwo}>
                   <img
-                    className={styles.stateSmall}
+                    className={styles.state}
                     src={this.state.statePic[8]}
                     alt="statePic9"
                   />
@@ -1395,7 +1540,7 @@ class QuizTask extends React.Component {
               </span>
             </div>
           );
-        } else if (this.state.instructScreenText === 4) {
+        } else if (this.state.instructScreenText === 14) {
           text = (
             <div className={styles.main}>
               <p>
@@ -1419,7 +1564,7 @@ class QuizTask extends React.Component {
               </p>
             </div>
           );
-        } else if (this.state.instructScreenText === 5) {
+        } else if (this.state.instructScreenText === 15) {
           text = (
             <div className={styles.main}>
               <p>
@@ -1436,7 +1581,7 @@ class QuizTask extends React.Component {
               </p>
             </div>
           );
-        } else if (this.state.instructScreenText === 6) {
+        } else if (this.state.instructScreenText === 16) {
           text = (
             <div className={styles.main}>
               <p>

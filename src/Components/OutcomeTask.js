@@ -300,7 +300,7 @@ class OutcomeTask extends React.Component {
     var curText = this.state.instructScreenText;
     var whichButton = key_pressed;
 
-    if (whichButton === 4 && curText > 1) {
+    if (whichButton === 4 && curText > 1 && curText < 7) {
       this.setState({ instructScreenText: curText - 1 });
     } else if (whichButton === 5 && curText < 6) {
       this.setState({ instructScreenText: curText + 1 });
@@ -317,7 +317,13 @@ class OutcomeTask extends React.Component {
       this.setState({
         instructScreenText: 1,
       });
-    } else if (curText === 8 && whichButton === 10) {
+    } else if (curText > 7 && curText < 10 && whichButton === 5) {
+      //only page 8 can move forward
+      this.setState({ instructScreenText: curText + 1 });
+    } else if (curText > 8 && curText < 11 && whichButton === 4) {
+      //only page 9 can move backward
+      this.setState({ instructScreenText: curText - 1 });
+    } else if (curText === 10 && whichButton === 10) {
       //go to pathtask
       setTimeout(
         function () {
@@ -1082,7 +1088,28 @@ class OutcomeTask extends React.Component {
                     alt="coin"
                   />
                   &nbsp;&nbsp; (gain)
-                  <br />
+                </span>
+                <br />
+                <span className={styles.centerTwo}>
+                  [<strong>NEXT →</strong>]
+                </span>
+              </p>
+            </div>
+          );
+        } else if (this.state.instructScreenText === 9) {
+          // IF YOU PASS THE TEST
+          document.addEventListener("keyup", this._handleInstructKey);
+
+          text = (
+            <div className={styles.main}>
+              <p>
+                <span className={styles.center}>TUTORIAL I</span>
+                <br />
+                Great, you had {this.state.trialScore}/{this.state.trialTotal}
+                &nbsp;correct!
+                <br /> <br />
+                In summary, these outcome rooms lead to:
+                <span className={styles.centerTwo}>
                   <img
                     className={styles.stateSmall}
                     src={this.state.outcomePic[1]}
@@ -1095,7 +1122,28 @@ class OutcomeTask extends React.Component {
                     alt="coin"
                   />
                   &nbsp;&nbsp; (lose)
-                  <br />
+                </span>
+                <br />
+                <span className={styles.centerTwo}>
+                  [<strong>← BACK</strong>] [<strong>NEXT →</strong>]
+                </span>
+              </p>
+            </div>
+          );
+        } else if (this.state.instructScreenText === 10) {
+          // IF YOU PASS THE TEST
+          document.addEventListener("keyup", this._handleInstructKey);
+
+          text = (
+            <div className={styles.main}>
+              <p>
+                <span className={styles.center}>TUTORIAL I</span>
+                <br />
+                Great, you had {this.state.trialScore}/{this.state.trialTotal}
+                &nbsp;correct!
+                <br /> <br />
+                In summary, these outcome rooms lead to:
+                <span className={styles.centerTwo}>
                   <img
                     className={styles.stateSmall}
                     src={this.state.outcomePic[2]}
@@ -1108,6 +1156,9 @@ class OutcomeTask extends React.Component {
                 <br /> <br />
                 <span className={styles.centerTwo}>
                   Press the [<strong>SPACEBAR</strong>] to continue.
+                </span>
+                <span className={styles.centerTwo}>
+                  [<strong>← BACK</strong>]
                 </span>
               </p>
             </div>

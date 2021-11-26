@@ -162,7 +162,7 @@ class TutorTask extends React.Component {
       stateIndx: stateIndx,
       stateNum: "",
       stateShown: null,
-      stateDur: 2000,
+      stateDur: 1000,
       // outcomeDur: 2500,
       fixDur: 250,
 
@@ -2281,14 +2281,19 @@ class TutorTask extends React.Component {
                 room you end up in.
                 <br />
                 <br />
+                Remember, the connecting rooms are always the same in each
+                spaceship type,
+                <br />
+                while the outcome room can vary.
+                <br />
+                <br />
                 For your mission, you will use the information you have
-                memorised to{" "}
-                <strong>
-                  choose <br />
-                  shuttles
-                </strong>
-                &nbsp;that will get you to the spaceship with the outcome room
-                where you can earn coins.
+                memorised to
+                <br />
+                <strong>choose shuttles</strong>
+                &nbsp;that will get you to the spaceship with an outcome room
+                <br />
+                where you can earn coins, or to avoid losing coins.
                 <br />
                 <br />
                 The more coins you earn at the end of the mission, the higher
@@ -2552,27 +2557,10 @@ class TutorTask extends React.Component {
                 the <strong>{this.state.stateWord[0]}</strong> room.
                 <br />
                 <br />
-                Previously, you learned:
-                <span className={styles.centerTwo}>
-                  <span className={styles.spaceshipSmall}>Spaceship A</span>
-                  <img
-                    className={styles.stateSmall}
-                    src={this.state.statePic[0]}
-                    alt="statePic1"
-                  />
-                  &nbsp;&nbsp;&nbsp;&nbsp;→&nbsp;&nbsp;&nbsp;&nbsp;
-                  <img
-                    className={styles.stateSmall}
-                    src={this.state.statePic[1]}
-                    alt="statePic2"
-                  />
-                  &nbsp;&nbsp;&nbsp;&nbsp;→&nbsp;&nbsp;&nbsp;&nbsp;
-                  <img
-                    className={styles.stateSmall}
-                    src={this.state.statePic[2]}
-                    alt="statePic3"
-                  />
-                </span>
+                Previously, you learned that this is{" "}
+                <strong>Spaceship A</strong>, which also has the{" "}
+                <strong>{this.state.stateWord[2]}</strong> room.
+                <br />
                 <br />
                 You are told here that the{" "}
                 <strong>{this.state.stateWord[2]}</strong> room will lead you to
@@ -2586,39 +2574,6 @@ class TutorTask extends React.Component {
                 <strong>lose 1</strong> coin.
                 <br />
                 <br />
-                <span className={styles.centerTwo}>
-                  <span className={styles.spaceshipSmall}>Spaceship A</span>
-                  <img
-                    className={styles.stateSmall}
-                    src={this.state.statePic[0]}
-                    alt="statePic1"
-                  />
-                  &nbsp;&nbsp;&nbsp;&nbsp;→&nbsp;&nbsp;&nbsp;&nbsp;
-                  <img
-                    className={styles.stateSmall}
-                    src={this.state.statePic[1]}
-                    alt="statePic2"
-                  />
-                  &nbsp;&nbsp;&nbsp;&nbsp;→&nbsp;&nbsp;&nbsp;&nbsp;
-                  <img
-                    className={styles.stateSmall}
-                    src={this.state.statePic[2]}
-                    alt="statePic3"
-                  />
-                  &nbsp;&nbsp;&nbsp;&nbsp;→&nbsp;&nbsp;&nbsp;&nbsp;
-                  <img
-                    className={styles.stateSmall}
-                    src={this.state.outcomePic[1]}
-                    alt="outcome"
-                  />
-                  &nbsp;&nbsp; = &nbsp;-{" "}
-                  <img
-                    className={styles.coin}
-                    src={this.state.img_coinSmall}
-                    alt="coin"
-                  />
-                  &nbsp;&nbsp;(lose)
-                </span>
                 <span className={styles.centerTwo}>
                   [<strong>← BACK</strong>] [<strong>NEXT →</strong>]
                 </span>
@@ -2673,47 +2628,12 @@ class TutorTask extends React.Component {
                 <strong>30%</strong> of the time.
                 <br />
                 <br />
-                Previously, you learnt:
-                <br /> <br />
-                <span className={styles.centerTwo}>
-                  <span className={styles.spaceshipSmall}>Spaceship B</span>
-                  <img
-                    className={styles.stateSmall}
-                    src={this.state.statePic[3]}
-                    alt="statePic4"
-                  />
-                  &nbsp;&nbsp;&nbsp;&nbsp;→&nbsp;&nbsp;&nbsp;&nbsp;
-                  <img
-                    className={styles.stateSmall}
-                    src={this.state.statePic[4]}
-                    alt="statePic5"
-                  />
-                  &nbsp;&nbsp;&nbsp;&nbsp;→&nbsp;&nbsp;&nbsp;&nbsp;
-                  <img
-                    className={styles.stateSmall}
-                    src={this.state.statePic[5]}
-                    alt="statePic6"
-                  />
-                  <br /> <br />
-                  <span className={styles.spaceshipSmall}>Spaceship C</span>
-                  <img
-                    className={styles.stateSmall}
-                    src={this.state.statePic[6]}
-                    alt="statePic7"
-                  />
-                  &nbsp;&nbsp;&nbsp;&nbsp;→&nbsp;&nbsp;&nbsp;&nbsp;
-                  <img
-                    className={styles.stateSmall}
-                    src={this.state.statePic[7]}
-                    alt="statePic8"
-                  />
-                  &nbsp;&nbsp;&nbsp;&nbsp;→&nbsp;&nbsp;&nbsp;&nbsp;
-                  <img
-                    className={styles.stateSmall}
-                    src={this.state.statePic[8]}
-                    alt="statePic9"
-                  />
-                </span>
+                Previously, you learnt that the{" "}
+                <strong>{this.state.stateWord[3]}</strong> room is in{" "}
+                <strong>Spaceship B</strong>, while the{" "}
+                <strong>{this.state.stateWord[6]}</strong> room is in{" "}
+                <strong>Spaceship C</strong>.
+                <br />
                 <br />
                 This means that if you choose the&nbsp;
                 <strong>unreliable 70%/30%</strong>
@@ -2730,65 +2650,6 @@ class TutorTask extends React.Component {
                     and thus&nbsp;<strong>gaining 3 coins</strong>.
                   </li>
                 </ul>
-                <span className={styles.centerTwo}>
-                  <span className={styles.spaceshipSmall}>Spaceship B</span>
-                  <img
-                    className={styles.stateSmall}
-                    src={this.state.statePic[3]}
-                    alt="statePic4"
-                  />
-                  &nbsp;&nbsp;&nbsp;&nbsp;→&nbsp;&nbsp;&nbsp;&nbsp;
-                  <img
-                    className={styles.stateSmall}
-                    src={this.state.statePic[4]}
-                    alt="statePic5"
-                  />
-                  &nbsp;&nbsp;&nbsp;&nbsp;→&nbsp;&nbsp;&nbsp;&nbsp;
-                  <img
-                    className={styles.stateSmall}
-                    src={this.state.statePic[5]}
-                    alt="statePic6"
-                  />{" "}
-                  &nbsp;&nbsp;&nbsp;&nbsp;→&nbsp;&nbsp;&nbsp;&nbsp;
-                  <img
-                    className={styles.stateSmall}
-                    src={this.state.outcomePic[2]}
-                    alt="outcome"
-                  />
-                  &nbsp;&nbsp; = &nbsp;nothing
-                  <br /> <br />
-                  <span className={styles.spaceshipSmall}>Spaceship C</span>
-                  <img
-                    className={styles.stateSmall}
-                    src={this.state.statePic[6]}
-                    alt="statePic7"
-                  />
-                  &nbsp;&nbsp;&nbsp;&nbsp;→&nbsp;&nbsp;&nbsp;&nbsp;
-                  <img
-                    className={styles.stateSmall}
-                    src={this.state.statePic[7]}
-                    alt="statePic8"
-                  />
-                  &nbsp;&nbsp;&nbsp;&nbsp;→&nbsp;&nbsp;&nbsp;&nbsp;
-                  <img
-                    className={styles.stateSmall}
-                    src={this.state.statePic[8]}
-                    alt="statePic9"
-                  />{" "}
-                  &nbsp;&nbsp;&nbsp;&nbsp;→&nbsp;&nbsp;&nbsp;&nbsp;
-                  <img
-                    className={styles.stateSmall}
-                    src={this.state.outcomePic[0]}
-                    alt="outcome"
-                  />
-                  &nbsp;&nbsp; = &nbsp;+{" "}
-                  <img
-                    className={styles.coin}
-                    src={this.state.img_coinSmall}
-                    alt="coin"
-                  />
-                  &nbsp;&nbsp;(gain)
-                </span>
                 <span className={styles.centerTwo}>
                   [<strong>← BACK</strong>] [<strong>NEXT →</strong>]
                 </span>

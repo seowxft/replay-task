@@ -252,8 +252,12 @@ class PathTask extends React.Component {
           }.bind(this),
           0
         );
+      } else if (curText > 5 && curText < 15) {
+        this.setState({ instructScreenText: curText - 1 });
       }
     } else if (whichButton === 5 && curText < 2) {
+      this.setState({ instructScreenText: curText + 1 });
+    } else if (whichButton === 5 && curText > 4 && curText < 14) {
       this.setState({ instructScreenText: curText + 1 });
     } else if (whichButton === 10) {
       if (curText === 2 || curText === 4) {
@@ -279,7 +283,7 @@ class PathTask extends React.Component {
           }.bind(this),
           0
         );
-      } else if (curText === 5) {
+      } else if (curText === 14) {
         //go next mission
         setTimeout(
           function () {
@@ -1440,21 +1444,19 @@ class PathTask extends React.Component {
                 <strong>3 different types of spaceships</strong>.
                 <br /> <br />
                 <strong>Within</strong> each spaceship, there are{" "}
-                <strong>3 connecting rooms</strong>.
-                <br />
-                <br />
-                You will have to pass through these connecting rooms to get to
-                the outcome room.
+                <strong>3 connecting rooms</strong> and{" "}
+                <strong>1 outcome room</strong>.
                 <br /> <br />
-                For instance,
-                <span className={styles.centerTwo}>
-                  <img
-                    className={styles.pathInstruct}
-                    src={this.state.img_pathInstruct1}
-                    alt="pathInstruct1"
-                  />
-                </span>
+                When you board an aircraft, you will have to pass through these
+                connecting rooms
                 <br />
+                to get to the outcome room.
+                <br /> <br />
+                The 3 connecting rooms of a spaceship will{" "}
+                <strong>always be the same</strong> for its type.
+                <br /> <br />
+                However, the outcome room may differ.
+                <br /> <br />
                 Similar to the outcome room, each connecting room can be{" "}
                 <strong>identified by a unique image</strong>,<br />
                 which you will have to learn.
@@ -1554,71 +1556,329 @@ class PathTask extends React.Component {
                 You saw that each of the 3 spaceships have 3 connecting rooms,
                 <br /> and you have learnt the order of the rooms.
                 <br /> <br />
-                In summary,
-                <br />
+                In summary, the connecting rooms of <strong>
+                  SPACESHIP A
+                </strong>{" "}
+                are:
+                <span className={styles.centerTwo}>Room 1 </span>
                 <span className={styles.centerTwo}>
-                  <span className={styles.spaceshipSmall}>Spaceship A</span>
                   <img
-                    className={styles.stateSmall}
+                    className={styles.state}
                     src={this.state.statePic[0]}
                     alt="statePic1"
                   />
-                  &nbsp;&nbsp;&nbsp;&nbsp;→&nbsp;&nbsp;&nbsp;&nbsp;
+                </span>
+                <br />
+                <span className={styles.centerTwo}>
+                  [<strong>← BACK</strong>] [<strong>NEXT →</strong>]
+                </span>
+              </p>
+            </div>
+          );
+        } else if (this.state.instructScreenText === 6) {
+          // IF YOU PASS THE TEST
+          document.addEventListener("keyup", this._handleInstructKey);
+
+          text = (
+            <div className={styles.main}>
+              <p>
+                <span className={styles.center}>TUTORIAL II</span>
+                <br />
+                Great, you had&nbsp;
+                {this.state.trialScore1 + this.state.trialScore2}/
+                {this.state.trialTestTotal * 2}
+                &nbsp;correct!
+                <br /> <br />
+                You saw that each of the 3 spaceships have 3 connecting rooms,
+                <br /> and you have learnt the order of the rooms.
+                <br /> <br />
+                In summary, the connecting rooms of <strong>
+                  SPACESHIP A
+                </strong>{" "}
+                are:
+                <span className={styles.centerTwo}>Room 2 </span>
+                <span className={styles.centerTwo}>
                   <img
-                    className={styles.stateSmall}
+                    className={styles.state}
                     src={this.state.statePic[1]}
                     alt="statePic2"
                   />
-                  &nbsp;&nbsp;&nbsp;&nbsp;→&nbsp;&nbsp;&nbsp;&nbsp;
+                </span>
+                <br />
+                <span className={styles.centerTwo}>
+                  [<strong>← BACK</strong>] [<strong>NEXT →</strong>]
+                </span>
+              </p>
+            </div>
+          );
+        } else if (this.state.instructScreenText === 7) {
+          // IF YOU PASS THE TEST
+          document.addEventListener("keyup", this._handleInstructKey);
+
+          text = (
+            <div className={styles.main}>
+              <p>
+                <span className={styles.center}>TUTORIAL II</span>
+                <br />
+                Great, you had&nbsp;
+                {this.state.trialScore1 + this.state.trialScore2}/
+                {this.state.trialTestTotal * 2}
+                &nbsp;correct!
+                <br /> <br />
+                You saw that each of the 3 spaceships have 3 connecting rooms,
+                <br /> and you have learnt the order of the rooms.
+                <br /> <br />
+                In summary, the connecting rooms of <strong>
+                  SPACESHIP A
+                </strong>{" "}
+                are:
+                <span className={styles.centerTwo}>Room 3 </span>
+                <span className={styles.centerTwo}>
                   <img
-                    className={styles.stateSmall}
+                    className={styles.state}
                     src={this.state.statePic[2]}
                     alt="statePic3"
                   />
-                  <br /> <br />
-                  <span className={styles.spaceshipSmall}>Spaceship B</span>
+                </span>
+                <br />
+                <span className={styles.centerTwo}>
+                  [<strong>← BACK</strong>] [<strong>NEXT →</strong>]
+                </span>
+              </p>
+            </div>
+          );
+        } else if (this.state.instructScreenText === 8) {
+          // IF YOU PASS THE TEST
+          document.addEventListener("keyup", this._handleInstructKey);
+
+          text = (
+            <div className={styles.main}>
+              <p>
+                <span className={styles.center}>TUTORIAL II</span>
+                <br />
+                Great, you had&nbsp;
+                {this.state.trialScore1 + this.state.trialScore2}/
+                {this.state.trialTestTotal * 2}
+                &nbsp;correct!
+                <br /> <br />
+                You saw that each of the 3 spaceships have 3 connecting rooms,
+                <br /> and you have learnt the order of the rooms.
+                <br /> <br />
+                In summary, the connecting rooms of <strong>
+                  SPACESHIP B
+                </strong>{" "}
+                are:
+                <span className={styles.centerTwo}>Room 1 </span>
+                <span className={styles.centerTwo}>
                   <img
-                    className={styles.stateSmall}
+                    className={styles.state}
                     src={this.state.statePic[3]}
                     alt="statePic4"
                   />
-                  &nbsp;&nbsp;&nbsp;&nbsp;→&nbsp;&nbsp;&nbsp;&nbsp;
+                </span>
+                <br />
+                <span className={styles.centerTwo}>
+                  [<strong>← BACK</strong>] [<strong>NEXT →</strong>]
+                </span>
+              </p>
+            </div>
+          );
+        } else if (this.state.instructScreenText === 9) {
+          // IF YOU PASS THE TEST
+          document.addEventListener("keyup", this._handleInstructKey);
+
+          text = (
+            <div className={styles.main}>
+              <p>
+                <span className={styles.center}>TUTORIAL II</span>
+                <br />
+                Great, you had&nbsp;
+                {this.state.trialScore1 + this.state.trialScore2}/
+                {this.state.trialTestTotal * 2}
+                &nbsp;correct!
+                <br /> <br />
+                You saw that each of the 3 spaceships have 3 connecting rooms,
+                <br /> and you have learnt the order of the rooms.
+                <br /> <br />
+                In summary, the connecting rooms of <strong>
+                  SPACESHIP B
+                </strong>{" "}
+                are:
+                <span className={styles.centerTwo}>Room 2 </span>
+                <span className={styles.centerTwo}>
                   <img
-                    className={styles.stateSmall}
+                    className={styles.state}
                     src={this.state.statePic[4]}
                     alt="statePic5"
                   />
-                  &nbsp;&nbsp;&nbsp;&nbsp;→&nbsp;&nbsp;&nbsp;&nbsp;
+                </span>
+                <br />
+                <span className={styles.centerTwo}>
+                  [<strong>← BACK</strong>] [<strong>NEXT →</strong>]
+                </span>
+              </p>
+            </div>
+          );
+        } else if (this.state.instructScreenText === 10) {
+          // IF YOU PASS THE TEST
+          document.addEventListener("keyup", this._handleInstructKey);
+
+          text = (
+            <div className={styles.main}>
+              <p>
+                <span className={styles.center}>TUTORIAL II</span>
+                <br />
+                Great, you had&nbsp;
+                {this.state.trialScore1 + this.state.trialScore2}/
+                {this.state.trialTestTotal * 2}
+                &nbsp;correct!
+                <br /> <br />
+                You saw that each of the 3 spaceships have 3 connecting rooms,
+                <br /> and you have learnt the order of the rooms.
+                <br /> <br />
+                In summary, the connecting rooms of <strong>
+                  SPACESHIP B
+                </strong>{" "}
+                are:
+                <span className={styles.centerTwo}>Room 3 </span>
+                <span className={styles.centerTwo}>
                   <img
-                    className={styles.stateSmall}
+                    className={styles.state}
                     src={this.state.statePic[5]}
                     alt="statePic6"
                   />
-                  <br /> <br />
-                  <span className={styles.spaceshipSmall}>Spaceship C</span>
+                </span>
+                <br />
+                <span className={styles.centerTwo}>
+                  [<strong>← BACK</strong>] [<strong>NEXT →</strong>]
+                </span>
+              </p>
+            </div>
+          );
+        } else if (this.state.instructScreenText === 11) {
+          // IF YOU PASS THE TEST
+          document.addEventListener("keyup", this._handleInstructKey);
+
+          text = (
+            <div className={styles.main}>
+              <p>
+                <span className={styles.center}>TUTORIAL II</span>
+                <br />
+                Great, you had&nbsp;
+                {this.state.trialScore1 + this.state.trialScore2}/
+                {this.state.trialTestTotal * 2}
+                &nbsp;correct!
+                <br /> <br />
+                You saw that each of the 3 spaceships have 3 connecting rooms,
+                <br /> and you have learnt the order of the rooms.
+                <br /> <br />
+                In summary, the connecting rooms of <strong>
+                  SPACESHIP C
+                </strong>{" "}
+                are:
+                <span className={styles.centerTwo}>Room 1 </span>
+                <span className={styles.centerTwo}>
                   <img
-                    className={styles.stateSmall}
+                    className={styles.state}
                     src={this.state.statePic[6]}
                     alt="statePic7"
                   />
-                  &nbsp;&nbsp;&nbsp;&nbsp;→&nbsp;&nbsp;&nbsp;&nbsp;
+                </span>
+                <br />
+                <span className={styles.centerTwo}>
+                  [<strong>← BACK</strong>] [<strong>NEXT →</strong>]
+                </span>
+              </p>
+            </div>
+          );
+        } else if (this.state.instructScreenText === 12) {
+          // IF YOU PASS THE TEST
+          document.addEventListener("keyup", this._handleInstructKey);
+
+          text = (
+            <div className={styles.main}>
+              <p>
+                <span className={styles.center}>TUTORIAL II</span>
+                <br />
+                Great, you had&nbsp;
+                {this.state.trialScore1 + this.state.trialScore2}/
+                {this.state.trialTestTotal * 2}
+                &nbsp;correct!
+                <br /> <br />
+                You saw that each of the 3 spaceships have 3 connecting rooms,
+                <br /> and you have learnt the order of the rooms.
+                <br /> <br />
+                In summary, the connecting rooms of <strong>
+                  SPACESHIP C
+                </strong>{" "}
+                are:
+                <span className={styles.centerTwo}>Room 2 </span>
+                <span className={styles.centerTwo}>
                   <img
-                    className={styles.stateSmall}
+                    className={styles.state}
                     src={this.state.statePic[7]}
                     alt="statePic8"
                   />
-                  &nbsp;&nbsp;&nbsp;&nbsp;→&nbsp;&nbsp;&nbsp;&nbsp;
+                </span>
+                <br />
+                <span className={styles.centerTwo}>
+                  [<strong>← BACK</strong>] [<strong>NEXT →</strong>]
+                </span>
+              </p>
+            </div>
+          );
+        } else if (this.state.instructScreenText === 13) {
+          // IF YOU PASS THE TEST
+          document.addEventListener("keyup", this._handleInstructKey);
+
+          text = (
+            <div className={styles.main}>
+              <p>
+                <span className={styles.center}>TUTORIAL II</span>
+                <br />
+                Great, you had&nbsp;
+                {this.state.trialScore1 + this.state.trialScore2}/
+                {this.state.trialTestTotal * 2}
+                &nbsp;correct!
+                <br /> <br />
+                You saw that each of the 3 spaceships have 3 connecting rooms,
+                <br /> and you have learnt the order of the rooms.
+                <br /> <br />
+                In summary, the connecting rooms of <strong>
+                  SPACESHIP C
+                </strong>{" "}
+                are:
+                <span className={styles.centerTwo}>Room 3 </span>
+                <span className={styles.centerTwo}>
                   <img
-                    className={styles.stateSmall}
+                    className={styles.state}
                     src={this.state.statePic[8]}
                     alt="statePic9"
                   />
                 </span>
-                <br /> <br />
+                <br />
+                <span className={styles.centerTwo}>
+                  [<strong>← BACK</strong>] [<strong>NEXT →</strong>]
+                </span>
+              </p>
+            </div>
+          );
+        } else if (this.state.instructScreenText === 14) {
+          // IF YOU PASS THE TEST
+          document.addEventListener("keyup", this._handleInstructKey);
+
+          text = (
+            <div className={styles.main}>
+              <p>
+                <span className={styles.center}>TUTORIAL II</span>
+                <br />
                 You are ready to move on to the next tutorial.
                 <br /> <br />
                 <span className={styles.centerTwo}>
                   Press the [<strong>SPACEBAR</strong>] to contine.
+                </span>
+                <span className={styles.centerTwo}>
+                  [<strong>← BACK</strong>]
                 </span>
               </p>
             </div>
