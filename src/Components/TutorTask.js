@@ -339,6 +339,8 @@ class TutorTask extends React.Component {
         }.bind(this),
         0
       );
+    } else if (whichButton === 4 && curText === 11) {
+      this.setState({ instructScreenText: 1 });
     }
   }
 
@@ -2633,6 +2635,11 @@ class TutorTask extends React.Component {
                 <strong>Spaceship B</strong>, while the{" "}
                 <strong>{this.state.stateWord[6]}</strong> room is in{" "}
                 <strong>Spaceship C</strong>.
+                <br />
+                <br />
+                <strong>Spaceship B</strong> also has the{" "}
+                {this.state.stateWord[5]} room, and <strong>Spaceship C</strong>{" "}
+                also has the {this.state.stateWord[8]} room.
                 <br />
                 <br />
                 This means that if you choose the&nbsp;

@@ -2516,7 +2516,7 @@ class ExptTask extends React.Component {
             <div className={styles.main}>
               <span className={styles.likeP}>
                 <span className={styles.center}>MISSION START</span>
-                As a refresher, the outcome rooms you can find:
+                As a last refresher, the outcome rooms you can find:
                 <span className={styles.centerTwo}>
                   <img
                     className={styles.state}
@@ -2542,7 +2542,7 @@ class ExptTask extends React.Component {
             <div className={styles.main}>
               <span className={styles.likeP}>
                 <span className={styles.center}>MISSION START</span>
-                As a refresher, the outcome rooms you can find:
+                As a last refresher, the outcome rooms you can find:
                 <span className={styles.centerTwo}>
                   <img
                     className={styles.state}

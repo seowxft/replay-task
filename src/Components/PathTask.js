@@ -1570,7 +1570,7 @@ class PathTask extends React.Component {
                 </span>
                 <br />
                 <span className={styles.centerTwo}>
-                  [<strong>← BACK</strong>] [<strong>NEXT →</strong>]
+                  [<strong>NEXT →</strong>]
                 </span>
               </p>
             </div>
