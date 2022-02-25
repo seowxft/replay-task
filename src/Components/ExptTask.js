@@ -2314,11 +2314,11 @@ class ExptTask extends React.Component {
 
     // if you earn negative then no bonus at all?
     if (bonus < 0) {
-      bonus = 2;
-    } else if (bonus > 4) {
-      bonus = 4; //2 dec pl
+      bonus = 0;
+    } else if (bonus > 2) {
+      bonus = 2; //2 dec pl
     } else {
-      bonus = roundTo(bonus, 2) + 2; //2 dec pl
+      bonus = roundTo(bonus, 2); //2 dec pl
     }
 
     this.setState({
@@ -2472,7 +2472,7 @@ class ExptTask extends React.Component {
                 You are now ready to start the main mission.
                 <br />
                 <br />
-                Remember: you can earn a bonus of up to £4 if you complete the
+                Remember: you can earn a bonus of up to £2 if you complete the
                 mission!
                 <br />
                 <br />

@@ -428,7 +428,7 @@ class StartPage extends React.Component {
               type: "html",
               name: "info",
               html:
-                "<p>You will play one or more online computer tasks, which will last around approximately <strong>1 hour</strong>. <br/><br/>You will also be asked some questions about yourself, your feelings, background, attitudes and behaviour in your everyday life. <br/><br/>You will receive <strong>6 GBP</strong> for helping us.<br/>Plus, depending on your performance you can earn an <strong>additional bonus</strong> of up to <strong>4 GBP</strong>. <br/><br/>Remember, you are free to withdraw at any time without giving a reason.</p>",
+                "<p>You will play one or more online computer tasks, which will last around approximately <strong>1 hour</strong>. <br/><br/>You will also be asked some questions about yourself, your feelings, background, attitudes and behaviour in your everyday life. <br/><br/>You will receive <strong>8.5 GBP</strong> for helping us.<br/>Plus, depending on your performance you can earn an <strong>additional bonus</strong> of up to <strong>2 GBP</strong>. <br/><br/>Remember, you are free to withdraw at any time without giving a reason.</p>",
             },
 
             {
